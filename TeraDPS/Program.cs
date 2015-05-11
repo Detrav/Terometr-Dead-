@@ -18,19 +18,20 @@ namespace TeraDPS
         public static counts count = new counts();
         static void Main(string[] args)
         {
-            //saveXmlConfig(); return;
-            string[] devices = Sniffer.Sniffer.getDevices();
-            for (int i = 0; i < devices.Count();i++ )
+            Sniffer.Sniffer sniffer = new Sniffer.Sniffer("91.225.237.8");
+            if (sniffer.ready)
             {
-                Console.WriteLine("{0}) {1}", i + 1, devices[i]);
+                string[] devices = sniffer.getDevices();
+                for (int i = 0; i < devices.Count(); i++)
+                {
+                    Console.WriteLine("{0}) {1}", i + 1, devices[i]);
+                }
+                int num = int.Parse(Console.ReadLine()) - 1;
+                sniffer.onParsePacket += sniffer_onParsePacket;
+                sniffer.start(num);
+                Console.ReadLine();
+                sniffer.stop();
             }
-            int num = int.Parse(Console.ReadLine())-1;
-
-            Sniffer.Sniffer sniffer = new Sniffer.Sniffer(devices[num], "91.225.237.8");
-            sniffer.onParsePacket += sniffer_onParsePacket;
-            sniffer.start();
-            Console.ReadLine();
-            sniffer.stop();
         }
 
         static void sniffer_onParsePacket(string port, string ip, Sniffer.Packet packet)
