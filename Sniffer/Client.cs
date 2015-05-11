@@ -158,5 +158,10 @@ namespace Sniffer
             }
             return p;
         }
+
+        internal void addPacket(PacketDotNet.TcpPacket tcpPacket)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

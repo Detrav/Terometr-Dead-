@@ -160,11 +160,22 @@ namespace Sniffer
                 var srcPort = tcpPacket.SourcePort.ToString();
                 var dstPort = tcpPacket.DestinationPort.ToString();
                 var data = tcpPacket.PayloadData;
-
+                
                 if(srcIp == server) // Клиент <- Сервер
                 {
                     Client c;
-                    if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, data))
+                    if (clients.TryGetValue(dstPort, out c))
+                    {
+                        c.addPacket(tcpPacket);
+                    }
+                    else
+                    {
+                        c = new Client(dstPort, server);
+                        clients.Add(dstPort, c);
+                        c.addPacket(tcpPacket);
+                    }
+                    
+                    /*if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, data))
                     {
                         if (clients.TryGetValue(dstPort,out c))
                         {
@@ -178,25 +189,19 @@ namespace Sniffer
                     }
                     if (clients.TryGetValue(dstPort, out c))
                     {
-                        //c.recv((byte[])data.Clone());
-                    }
-                    //tcpPacket.
-                    if (prev == 0) prev = tcpPacket.SequenceNumber;
-                    if(prev != tcpPacket.SequenceNumber)
-                    {
-                        //Console.ReadLine();
-                    }
-                    prev = tcpPacket.SequenceNumber + (uint)data.Length;
+                        c.recv((byte[])data.Clone());
+                    }*/
+
                 }
                 else if(dstIp == server) // Клиент -> Сервер
                 {
                     Client c;
                     if (clients.TryGetValue(srcPort, out c))
                     {
+                        c.addPacket(tcpPacket);
                        //c.send((byte[])data.Clone());  
                     }
                 }
-                Console.WriteLine("{0,20} {1,20} {2,5} {3,5} {4,6} {5}", tcpPacket.SequenceNumber, tcpPacket.AcknowledgmentNumber, tcpPacket.Syn, tcpPacket.Ack, tcpPacket.WindowSize, data.Length);
             }
         }
 
