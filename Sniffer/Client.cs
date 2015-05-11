@@ -1,5 +1,7 @@
 ﻿using Crypt;
+using PacketDotNet;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,7 +11,7 @@ namespace Sniffer
 {
     internal class Client
     {
-        public string dstPort { get; private set; }
+        public string port { get; private set; }
         public string serverIp { get; private set; }
         private int state;
         private Session session;
@@ -17,13 +19,18 @@ namespace Sniffer
         private byte[] recvStream;
         private byte[] sendStream;
 
-        private Queue<TeraPacket> packets;
+        private Queue<TeraPacket> teraPackets;
+        private List<TcpPacket> packets;
+
+        private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
 
         public Client(string dstPort, string serverIp)
         {
             // TODO: Complete member initialization
-            this.dstPort = dstPort;
+            this.port = dstPort;
             this.serverIp = serverIp;
+            packets = new List<TcpPacket>();
+            teraPackets = new Queue<TeraPacket>();
             reStart();
         }
 
@@ -34,17 +41,7 @@ namespace Sniffer
             session = new Session();
             recvStream = new byte[0];
             sendStream = new byte[0];
-            if (packets != null)
-            {
-                lock (packets)
-                {
-                    packets = new Queue<TeraPacket>();
-                }
-            }
-            else
-            {
-                packets = new Queue<TeraPacket>();
-            }
+            teraPackets.Clear();
         }
 
         internal void recv(byte[] data)
@@ -81,10 +78,7 @@ namespace Sniffer
             if (recvStream.Length < length)
                 return false;
             var packet = new TeraPacket(getRecvData(length), TeraPacket.Type.Recv);
-            lock (packets)
-            {
-                packets.Enqueue(packet);
-            }
+                teraPackets.Enqueue(packet);
             return true;
         }
 
@@ -131,10 +125,7 @@ namespace Sniffer
             if (sendStream.Length < length)
                 return false;
             var packet = new TeraPacket(getSendData(length), TeraPacket.Type.Send);
-            lock (packets)
-            {
-                packets.Enqueue(packet);
-            }
+                teraPackets.Enqueue(packet);
             return true;
         }
 
@@ -148,20 +139,82 @@ namespace Sniffer
             return result;
         }
 
+
+        uint seq_client;
+        uint seq_server;
+        public System.IO.TextWriter tw;
         internal TeraPacket parsePacket()
         {
-            if (packets.Count == 0) return null;
-            TeraPacket p;
-            lock(packets)
+
+            if (teraPackets.Count != 0)
             {
-                p = packets.Dequeue();
+                return teraPackets.Dequeue();
             }
-            return p;
+
+            TcpPacket packet;
+            for (int i = 0; i < packets.Count; i++)
+            {
+                
+                lock (packets) { packet = packets[i]; }
+                var srcPort = packet.SourcePort.ToString();
+                var dstPort = packet.DestinationPort.ToString();
+                //Console.WriteLine("{0} {1}", srcPort, packet.Syn);
+                //lock (packets) { packets.RemoveAt(i); i--; }
+                //continue;
+                if (srcPort == port) //Клиент -> Сервер --- Send
+                {
+                    if (packet.SequenceNumber < seq_client)
+                    {
+                        lock (packets) { packets.RemoveAt(i); i--; tw.WriteLine("{0} Erorred",DateTime.Now.ToString()); }
+                    } else
+                    if (packet.SequenceNumber == seq_client)
+                    {
+                        send((byte[])packet.PayloadData.Clone());
+                        seq_client += (uint)packet.PayloadData.Length;
+                        lock (packets) { packets.RemoveAt(i); i--; }
+                    }
+                }
+                else if (dstPort == port) //Клиент <- Сервер --- Recv
+                {
+                    if(packet.SequenceNumber < seq_server)
+                    {
+                        lock (packets) { packets.RemoveAt(i); i--; tw.WriteLine("{0} Erorred", DateTime.Now.ToString()); }
+                    } else
+                    if(packet.SequenceNumber == seq_server)
+                    {
+                        if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, packet.PayloadData))
+                            reStart();
+                        recv((byte[])packet.PayloadData.Clone());
+                        seq_server += (uint)packet.PayloadData.Length;
+                        lock (packets) { packets.RemoveAt(i); i--; }
+                    }
+                }
+            }
+            return null;
+
         }
 
         internal void addPacket(PacketDotNet.TcpPacket tcpPacket)
         {
-            
+
+            var srcPort = tcpPacket.SourcePort.ToString();
+            var dstPort = tcpPacket.DestinationPort.ToString();
+            if(tcpPacket.Syn)
+            {
+                if (srcPort == port) //Клиент -> Сервер --- Send
+                {
+                    seq_client = tcpPacket.SequenceNumber + 1;
+                }
+                else if (dstPort == port)
+                {
+                    seq_server = tcpPacket.SequenceNumber + 1;
+                }
+            }
+            else if(seq_client >0 && seq_server > 0)
+            lock (packets) // this is packets not teraPackets
+            {
+                packets.Add(tcpPacket);
+            }
         }
     }
 }

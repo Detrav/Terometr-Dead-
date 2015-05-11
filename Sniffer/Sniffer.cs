@@ -23,7 +23,6 @@ namespace Sniffer
         private ETH_REQUEST request;
         //Для обработки
         private string server;
-        private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
         private Dictionary<string, Client> clients;
         public delegate void OnParsePacket(string port,string ip, TeraPacket packet);
         public event OnParsePacket onParsePacket;
@@ -148,6 +147,7 @@ namespace Sniffer
             }
         }
         uint prev = 0;
+        System.IO.TextWriter tw = new System.IO.StreamWriter("log");
         void captureDevice_OnPacketArrival(INTERMEDIATE_BUFFER packetBuffer)
         {
             PacketDotNet.Packet packet = PacketDotNet.Packet.ParsePacket(PacketDotNet.LinkLayers.Ethernet, packetBuffer.m_IBuffer);
@@ -160,7 +160,10 @@ namespace Sniffer
                 var srcPort = tcpPacket.SourcePort.ToString();
                 var dstPort = tcpPacket.DestinationPort.ToString();
                 var data = tcpPacket.PayloadData;
-                
+
+                tw.WriteLine("{0,5} {1,15} {2,15} {3,5} {4}", srcPort, tcpPacket.SequenceNumber,tcpPacket.AcknowledgmentNumber,tcpPacket.Syn,data.Length);
+                tw.Flush();
+
                 if(srcIp == server) // Клиент <- Сервер
                 {
                     Client c;
@@ -172,34 +175,23 @@ namespace Sniffer
                     {
                         c = new Client(dstPort, server);
                         clients.Add(dstPort, c);
+                        c.tw = tw;
                         c.addPacket(tcpPacket);
                     }
-                    
-                    /*if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, data))
-                    {
-                        if (clients.TryGetValue(dstPort,out c))
-                        {
-                            c.reStart();
-                        }
-                        else
-                        {
-                            c = new Client(dstPort, server);
-                            clients.Add(dstPort, c);
-                        }
-                    }
-                    if (clients.TryGetValue(dstPort, out c))
-                    {
-                        c.recv((byte[])data.Clone());
-                    }*/
-
                 }
-                else if(dstIp == server) // Клиент -> Сервер
+                else if (dstIp == server)
                 {
                     Client c;
                     if (clients.TryGetValue(srcPort, out c))
                     {
                         c.addPacket(tcpPacket);
-                       //c.send((byte[])data.Clone());  
+                    }
+                    else
+                    {
+                        c = new Client(srcPort, server);
+                        clients.Add(srcPort, c);
+                        c.tw = tw;
+                        c.addPacket(tcpPacket);
                     }
                 }
             }
@@ -215,7 +207,7 @@ namespace Sniffer
                 {
                     while((packet = client.Value.parsePacket())!=null)
                     {
-                        onParsePacket(client.Value.dstPort, client.Value.serverIp, packet);
+                        onParsePacket(client.Value.port, client.Value.serverIp, packet);
                     }
                 }
                 Thread.Sleep(16);
