@@ -17,7 +17,7 @@ namespace Sniffer
         private byte[] recvStream;
         private byte[] sendStream;
 
-        private Queue<Packet> packets;
+        private Queue<TeraPacket> packets;
 
         public Client(string dstPort, string serverIp)
         {
@@ -38,12 +38,12 @@ namespace Sniffer
             {
                 lock (packets)
                 {
-                    packets = new Queue<Packet>();
+                    packets = new Queue<TeraPacket>();
                 }
             }
             else
             {
-                packets = new Queue<Packet>();
+                packets = new Queue<TeraPacket>();
             }
         }
 
@@ -80,7 +80,7 @@ namespace Sniffer
             ushort length = BitConverter.ToUInt16(recvStream, 0);
             if (recvStream.Length < length)
                 return false;
-            var packet = new Packet(getRecvData(length), Packet.Type.Recv);
+            var packet = new TeraPacket(getRecvData(length), TeraPacket.Type.Recv);
             lock (packets)
             {
                 packets.Enqueue(packet);
@@ -130,7 +130,7 @@ namespace Sniffer
             ushort length = BitConverter.ToUInt16(sendStream, 0);
             if (sendStream.Length < length)
                 return false;
-            var packet = new Packet(getSendData(length), Packet.Type.Send);
+            var packet = new TeraPacket(getSendData(length), TeraPacket.Type.Send);
             lock (packets)
             {
                 packets.Enqueue(packet);
@@ -148,10 +148,10 @@ namespace Sniffer
             return result;
         }
 
-        internal Packet parsePacket()
+        internal TeraPacket parsePacket()
         {
             if (packets.Count == 0) return null;
-            Packet p;
+            TeraPacket p;
             lock(packets)
             {
                 p = packets.Dequeue();
@@ -161,7 +161,7 @@ namespace Sniffer
 
         internal void addPacket(PacketDotNet.TcpPacket tcpPacket)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }

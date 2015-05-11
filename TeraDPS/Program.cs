@@ -34,15 +34,15 @@ namespace TeraDPS
             }
         }
 
-        static void sniffer_onParsePacket(string port, string ip, Sniffer.Packet packet)
+        static void sniffer_onParsePacket(string port, string ip, Sniffer.TeraPacket packet)
         {
             switch(packet.type)
             { 
-                case Sniffer.Packet.Type.Recv:
+                case Sniffer.TeraPacket.Type.Recv:
                     count.r++;
                     Console.WriteLine("{0,15} {1,6} {2,6} {3,6}", count.r, "recv", packet.size, names[packet.opCode]);
                     break;
-                case Sniffer.Packet.Type.Send:
+                case Sniffer.TeraPacket.Type.Send:
                     count.s++;
                     Console.WriteLine("{0,15} {1,6} {2,6} {3,6}", count.s, "send", packet.size, names[packet.opCode]);
                     break;

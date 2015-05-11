@@ -25,7 +25,7 @@ namespace Sniffer
         private string server;
         private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
         private Dictionary<string, Client> clients;
-        public delegate void OnParsePacket(string port,string ip, Packet packet);
+        public delegate void OnParsePacket(string port,string ip, TeraPacket packet);
         public event OnParsePacket onParsePacket;
         private Thread threadParsePacket;
         bool needToStop = false;
@@ -207,7 +207,7 @@ namespace Sniffer
 
         private void parsePacket()
         {
-            Packet packet;
+            TeraPacket packet;
             while(true)
             {
                 if (needToStop) return;
