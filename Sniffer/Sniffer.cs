@@ -30,7 +30,7 @@ namespace Sniffer
         private Thread threadParsePacket;
         bool needToStop = false;
 
-        public Sniffer(string device, string serverIp)
+        public Sniffer(string serverIp)
         {
             GCHandle.Alloc(adapters);
             if ((Ndisapi.IsDriverLoaded(driverPtr)))
