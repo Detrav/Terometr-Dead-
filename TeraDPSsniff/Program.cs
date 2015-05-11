@@ -86,75 +86,8 @@ namespace TeraDPSsniff
                 var srcPort = tcpPacket.SourcePort.ToString();
                 var dstPort = tcpPacket.DestinationPort.ToString();
                 var data = tcpPacket.PayloadData;
-                Console.WriteLine("{0,15} {1,15} {2,6} {3,6} {4}",srcIp,dstIp,srcPort,dstPort,data.Length);
+                Console.WriteLine("{0,15} {1,15} {2,6} {3,6} {4}", srcIp, dstIp, srcPort, dstPort, data.Length);
             }
-        }
-
-
-        private static void WriteToConsole(INTERMEDIATE_BUFFER packetBuffer, IntPtr packetBufferPtr)
-        {
-            //Console.WriteLine(packetBuffer.m_dwDeviceFlags == Ndisapi.PACKET_FLAG_ON_SEND ? "\nMSTCP --> Interface" : "\nInterface --> MSTCP");
-            //Console.WriteLine("Packet size = {0}", packetBuffer.m_Length);
-            var ethernetHeaderPtr = IntPtr.Add(packetBufferPtr,Marshal.OffsetOf(typeof(INTERMEDIATE_BUFFER), "m_IBuffer").ToInt32());
-            var ethernetHeader = Marshal.PtrToStructure<ETHER_HEADER>(ethernetHeaderPtr);
-            /*Console.WriteLine(
-                "\tETHERNET {0:X2}{1:X2}{2:X2}{3:X2}{4:X2}{5:X2} --> {6:X2}{7:X2}{8:X2}{9:X2}{10:X2}{11:X2}",
-                ethernetHeader.source.b1,
-                ethernetHeader.source.b2,
-                ethernetHeader.source.b3,
-                ethernetHeader.source.b4,
-                ethernetHeader.source.b5,
-                ethernetHeader.source.b6,
-                ethernetHeader.dest.b1,
-                ethernetHeader.dest.b2,
-                ethernetHeader.dest.b3,
-                ethernetHeader.dest.b4,
-                ethernetHeader.dest.b5,
-                ethernetHeader.dest.b6
-                );*/
-
-            switch (ntohs(ethernetHeader.proto))
-            {
-                case ETHER_HEADER.ETH_P_IP:
-                    {
-                        var ipHeaderPtr = IntPtr.Add(ethernetHeaderPtr,Marshal.SizeOf(typeof(ETHER_HEADER)));
-                        var ipHeader = Marshal.PtrToStructure<IPHeader>(ipHeaderPtr);
-
-                        var sourceAddress = new IPAddress(ipHeader.Src);
-                        var destinationAddress = new IPAddress(ipHeader.Dest);
-
-                        //Console.WriteLine("\tIP {0} --> {1} PROTOCOL: {2}", sourceAddress, destinationAddress, ipHeader.P);
-                        if(ipHeader.P == IPHeader.IPPROTO_TCP)
-                        {
-                            var tcpHeader = Marshal.PtrToStructure<TcpHeader>(IntPtr.Add(ipHeaderPtr,((ipHeader.IPLenVer) & 0xF) * 4));
-                            //Console.WriteLine("\tTCP SRC PORT: {0} DST PORT: {1}", ntohs(tcpHeader.th_sport), ntohs(tcpHeader.th_dport));
-                            Console.WriteLine("{0,6} {1,6}", packetBuffer.m_IBuffer.Length, ipHeader.Len);
-                            //Console.WriteLine("{0,6} {1,6}", tcpHeader.size, (Marshal.SizeOf(typeof(ETHER_HEADER)) + ((ipHeader.IPLenVer) & 0xF) * 4)/8 + tcpHeader.size);
-                        }
-                        if(ipHeader.P == IPHeader.IPPROTO_UDP)
-                        {
-                            var udpHeader = Marshal.PtrToStructure<UdpHeader>(IntPtr.Add(ipHeaderPtr,((ipHeader.IPLenVer) & 0xF) * 4));
-                            //Console.WriteLine("\tUDP SRC PORT: {0} DST PORT: {1}", ntohs(udpHeader.th_sport), ntohs(udpHeader.th_dport));
-                        }
-                        
-
-                        
-                            
-                    }
-                    break;
-                case ETHER_HEADER.ETH_P_RARP:
-                    Console.WriteLine("\tReverse Addr Res packet");
-                    break;
-                case ETHER_HEADER.ETH_P_ARP:
-                    Console.WriteLine("\tAddress Resolution packet");
-                    break;
-            }
-        }
-        
-        static ushort ntohs(ushort netshort)
-        {
-            var hostshort = (ushort)(((netshort >> 8) & 0x00FF) | ((netshort << 8) & 0xFF00));
-            return hostshort;
         }
         
     }
