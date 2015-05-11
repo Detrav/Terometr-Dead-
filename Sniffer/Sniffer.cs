@@ -180,12 +180,13 @@ namespace Sniffer
                     {
                         //c.recv((byte[])data.Clone());
                     }
-                    Console.WriteLine("{0,20} {1,20} {2,5} {3,5} {4}", tcpPacket.SequenceNumber, tcpPacket.AcknowledgmentNumber, tcpPacket.Syn, tcpPacket.Ack, data.Length);
-                    if(prev > tcpPacket.SequenceNumber)
+                    //tcpPacket.
+                    if (prev == 0) prev = tcpPacket.SequenceNumber;
+                    if(prev != tcpPacket.SequenceNumber)
                     {
-                        Console.ReadLine();
+                        //Console.ReadLine();
                     }
-                    prev = tcpPacket.SequenceNumber;
+                    prev = tcpPacket.SequenceNumber + (uint)data.Length;
                 }
                 else if(dstIp == server) // Клиент -> Сервер
                 {
@@ -195,6 +196,7 @@ namespace Sniffer
                        //c.send((byte[])data.Clone());  
                     }
                 }
+                Console.WriteLine("{0,20} {1,20} {2,5} {3,5} {4,6} {5}", tcpPacket.SequenceNumber, tcpPacket.AcknowledgmentNumber, tcpPacket.Syn, tcpPacket.Ack, tcpPacket.WindowSize, data.Length);
             }
         }
 
