@@ -77,7 +77,7 @@ namespace Sniffer
                 };
                 //Filters
                 STATIC_FILTER_TABLE filtersTable = new STATIC_FILTER_TABLE();
-                filtersTable.m_StaticFilters = new STATIC_FILTER[3];
+                filtersTable.m_StaticFilters = new STATIC_FILTER[256];
 
                 filtersTable.m_TableSize = 3;
                 filtersTable.m_StaticFilters[0].m_Adapter = 0; // applied to all adapters
@@ -147,7 +147,7 @@ namespace Sniffer
                 }
             }
         }
-
+        uint prev = 0;
         void captureDevice_OnPacketArrival(INTERMEDIATE_BUFFER packetBuffer)
         {
             PacketDotNet.Packet packet = PacketDotNet.Packet.ParsePacket(PacketDotNet.LinkLayers.Ethernet, packetBuffer.m_IBuffer);
@@ -178,16 +178,21 @@ namespace Sniffer
                     }
                     if (clients.TryGetValue(dstPort, out c))
                     {
-                        c.recv((byte[])data.Clone());
+                        //c.recv((byte[])data.Clone());
                     }
-
+                    Console.WriteLine("{0,20} {1,20} {2,5} {3,5} {4}", tcpPacket.SequenceNumber, tcpPacket.AcknowledgmentNumber, tcpPacket.Syn, tcpPacket.Ack, data.Length);
+                    if(prev > tcpPacket.SequenceNumber)
+                    {
+                        Console.ReadLine();
+                    }
+                    prev = tcpPacket.SequenceNumber;
                 }
                 else if(dstIp == server) // Клиент -> Сервер
                 {
                     Client c;
                     if (clients.TryGetValue(srcPort, out c))
                     {
-                        c.send((byte[])data.Clone());  
+                       //c.send((byte[])data.Clone());  
                     }
                 }
             }
