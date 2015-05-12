@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sniffer
 {
+    // Спасибо http://www.theforce.dk/hearthstone/ за проделанную работу
     internal class TcpClient
     {
         public string srcIp { get; private set; }
@@ -19,6 +20,31 @@ namespace Sniffer
             this.srcPort = srcPort;
             this.dstIp = dstIp;
             this.dstPort = dstPort;
+        }
+
+        public TcpClient(PacketDotNet.TcpPacket packet)
+        {
+            srcIp = (packet.ParentPacket as PacketDotNet.IPv4Packet).SourceAddress.ToString();
+            dstIp = (packet.ParentPacket as PacketDotNet.IPv4Packet).DestinationAddress.ToString();
+            srcPort = (ushort)packet.SourcePort;
+            dstPort = (ushort)packet.DestinationPort;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (!(obj is TcpClient))
+                return false;
+            TcpClient tcpClient = (TcpClient)obj;
+            return
+                tcpClient.srcPort == srcPort && tcpClient.dstPort == dstPort && tcpClient.srcIp.Equals(srcIp) && tcpClient.dstIp.Equals(dstIp)
+                ||
+                tcpClient.srcPort == dstPort && tcpClient.dstPort == srcPort && tcpClient.srcIp.Equals(dstIp) && tcpClient.dstIp.Equals(srcIp);
+        }
+
+        public override int GetHashCode()
+        {
+            return ((srcIp.GetHashCode() ^ srcPort.GetHashCode()) as object).GetHashCode() ^
+                ((dstIp.GetHashCode() ^ dstPort.GetHashCode()) as object).GetHashCode();
         }
     }
 }
