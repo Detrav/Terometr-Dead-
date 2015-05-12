@@ -38,8 +38,10 @@ namespace Sniffer
             {
                 if(tw!=null)
                 {
-                    tw.Flush();
-                    tw.Close();
+                    try{tw.Flush();}
+                    catch { }
+                    try { tw.Close(); }
+                    catch { }
                     tw = null;
                 }
                 reset_tcp_reassembly();

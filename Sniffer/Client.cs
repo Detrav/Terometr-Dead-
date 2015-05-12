@@ -42,6 +42,11 @@ namespace Sniffer
 
         internal void recv(byte[] data)
         {
+            if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, data))
+            {
+                reStart();
+                return;
+            }
             switch (state)
             {
                 case 0:
