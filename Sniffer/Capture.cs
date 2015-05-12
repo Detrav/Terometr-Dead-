@@ -15,6 +15,7 @@ namespace Sniffer
     public class Capture
     {
         //Драйвер на перехват
+        
         private IntPtr driverPtr = Ndisapi.OpenFilterDriver();
         private TCP_AdapterList adapters = new TCP_AdapterList();
         public bool ready { get; private set; }
@@ -24,12 +25,15 @@ namespace Sniffer
         private ETH_REQUEST request;
         //Для обработки
         private string server;
+        public string serverIp { get{return server;} set { if (server == "") server = value; } }
         private Dictionary<Connection, TcpClient> tcpClients;
         private Dictionary<Connection, Client> clients;
         public delegate void OnParsePacket(Connection connection, TeraPacket packet);
         public event OnParsePacket onParsePacket;
         private Thread threadParsePacket;
         bool needToStop = false;
+
+        public Capture() : this("") { }
 
         public Capture(string serverIp)
         {
@@ -47,14 +51,18 @@ namespace Sniffer
 
         public string[] getDevices()
         {
-            bool flag = Ndisapi.GetTcpipBoundAdaptersInfo(driverPtr, ref adapters);
-            if (!flag) return null;
-            string[] result = new string[adapters.m_nAdapterCount];
-            for (int i = 0; i < adapters.m_nAdapterCount; i++)
+            if (ready)
             {
-                result[i] = adapters.GetName(i);
+                bool flag = Ndisapi.GetTcpipBoundAdaptersInfo(driverPtr, ref adapters);
+                if (!flag) return null;
+                string[] result = new string[adapters.m_nAdapterCount];
+                for (int i = 0; i < adapters.m_nAdapterCount; i++)
+                {
+                    result[i] = adapters.GetName(i);
+                }
+                return result;
             }
-            return result;
+            return null;
         }
 
         public void start(int num)
@@ -134,6 +142,7 @@ namespace Sniffer
             {
                 if(needToStop)
                 {
+                    Marshal.FreeHGlobal(bufferPtr);
                     Ndisapi.CloseFilterDriver(driverPtr);
                     return;
                 }
