@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client.cs" />
+    <Compile Include="Connection.cs" />
     <Compile Include="TcpClient.cs" />
     <Compile Include="TeraPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
