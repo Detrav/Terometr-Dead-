@@ -11,8 +11,6 @@ namespace Sniffer
 {
     internal class Client
     {
-        public string port { get; private set; }
-        public string serverIp { get; private set; }
         private int state;
         private Session session;
 
@@ -23,11 +21,8 @@ namespace Sniffer
 
         private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
 
-        public Client(string dstPort, string serverIp)
+        public Client()
         {
-            // TODO: Complete member initialization
-            this.port = dstPort;
-            this.serverIp = serverIp;
             teraPackets = new Queue<TeraPacket>();
             reStart();
         }
