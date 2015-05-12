@@ -1,4 +1,5 @@
 ﻿using NdisApiWrapper;
+using PacketDotNet;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -23,8 +24,8 @@ namespace Sniffer
         private ETH_REQUEST request;
         //Для обработки
         private string server;
-        private Dictionary<string, Client> clients;
-        public delegate void OnParsePacket(string port,string ip, TeraPacket packet);
+        private Dictionary<Connection, TcpClient> tcpClients;
+        public delegate void OnParsePacket(Connection connection, TeraPacket packet);
         public event OnParsePacket onParsePacket;
         private Thread threadParsePacket;
         bool needToStop = false;
@@ -37,10 +38,9 @@ namespace Sniffer
                 ready = true;
             }
             this.server = serverIp;
-            clients = new Dictionary<string, Client>();
             threadLookingForPacket = new Thread(lookingForPacket);
             threadParsePacket = new Thread(parsePacket);
-
+            tcpClients = new Dictionary<Connection, TcpClient>();
         }
 
         public string[] getDevices()
@@ -146,53 +146,47 @@ namespace Sniffer
                 }
             }
         }
-        uint prev = 0;
-        System.IO.TextWriter tw = new System.IO.StreamWriter("log");
         void captureDevice_OnPacketArrival(INTERMEDIATE_BUFFER packetBuffer)
         {
-            PacketDotNet.Packet packet = PacketDotNet.Packet.ParsePacket(PacketDotNet.LinkLayers.Ethernet, packetBuffer.m_IBuffer);
-            PacketDotNet.TcpPacket tcpPacket = (PacketDotNet.TcpPacket)packet.Extract(typeof(PacketDotNet.TcpPacket));
-            PacketDotNet.IpPacket ipPacket = (PacketDotNet.IpPacket)packet.Extract(typeof(PacketDotNet.IpPacket));
-            if (tcpPacket != null && ipPacket != null)
+            //Не люблю вары, пока оставлю так, потом переделаю
+            var packet = EthernetPacket.ParsePacket(LinkLayers.Ethernet, packetBuffer.m_IBuffer);
+            var ethPacket = packet as EthernetPacket;
+            //Автор http://www.theforce.dk/hearthstone/ Описывает как откидывания не нужных пакетов
+            if (packet.PayloadPacket == null || ethPacket.Type != EthernetPacketType.IpV4)
+                return;
+            IPv4Packet ipv4Packet = ethPacket.PayloadPacket as IPv4Packet;
+            //А тут видимо отбрасываем если нет содержимого (нужного нам TCP) пакета
+            if (ipv4Packet.PayloadPacket == null)
+                return;
+            TcpPacket tcpPacket = ipv4Packet.PayloadPacket as TcpPacket;
+
+            Connection connection = new Connection(tcpPacket);
+            TcpClient tcpClient; bool connected = false;
+            lock (tcpClients)
             {
-                var srcIp = ipPacket.SourceAddress.ToString();
-                var dstIp = ipPacket.DestinationAddress.ToString();
-                var srcPort = tcpPacket.SourcePort.ToString();
-                var dstPort = tcpPacket.DestinationPort.ToString();
-                var data = tcpPacket.PayloadData;
-
-                tw.WriteLine("{0,5} {1,15} {2,15} {3,5} {4}", srcPort, tcpPacket.SequenceNumber,tcpPacket.AcknowledgmentNumber,tcpPacket.Syn,data.Length);
-                tw.Flush();
-
-                if(srcIp == server) // Клиент <- Сервер
+                connected = tcpClients.TryGetValue(connection, out tcpClient);
+            }
+            //Проводим проверку второго из трёх сообщений для соединения, если такой есть то создаём новый клиент
+            if (tcpPacket.Syn && tcpPacket.Ack && 0 == tcpPacket.PayloadData.Length && !connected)
+            {
+                tcpClient = new TcpClient(connection);
+                lock (tcpClients)
                 {
-                    Client c;
-                    if (clients.TryGetValue(dstPort, out c))
-                    {
-                        c.addPacket(tcpPacket);
-                    }
-                    else
-                    {
-                        c = new Client(dstPort, server);
-                        clients.Add(dstPort, c);
-                        c.tw = tw;
-                        c.addPacket(tcpPacket);
-                    }
+                    tcpClients.Add(connection, tcpClient);
                 }
-                else if (dstIp == server)
+                connected = true;
+            }
+
+            if (tcpPacket.Ack && connected)
+            {
+                tcpClient.reConstruction(tcpPacket);
+            }
+
+            if (tcpPacket.Fin && tcpPacket.Ack && connected)
+            {
+                lock (tcpClients)
                 {
-                    Client c;
-                    if (clients.TryGetValue(srcPort, out c))
-                    {
-                        c.addPacket(tcpPacket);
-                    }
-                    else
-                    {
-                        c = new Client(srcPort, server);
-                        clients.Add(srcPort, c);
-                        c.tw = tw;
-                        c.addPacket(tcpPacket);
-                    }
+                    tcpClients.Remove(connection);
                 }
             }
         }
@@ -203,11 +197,11 @@ namespace Sniffer
             while(true)
             {
                 if (needToStop) return;
-                foreach(var client in clients)
+                foreach(var client in tcpClients)
                 {
-                    while((packet = client.Value.parsePacket())!=null)
+                    while((packet = client.Value.teraClient.parsePacket())!=null)
                     {
-                        onParsePacket(client.Value.port, client.Value.serverIp, packet);
+                        onParsePacket(client.Value.connection, packet);
                     }
                 }
                 Thread.Sleep(16);
