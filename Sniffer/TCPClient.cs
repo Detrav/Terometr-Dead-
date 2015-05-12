@@ -96,41 +96,41 @@ namespace Sniffer
             //2)Начало полученного пакета перекрывается с уже имеющимися
             //3)Всё ок и пакет можно добавить в поток данных
             //4)Получили окно и тогда нужно кидать пакет в список
-            if(first)//1
+            if (first)//1
             {
-                debug("Первый пакет от {0} с номером {1} и длиной {2}",srcport,sequence,length);
+                debug("Первый пакет от {0} с номером {1} и длиной {2}", srcport, sequence, length);
                 seq[src_index] = sequence + (uint)length;
                 write_packet_data(src_port[src_index], data);
                 return;
             }
-            if(sequence < seq[src_index])//2
+            if (sequence < seq[src_index])//2
             {
                 //Нужно отрезать кусок или выкинуть пакет
                 //Если пакет оказался меньше чем нужно то выкидваем его
-                if(sequence + length <= seq[src_index])
+                if (sequence + length <= seq[src_index])
                 {
-                    debug("Лишний пакет от {0} с номером {1} и длиной {2}",srcport,sequence,length);
+                    debug("Лишний пакет от {0} с номером {1} и длиной {2}", srcport, sequence, length);
                     return;
                 }
                 //иначе вычислваем длину перекрывающегося куска
                 uint new_len = seq[src_index] - sequence;
-                
+
                 length -= (int)new_len;
-                        byte[] tmpData = new byte[length];
-                        for (int i = 0; i < length; i++)
-                            tmpData[i] = data[i + new_len];
-                        //данные присваеваем
-                        data = tmpData;
+                byte[] tmpData = new byte[length];
+                for (int i = 0; i < length; i++)
+                    tmpData[i] = data[i + new_len];
+                //данные присваеваем
+                data = tmpData;
                 //Теперь нужно подправить данные, чтобы прога думала что пакет подходит
                 sequence = seq[src_index];
-                debug("Обрезаный пакет от {0} с номером {1} и длиной {2}",srcport,sequence,length);
+                debug("Обрезаный пакет от {0} с номером {1} и длиной {2}", srcport, sequence, length);
             }
-            if(sequence == seq[src_index])//3
+            if (sequence == seq[src_index])//3
             {
                 //debug("Обычный пакет от {0} с номером {1} и длиной {2}",srcport,sequence,length);
                 seq[src_index] += (uint)length;
                 write_packet_data(src_port[src_index], data);
-                while (check_fragments(src_index));//И опять нужно может переписать см. предыдущие комиты
+                while (check_fragments(src_index)) ;//И опять нужно может переписать см. предыдущие комиты
                 return;
             }
             //остался 1 случай if(sequence > seq[src_index])//4
@@ -143,51 +143,46 @@ namespace Sniffer
             String.Format(str, strs);
         }
 
-        
-        //На данном моменте всё верно, единственно что не проверено мной, это 4 ситуация, когда получаем пакеты с окнами, а потом заклёпки окон.
         bool check_fragments(int index)
         {
-            //Автор явно брал код с языка "С", потому что в дотнете уже продуманы структуры и ими удобнее пользоваться,
-            //Не думаю, что речь заходила об скорости, т.к. предыдущая функция сильно не оптимизированы
-            //храним данные о текущем и предыдущем пакете
-            tcp_frag prev = null;
-            tcp_frag current;
-            current = frags[index];
-            //Пока не доходим до конца обратного списка do while может был бы лучше
-            while (current != null)
+            tcp_frag frag;
+            for(int i = 0; i< frags.Length;i++)
             {
-                //Если пакет входит тютилька в тютильку, а как же случай где пакет не входит или перекрывает?
-                if (current.seq == seq[index])
+                frag = frags[index][i];
+                //и опять несколько случаев (3) :)
+                if (frag.seq < seq[index])//1 - Перекрывает
                 {
-                    /* this fragment fits the stream */
-                    // Да такой точно заполнит поток, и если данные ещё существуют то записываем их
-                    if (current.data != null)
+                    if (frag.seq + frag.len <= seq[index])
                     {
-                        write_packet_data(src_port[index], current.data);
+                        debug("Check лишний пакет от {0} с номером {1} и длиной {2}", src_port[index], frag.seq, frag.len);
+                        frags[index].RemoveAt(i);
+                        return true;
                     }
-                    seq[index] += current.len;
-                    //зачемто храним предыдущий
-                    if (prev != null)
-                    {
-                        prev.next = current.next;
-                    }
-                    else
-                    {
-                        frags[index] = current.next;
-                    }
-                    current.data = null;
-                    current = null;
+                    uint new_len = seq[index] - frag.seq;
+
+                    frag.len -= (int)new_len;
+                    byte[] tmpData = new byte[frag.len];
+                    for (int i = 0; i < frag.len; i++)
+                        tmpData[i] = frag.data[i + new_len];
+                    frag.data = tmpData;
+                    frag.seq = seq[index];
+                    debug("Check обрезаный пакет от {0} с номером {1} и длиной {2}", src_port[index], frag.seq, frag.len);
+                }
+                if (frag.seq == seq[index])//2 - Подходить
+                {
+                    debug("Check нашёлся пакет от {0} с номером {1} и длиной {2}", src_port[index], frag.seq, frag.len);
+                    seq[index] += (uint)frag.len;
+                    write_packet_data(src_port[index], frag.data);
+                    frags[index].RemoveAt(i);
                     return true;
                 }
-                prev = current;
-                current = current.next;
-                //Отлично, всё ок за 2 исключениями
-                //1) если у нас пакет перекрывает часть, а такие я встречал(удивительно что я встретил такой случайно, у него ещё длина была невообразимая 1360, и он перекрывал предыдущий и последующие потоки)
-                //2) Мы не анализируем все части, а только 1 раз проходим по ним, нужен do while и флаг, или же while true и ретёрн.
+                //3 - Окно :(
+                debug("Check оконный пакет от {0} с номером {1} и длиной {2}", src_port[index], frag.seq, frag.len);
             }
             return false;
         }
 
+        
         void reset_tcp_reassembly()
         {
             for (int i = 0; i < 2; i++)
