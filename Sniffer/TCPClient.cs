@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -44,7 +45,6 @@ namespace Sniffer
         }
          */
 
-        
 
         public TcpClient()
         {
@@ -155,21 +155,27 @@ namespace Sniffer
             }
             /* if we are here, we have already seen this src, let's
           try and figure out if this packet is in the right place */
+            
+            //Если пришедший пакет находится левее чем ожидалось
             if (sequence < seq[src_index])
             {
                 /* this sequence number seems dated, but
               check the end to make sure it has no more
               info than we have already seen */
+                //Получаем номер, который будем ожидать в следующий раз
                 newseq = sequence + length;
+                //Если ожидаемый номер в след пакете больше чем ожидалось сейчас
                 if (newseq > seq[src_index])
                 {
                     ulong new_len;
 
                     /* this one has more than we have seen. let's get the
                payload that we have not seen. */
-
+                    //Ввычисляем ожидаемый сейчас номер - полученый номер =  длина, чтобы отрезать кусок
                     new_len = seq[src_index] - sequence;
-
+                    //Непойму зачем вторая проверка, дело в том что автор задумывал по другому
+                    //Поидее здесь мы проверяем длину пакета из ipPacket но т.к. проверка
+                    //происходить выше здесь всегда будет false
                     if (data_length <= new_len)
                     {
                         data = null;
@@ -178,43 +184,55 @@ namespace Sniffer
                     }
                     else
                     {
+                        //получили перекрытие в пакетах и нужно отрезать кусок, для этого
+                        //вычислаем размер не перекрытия
+                        //и копируем неперекрывающую часть
                         data_length -= new_len;
                         byte[] tmpData = new byte[data_length];
                         for (ulong i = 0; i < data_length; i++)
                             tmpData[i] = data[i + new_len];
-
+                        //данные присваеваем
                         data = tmpData;
                     }
+                    //Отрезали кусок и получили пакет нужной длины :)
                     sequence = seq[src_index];
                     length = newseq - seq[src_index];
 
                     /* this will now appear to be right on time :) */
                 }
+                //И всётаки полностью перекрытые пакеты нужно выбросить
+                else return;
             }
+            //Проверяем является ли номер пакета, который мы ожидали
             if (sequence == seq[src_index])
             {
                 /* right on time */
                 seq[src_index] += length;
-                if (synflag) seq[src_index]++;
-                if (data != null)
+                if (synflag) seq[src_index]++;//Опять же не пойму такой пакет не дойдёт до сюда
+                if (data != null)//Такой пакет тоже не дойдёт, всегда будет тру
                 {
                     write_packet_data(src_port[src_index], data);
                 }
                 /* done with the packet, see if it caused a fragment to fit */
+                //А тут поидее мы проверяем все фрагменты пакетов скопленых программой, а вдруг они дополнят поток
                 while (check_fragments(src_index))
                     ;
             }
             else
             {
+                //поидее мы получили пакет дальше чем ожидалось, и поэтому у нас получается окно в потоке
                 /* out of order packet */
+                //Всегда тру т.к. первое условие отсеивается выше, а второе условия отсеивается на else
                 if (data_length > 0 && sequence > seq[src_index])
                 {
+                    //Создаём фрагмент изза окна
                     tmp_frag = new tcp_frag();
                     tmp_frag.data = data;
                     tmp_frag.seq = sequence;
                     tmp_frag.len = length;
                     tmp_frag.data_len = data_length;
 
+                    //а тут создаём обратный список
                     if (frags[src_index] != null)
                     {
                         tmp_frag.next = frags[src_index];
@@ -227,22 +245,29 @@ namespace Sniffer
                 }
             }
         }
-
+        //На данном моменте всё верно, единственно что не проверено мной, это 4 ситуация, когда получаем пакеты с окнами, а потом заклёпки окон.
         bool check_fragments(int index)
         {
+            //Автор явно брал код с языка "С", потому что в дотнете уже продуманы структуры и ими удобнее пользоваться,
+            //Не думаю, что речь заходила об скорости, т.к. предыдущая функция сильно не оптимизированы
+            //храним данные о текущем и предыдущем пакете
             tcp_frag prev = null;
             tcp_frag current;
             current = frags[index];
+            //Пока не доходим до конца обратного списка do while может был бы лучше
             while (current != null)
             {
+                //Если пакет входит тютилька в тютильку, а как же случай где пакет не входит или перекрывает?
                 if (current.seq == seq[index])
                 {
                     /* this fragment fits the stream */
+                    // Да такой точно заполнит поток, и если данные ещё существуют то записываем их
                     if (current.data != null)
                     {
                         write_packet_data(src_port[index], current.data);
                     }
                     seq[index] += current.len;
+                    //зачемто храним предыдущий
                     if (prev != null)
                     {
                         prev.next = current.next;
@@ -257,6 +282,9 @@ namespace Sniffer
                 }
                 prev = current;
                 current = current.next;
+                //Отлично, всё ок за 2 исключениями
+                //1) если у нас пакет перекрывает часть, а такие я встречал(удивительно что я встретил такой случайно, у него ещё длина была невообразимая 1360, и он перекрывал предыдущий и последующие потоки)
+                //2) Мы не анализируем все части, а только 1 раз проходим по ним, нужен do while и флаг, или же while true и ретёрн.
             }
             return false;
         }
