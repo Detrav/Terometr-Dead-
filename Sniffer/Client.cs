@@ -20,7 +20,6 @@ namespace Sniffer
         private byte[] sendStream;
 
         private Queue<TeraPacket> teraPackets;
-        private List<TcpPacket> packets;
 
         private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
 
@@ -29,7 +28,6 @@ namespace Sniffer
             // TODO: Complete member initialization
             this.port = dstPort;
             this.serverIp = serverIp;
-            packets = new List<TcpPacket>();
             teraPackets = new Queue<TeraPacket>();
             reStart();
         }
@@ -41,7 +39,10 @@ namespace Sniffer
             session = new Session();
             recvStream = new byte[0];
             sendStream = new byte[0];
-            teraPackets.Clear();
+            lock (teraPackets)
+            {
+                teraPackets.Clear();
+            }
         }
 
         internal void recv(byte[] data)
@@ -78,7 +79,10 @@ namespace Sniffer
             if (recvStream.Length < length)
                 return false;
             var packet = new TeraPacket(getRecvData(length), TeraPacket.Type.Recv);
+            lock (teraPackets)
+            {
                 teraPackets.Enqueue(packet);
+            }
             return true;
         }
 
@@ -125,7 +129,10 @@ namespace Sniffer
             if (sendStream.Length < length)
                 return false;
             var packet = new TeraPacket(getSendData(length), TeraPacket.Type.Send);
+            lock (teraPackets)
+            {
                 teraPackets.Enqueue(packet);
+            }
             return true;
         }
 
@@ -145,75 +152,11 @@ namespace Sniffer
         public System.IO.TextWriter tw;
         internal TeraPacket parsePacket()
         {
-
-            if (teraPackets.Count != 0)
+            if (teraPackets.Count == 0)
+                return null;
+            lock (teraPackets)
             {
                 return teraPackets.Dequeue();
-            }
-
-            TcpPacket packet;
-            for (int i = 0; i < packets.Count; i++)
-            {
-                
-                lock (packets) { packet = packets[i]; }
-                var srcPort = packet.SourcePort.ToString();
-                var dstPort = packet.DestinationPort.ToString();
-                //Console.WriteLine("{0} {1}", srcPort, packet.Syn);
-                //lock (packets) { packets.RemoveAt(i); i--; }
-                //continue;
-                if (srcPort == port) //Клиент -> Сервер --- Send
-                {
-                    if (packet.SequenceNumber < seq_client)
-                    {
-                        lock (packets) { packets.RemoveAt(i); i--; tw.WriteLine("{0} Erorred",DateTime.Now.ToString()); }
-                    } else
-                    if (packet.SequenceNumber == seq_client)
-                    {
-                        send((byte[])packet.PayloadData.Clone());
-                        seq_client += (uint)packet.PayloadData.Length;
-                        lock (packets) { packets.RemoveAt(i); i--; }
-                    }
-                }
-                else if (dstPort == port) //Клиент <- Сервер --- Recv
-                {
-                    if(packet.SequenceNumber < seq_server)
-                    {
-                        lock (packets) { packets.RemoveAt(i); i--; tw.WriteLine("{0} Erorred", DateTime.Now.ToString()); }
-                    } else
-                    if(packet.SequenceNumber == seq_server)
-                    {
-                        if (StructuralComparisons.StructuralEqualityComparer.Equals(initPacket, packet.PayloadData))
-                            reStart();
-                        recv((byte[])packet.PayloadData.Clone());
-                        seq_server += (uint)packet.PayloadData.Length;
-                        lock (packets) { packets.RemoveAt(i); i--; }
-                    }
-                }
-            }
-            return null;
-
-        }
-
-        internal void addPacket(PacketDotNet.TcpPacket tcpPacket)
-        {
-
-            var srcPort = tcpPacket.SourcePort.ToString();
-            var dstPort = tcpPacket.DestinationPort.ToString();
-            if(tcpPacket.Syn)
-            {
-                if (srcPort == port) //Клиент -> Сервер --- Send
-                {
-                    seq_client = tcpPacket.SequenceNumber + 1;
-                }
-                else if (dstPort == port)
-                {
-                    seq_server = tcpPacket.SequenceNumber + 1;
-                }
-            }
-            else if(seq_client >0 && seq_server > 0)
-            lock (packets) // this is packets not teraPackets
-            {
-                packets.Add(tcpPacket);
             }
         }
     }
