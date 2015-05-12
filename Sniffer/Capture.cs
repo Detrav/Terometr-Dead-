@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Sniffer
 {
-    public class Sniffer
+    public class Capture
     {
         //Драйвер на перехват
         private IntPtr driverPtr = Ndisapi.OpenFilterDriver();
@@ -29,7 +29,7 @@ namespace Sniffer
         private Thread threadParsePacket;
         bool needToStop = false;
 
-        public Sniffer(string serverIp)
+        public Capture(string serverIp)
         {
             GCHandle.Alloc(adapters);
             if ((Ndisapi.IsDriverLoaded(driverPtr)))
@@ -121,7 +121,7 @@ namespace Sniffer
                 needToStop = true;
         }
 
-        ~Sniffer()
+        ~Capture()
         {
             stop();
         }

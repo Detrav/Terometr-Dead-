@@ -45,7 +45,7 @@
     <Compile Include="Client.cs" />
     <Compile Include="TeraPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sniffer.cs" />
+    <Compile Include="Capture.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

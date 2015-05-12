@@ -18,7 +18,7 @@ namespace TeraDPS
         public static counts count = new counts();
         static void Main(string[] args)
         {
-            Sniffer.Sniffer sniffer = new Sniffer.Sniffer("91.225.237.8");
+            Sniffer.Capture sniffer = new Sniffer.Capture("91.225.237.8");
             if (sniffer.ready)
             {
                 string[] devices = sniffer.getDevices();
