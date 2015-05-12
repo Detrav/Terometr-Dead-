@@ -14,6 +14,7 @@ namespace Sniffer
         {
             // TODO: Complete member initialization
             this.connection = connection;
+            teraClient = new Client();
         }
 
         internal void reConstruction(PacketDotNet.TcpPacket tcpPacket)

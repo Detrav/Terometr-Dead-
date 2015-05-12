@@ -25,6 +25,7 @@ namespace Sniffer
         //Для обработки
         private string server;
         private Dictionary<Connection, TcpClient> tcpClients;
+        private Dictionary<Connection, Client> clients;
         public delegate void OnParsePacket(Connection connection, TeraPacket packet);
         public event OnParsePacket onParsePacket;
         private Thread threadParsePacket;
@@ -41,6 +42,7 @@ namespace Sniffer
             threadLookingForPacket = new Thread(lookingForPacket);
             threadParsePacket = new Thread(parsePacket);
             tcpClients = new Dictionary<Connection, TcpClient>();
+            clients = new Dictionary<Connection, Client>();
         }
 
         public string[] getDevices()
@@ -170,9 +172,10 @@ namespace Sniffer
             if (tcpPacket.Syn && tcpPacket.Ack && 0 == tcpPacket.PayloadData.Length && !connected)
             {
                 tcpClient = new TcpClient(connection);
-                lock (tcpClients)
+                tcpClients.Add(connection, tcpClient);
+                lock (clients)
                 {
-                    tcpClients.Add(connection, tcpClient);
+                    clients.Add(connection, tcpClient.teraClient);
                 }
                 connected = true;
             }
@@ -184,9 +187,10 @@ namespace Sniffer
 
             if (tcpPacket.Fin && tcpPacket.Ack && connected)
             {
-                lock (tcpClients)
+                tcpClients.Remove(connection);
+                lock (clients)
                 {
-                    tcpClients.Remove(connection);
+                    clients.Remove(connection);
                 }
             }
         }
@@ -197,11 +201,14 @@ namespace Sniffer
             while(true)
             {
                 if (needToStop) return;
-                foreach(var client in tcpClients)
+                lock (clients)
                 {
-                    while((packet = client.Value.teraClient.parsePacket())!=null)
+                    foreach (var client in clients)
                     {
-                        onParsePacket(client.Value.connection, packet);
+                        while ((packet = client.Value.parsePacket()) != null)
+                        {
+                            onParsePacket(client.Key, packet);
+                        }
                     }
                 }
                 Thread.Sleep(16);
