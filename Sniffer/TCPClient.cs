@@ -13,9 +13,9 @@ namespace Sniffer
         //Сделаем как описанно в http://www.theforce.dk/hearthstone/, спасибо автору
         internal struct tcp_frag
         {
-            public uint seq = 0;
-            public int len = 0;
-            public byte[] data = null;
+            public uint seq;
+            public int len;
+            public byte[] data;
         };
  
         List<tcp_frag>[] frags = new List<tcp_frag>[2];
@@ -36,6 +36,12 @@ namespace Sniffer
         {
             if (!closed)
             {
+                if(tw!=null)
+                {
+                    tw.Flush();
+                    tw.Close();
+                    tw = null;
+                }
                 reset_tcp_reassembly();
                 closed = true;
             }
@@ -138,15 +144,21 @@ namespace Sniffer
             frags[src_index].Add(new tcp_frag() { data = data, len = length, seq = sequence });
         }
 
+        TextWriter tw = new StreamWriter(String.Format("{0}.debug", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
+        //TextWriter tw = null;
         private void debug(string str, params object[] strs)
         {
-            String.Format(str, strs);
+            if (tw != null)
+            {
+                tw.WriteLine("{0} {1}",DateTime.Now.ToString("HH:mm:ss"),String.Format(str, strs));
+                tw.Flush();
+            }
         }
 
         bool check_fragments(int index)
         {
             tcp_frag frag;
-            for(int i = 0; i< frags.Length;i++)
+            for(int i = 0; i< frags[index].Count;i++)
             {
                 frag = frags[index][i];
                 //и опять несколько случаев (3) :)
@@ -162,8 +174,8 @@ namespace Sniffer
 
                     frag.len -= (int)new_len;
                     byte[] tmpData = new byte[frag.len];
-                    for (int i = 0; i < frag.len; i++)
-                        tmpData[i] = frag.data[i + new_len];
+                    for (int j = 0; j < frag.len; j++)
+                        tmpData[j] = frag.data[j + new_len];
                     frag.data = tmpData;
                     frag.seq = seq[index];
                     debug("Check обрезаный пакет от {0} с номером {1} и длиной {2}", src_port[index], frag.seq, frag.len);
