@@ -34,7 +34,7 @@ namespace TeraDPS
             }
         }
 
-        static void sniffer_onParsePacket(string port, string ip, Sniffer.TeraPacket packet)
+        static void sniffer_onParsePacket(Sniffer.Connection connection, Sniffer.TeraPacket packet)
         {
             switch(packet.type)
             { 

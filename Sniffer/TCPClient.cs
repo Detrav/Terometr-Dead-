@@ -25,9 +25,9 @@ namespace Sniffer
         ulong[] seq = new ulong[2];
         long[] src_addr = new long[2];
         uint[] src_port = new uint[2];
-        bool empty_tcp_stream = true;
+        //bool empty_tcp_stream = true;
         uint[] tcp_port = new uint[2];
-        int[] bytes_written = new int[2];
+        //int[] bytes_written = new int[2];
         //System.IO.FileStream data_out_file = null; Не нужен т.к. обрабатываем сразу
         bool incomplete_tcp_stream = false;
         bool closed = false;
@@ -37,10 +37,12 @@ namespace Sniffer
             get { return incomplete_tcp_stream; }
         }
 
+        /*
         public bool EmptyStream
         {
             get { return empty_tcp_stream; }
         }
+         */
 
         
 
@@ -75,15 +77,13 @@ namespace Sniffer
                 (uint)tcpPacket.SourcePort, (uint)tcpPacket.DestinationPort);
         }
 
-        // Потом заменим на обработку
-        private void write_packet_data(int index, byte[] data)
+        private void write_packet_data(uint port, byte[] data)
         {
             // ignore empty packets
             if (data.Length == 0) return;
-
-            bytes_written[index] += data.Length;
-
-            empty_tcp_stream = false;
+            //Сервер -> Клиент
+            if (port == 7801) teraClient.recv((byte[])data.Clone());
+            else teraClient.send((byte[])data.Clone());
         }
 
         private void reassemble_tcp(ulong sequence, ulong length, byte[] data,
@@ -150,7 +150,7 @@ namespace Sniffer
                 }
                 /* write out the packet data */
 
-                write_packet_data(src_index, data);
+                write_packet_data(src_port[src_index], data);
                 return;
             }
             /* if we are here, we have already seen this src, let's
@@ -198,7 +198,7 @@ namespace Sniffer
                 if (synflag) seq[src_index]++;
                 if (data != null)
                 {
-                    write_packet_data(src_index, data);
+                    write_packet_data(src_port[src_index], data);
                 }
                 /* done with the packet, see if it caused a fragment to fit */
                 while (check_fragments(src_index))
@@ -240,7 +240,7 @@ namespace Sniffer
                     /* this fragment fits the stream */
                     if (current.data != null)
                     {
-                        write_packet_data(index, current.data);
+                        write_packet_data(src_port[index], current.data);
                     }
                     seq[index] += current.len;
                     if (prev != null)
@@ -266,7 +266,7 @@ namespace Sniffer
             tcp_frag current, next;
             int i;
 
-            empty_tcp_stream = true;
+            //empty_tcp_stream = true;
             incomplete_tcp_stream = false;
             for (i = 0; i < 2; i++)
             {
@@ -274,7 +274,7 @@ namespace Sniffer
                 src_addr[i] = 0;
                 src_port[i] = 0;
                 tcp_port[i] = 0;
-                bytes_written[i] = 0;
+                //bytes_written[i] = 0;
                 current = frags[i];
                 while (current != null)
                 {

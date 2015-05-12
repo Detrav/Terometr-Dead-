@@ -171,7 +171,7 @@ namespace Sniffer
             //Проводим проверку второго из трёх сообщений для соединения, если такой есть то создаём новый клиент
             if (tcpPacket.Syn && tcpPacket.Ack && 0 == tcpPacket.PayloadData.Length && !connected)
             {
-                tcpClient = new TcpClient(connection);
+                tcpClient = new TcpClient();
                 tcpClients.Add(connection, tcpClient);
                 lock (clients)
                 {
