@@ -61,23 +61,24 @@ namespace SnifferGUI.Forms
 
         void sniffer_onParsePacket(Connection connection, TeraPacket packet)
         {
-            dataCountInt += packet.size;
-            if (packet.type == TeraPacket.Type.Recv) inPacketCountInt++;
-            else outPacketCountInt++;
+            
             lock(packets)
             {
                 if(whiteListEnable)
                 {
                     if (whiteList == null) return;
-                    if (whiteList.Contains(packet.opCode)) packets.Add(packet);
+                    if (!whiteList.Contains(packet.opCode)) return;
                 }
-                else if(blackListEnable)
+                if(blackListEnable)
                 {
                     if (blackList == null) return;
-                    if (!blackList.Contains(packet.opCode)) packets.Add(packet);
+                    if (blackList.Contains(packet.opCode)) return;
                 }
-                else packets.Add(packet);
+                packets.Add(packet);
             }
+            dataCountInt += packet.size;
+            if (packet.type == TeraPacket.Type.Recv) inPacketCountInt++;
+            else outPacketCountInt++;
             /*
              * Как вариант тут можно сделать инвоке с жутким делегатом или сделать внешний обработчик и по таймеру обновлять форму
              * this.Invoke(new Action<ushort>((size) => {label1.Text = (long.Parse(label1.Text)+size).ToString();}),packet.size);
