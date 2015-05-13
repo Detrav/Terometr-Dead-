@@ -129,5 +129,43 @@ namespace SnifferGUI
                 packetName = (string[])ser.Deserialize(tr);
             }
         }
+
+        public int[] whiteListInt
+        {
+            get
+            {
+                if(whiteList == null) return new int[0];
+                List<int> result = new List<int>();
+                foreach(string el in whiteList)
+                {
+                    for (int i = 0; i < packetName.Length; i++)
+                        if (packetName[i] == el)
+                        {
+                            result.Add(i);
+                            continue;
+                        }
+                }
+                return result.ToArray();
+            }
+        }
+
+        public int[] blackListInt
+        {
+            get
+            {
+                if (blackList == null) return new int[0];
+                List<int> result = new List<int>();
+                foreach (string el in blackList)
+                {
+                    for (int i = 0; i < packetName.Length; i++)
+                        if (packetName[i] == el)
+                        {
+                            result.Add(i);
+                            continue;
+                        }
+                }
+                return result.ToArray();
+            }
+        }
     }
 }

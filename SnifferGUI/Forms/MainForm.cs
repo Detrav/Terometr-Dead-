@@ -19,8 +19,11 @@ namespace SnifferGUI.Forms
         int outPacketCountInt = 0;
         DateTime delay = DateTime.Now;
         List<TeraPacket> packets = new List<TeraPacket>();
-        string[] packetName = Config.Instance.packetName;
-
+        string[] packetName = (string[])Config.Instance.packetName.Clone();
+        int[] whiteList = Config.Instance.whiteListInt;//Не забывать их обновлять и делать lock
+        bool whiteListEnable = Config.Instance.whiteListEnable;//
+        bool blackListEnable = Config.Instance.blackListEnable;//
+        int[] blackList = Config.Instance.blackListInt;//Не забывать их обновлять и делать lock
         public MainForm()
         {
             InitializeComponent();
@@ -52,7 +55,6 @@ namespace SnifferGUI.Forms
                 Close();
                 return;
             }
-
             //splitContainer1.IsSplitterFixed = true;
             timer1.Enabled = true;
         }
@@ -64,7 +66,17 @@ namespace SnifferGUI.Forms
             else outPacketCountInt++;
             lock(packets)
             {
-                packets.Add(packet);
+                if(whiteListEnable)
+                {
+                    if (whiteList == null) return;
+                    if (whiteList.Contains(packet.opCode)) packets.Add(packet);
+                }
+                else if(blackListEnable)
+                {
+                    if (blackList == null) return;
+                    if (!blackList.Contains(packet.opCode)) packets.Add(packet);
+                }
+                else packets.Add(packet);
             }
             /*
              * Как вариант тут можно сделать инвоке с жутким делегатом или сделать внешний обработчик и по таймеру обновлять форму
@@ -131,7 +143,8 @@ namespace SnifferGUI.Forms
                     listView1.Items.RemoveAt(0);
                 }
             }
-            
+            if(listView1.Items.Count>0)
+            listView1.Items[listView1.Items.Count - 1].EnsureVisible();
             delay = DateTime.Now;
             timer1.Enabled = true;
         }
@@ -215,6 +228,18 @@ namespace SnifferGUI.Forms
                     Config.Instance.whiteList = filter.ToArray();
                 }
                 Config.saveConfig();
+                if (Config.Instance.whiteList!=null)
+                lock (whiteList)
+                {
+                    whiteList = Config.Instance.whiteListInt;
+                }
+                whiteListEnable = Config.Instance.whiteListEnable;
+                if (Config.Instance.blackList != null)
+                lock (blackList)
+                {
+                    blackList = Config.Instance.blackListInt;
+                }
+                blackListEnable = Config.Instance.blackListEnable;
             }
         }
     }
