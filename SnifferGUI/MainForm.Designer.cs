@@ -45,6 +45,8 @@
             this.columnHeaderPacketType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPacketSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPacketName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.основныеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.фильтрыToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -109,11 +111,15 @@
             // выходToolStripMenuItem
             // 
             this.выходToolStripMenuItem.Name = "выходToolStripMenuItem";
-            this.выходToolStripMenuItem.Size = new System.Drawing.Size(108, 22);
+            this.выходToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.выходToolStripMenuItem.Text = "Выход";
+            this.выходToolStripMenuItem.Click += new System.EventHandler(this.выходToolStripMenuItem_Click);
             // 
             // настройкиToolStripMenuItem
             // 
+            this.настройкиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.основныеToolStripMenuItem,
+            this.фильтрыToolStripMenuItem});
             this.настройкиToolStripMenuItem.Name = "настройкиToolStripMenuItem";
             this.настройкиToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.настройкиToolStripMenuItem.Text = "Настройки";
@@ -182,6 +188,19 @@
             this.columnHeaderPacketName.Text = "Название";
             this.columnHeaderPacketName.Width = 200;
             // 
+            // основныеToolStripMenuItem
+            // 
+            this.основныеToolStripMenuItem.Name = "основныеToolStripMenuItem";
+            this.основныеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.основныеToolStripMenuItem.Text = "Основные";
+            this.основныеToolStripMenuItem.Click += new System.EventHandler(this.основныеToolStripMenuItem_Click);
+            // 
+            // фильтрыToolStripMenuItem
+            // 
+            this.фильтрыToolStripMenuItem.Name = "фильтрыToolStripMenuItem";
+            this.фильтрыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.фильтрыToolStripMenuItem.Text = "Фильтры";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,6 +244,8 @@
         private System.Windows.Forms.ColumnHeader columnHeaderPacketType;
         private System.Windows.Forms.ColumnHeader columnHeaderPacketSize;
         private System.Windows.Forms.ColumnHeader columnHeaderPacketName;
+        private System.Windows.Forms.ToolStripMenuItem основныеToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem фильтрыToolStripMenuItem;
     }
 }
 

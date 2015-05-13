@@ -31,8 +31,9 @@ namespace SnifferGUI
             }
         }
 
-        internal string serverIp;
-        internal int adapterNumber;
+        internal string serverIp = "";
+        internal int adapterNumber = 0;
+        internal int packetMaxCount = 1000;
         internal string[] packetName;
 
         internal static void saveConfig()
@@ -43,6 +44,7 @@ namespace SnifferGUI
                 xw.WriteStartElement("Config");
                 xw.WriteElementString("serverIp", Instance.serverIp);
                 xw.WriteElementString("adapterNumber", Instance.adapterNumber.ToString());
+                xw.WriteElementString("packetMaxCount", Instance.packetMaxCount.ToString());
                 xw.WriteEndElement();
                 xw.WriteEndDocument();
             }
@@ -67,6 +69,10 @@ namespace SnifferGUI
                             case "adapterNnumber":
                                 if (el.InnerText != null)
                                     adapterNumber = Int32.Parse(el.InnerText);
+                                break;
+                            case "packetMaxCount":
+                                if (el.InnerText != null)
+                                    packetMaxCount = Int32.Parse(el.InnerText);
                                 break;
                         }
                     }

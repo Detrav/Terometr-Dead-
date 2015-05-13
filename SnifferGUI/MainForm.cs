@@ -125,10 +125,31 @@ namespace SnifferGUI
                             listView1.Items.Add(new ListViewItem(new string[]{"out",p.size.ToString(),packetName[p.opCode]}));
                     }
                 }
+                while(packets.Count>Config.Instance.packetMaxCount)
+                {
+                    packets.RemoveAt(0);
+                    listView1.Items.RemoveAt(0);
+                }
             }
             
             delay = DateTime.Now;
             timer1.Enabled = true;
+        }
+
+        private void основныеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SettingsForm settingsForm = new SettingsForm();
+            settingsForm.numericUpDown1.Value = Config.Instance.packetMaxCount;
+            if(settingsForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Config.Instance.packetMaxCount = (int)settingsForm.numericUpDown1.Value;
+                Config.saveConfig();
+            }
+        }
+
+        private void выходToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 }
