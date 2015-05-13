@@ -51,7 +51,7 @@ namespace SnifferGUI
                 xw.WriteElementString("packetMaxCount", Instance.packetMaxCount.ToString());
                 xw.WriteElementString("whiteListEnable", Instance.whiteListEnable.ToString());
                 xw.WriteElementString("blackListEnable", Instance.blackListEnable.ToString());
-                if(Instance.whiteList!=null)
+                if (Instance.whiteList != null)
                 {
                     xw.WriteStartElement("whiteList");
                     foreach (var el in Instance.whiteList)

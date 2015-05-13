@@ -301,15 +301,15 @@
         private System.Windows.Forms.Panel panelWhite;
         private System.Windows.Forms.Button buttonRemoveWhite;
         private System.Windows.Forms.Button buttonAddWhite;
-        private System.Windows.Forms.ListBox listBoxWhite;
-        private System.Windows.Forms.ListBox listBoxPacketsNameForWhite;
-        private System.Windows.Forms.CheckBox checkBoxWhiteList;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panelBlack;
         private System.Windows.Forms.Button buttonRemoveBlack;
         private System.Windows.Forms.Button buttonAddBlack;
-        private System.Windows.Forms.ListBox listBoxBlack;
-        private System.Windows.Forms.ListBox listBoxPacketsNameForBlack;
-        private System.Windows.Forms.CheckBox checkBoxBlackList;
+        public System.Windows.Forms.ListBox listBoxWhite;
+        public System.Windows.Forms.ListBox listBoxPacketsNameForWhite;
+        public System.Windows.Forms.CheckBox checkBoxWhiteList;
+        public System.Windows.Forms.ListBox listBoxBlack;
+        public System.Windows.Forms.ListBox listBoxPacketsNameForBlack;
+        public System.Windows.Forms.CheckBox checkBoxBlackList;
     }
 }

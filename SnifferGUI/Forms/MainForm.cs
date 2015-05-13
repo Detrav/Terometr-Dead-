@@ -151,5 +151,71 @@ namespace SnifferGUI.Forms
         {
             Close();
         }
+
+        private void фильтрыToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FiltersForm filtersForm = new FiltersForm();
+            filtersForm.checkBoxBlackList.Checked = Config.Instance.blackListEnable;
+            filtersForm.checkBoxWhiteList.Checked = Config.Instance.whiteListEnable;
+            //Первый раз так пишу, надеюсь не будет краша изза нуля при второй проверке
+            if (Config.Instance.blackList != null && Config.Instance.blackList.Length > 0)
+            {
+                foreach (var el in Config.Instance.blackList)
+                    filtersForm.listBoxBlack.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxBlack);
+
+                foreach (var el in Config.Instance.packetName)
+                    if (el.Length > 0)
+                        if (!Config.Instance.blackList.Contains(el))
+                            filtersForm.listBoxPacketsNameForBlack.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForBlack);
+            }
+            else
+            {
+                foreach (var el in Config.Instance.packetName)
+                    if (el.Length > 0)
+                        filtersForm.listBoxPacketsNameForBlack.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForBlack);
+            }
+            if(Config.Instance.whiteList !=null && Config.Instance.whiteList.Length > 0)
+            {
+                foreach (var el in Config.Instance.whiteList)
+                    filtersForm.listBoxWhite.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxWhite);
+
+                foreach (var el in Config.Instance.packetName)
+                    if (el.Length > 0)
+                        if (!Config.Instance.whiteList.Contains(el))
+                            filtersForm.listBoxPacketsNameForWhite.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForWhite);
+            }
+            else
+            {
+                foreach (var el in Config.Instance.packetName)
+                    if (el.Length > 0)
+                        filtersForm.listBoxPacketsNameForWhite.Items.Add(el);
+                filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForWhite);
+            }
+            if(filtersForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                Config.Instance.blackListEnable = filtersForm.checkBoxBlackList.Checked;
+                Config.Instance.whiteListEnable = filtersForm.checkBoxWhiteList.Checked;
+                if (filtersForm.listBoxBlack.Items.Count > 0)
+                {
+                    List<string> filter = new List<string>();
+                    foreach (string el in filtersForm.listBoxBlack.Items)
+                        filter.Add(el);
+                    Config.Instance.blackList = filter.ToArray();
+                }
+                if (filtersForm.listBoxWhite.Items.Count > 0)
+                {
+                    List<string> filter = new List<string>();
+                    foreach (string el in filtersForm.listBoxWhite.Items)
+                        filter.Add(el);
+                    Config.Instance.whiteList = filter.ToArray();
+                }
+                Config.saveConfig();
+            }
+        }
     }
 }
