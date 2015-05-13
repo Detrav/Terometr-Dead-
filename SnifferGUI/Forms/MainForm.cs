@@ -24,6 +24,8 @@ namespace SnifferGUI.Forms
         bool whiteListEnable = Config.Instance.whiteListEnable;//
         bool blackListEnable = Config.Instance.blackListEnable;//
         int[] blackList = Config.Instance.blackListInt;//Не забывать их обновлять и делать lock
+        bool captureEnable = true; //Идёт ди запись
+        TeraPacket currentPacket;//Текущий пакет, для просмотра
         public MainForm()
         {
             InitializeComponent();
@@ -61,7 +63,7 @@ namespace SnifferGUI.Forms
 
         void sniffer_onParsePacket(Connection connection, TeraPacket packet)
         {
-            
+            if (!captureEnable) return;
             lock(packets)
             {
                 if(whiteListEnable)
@@ -242,6 +244,27 @@ namespace SnifferGUI.Forms
                 }
                 blackListEnable = Config.Instance.blackListEnable;
             }
+        }
+
+        private void toolStripButtonCaptureEnable_Click(object sender, EventArgs e)
+        {
+                        captureEnable = !captureEnable;
+            if(captureEnable)
+                toolStripButtonCaptureEnable.Image = Properties.Resources.check;
+            else
+                toolStripButtonCaptureEnable.Image = Properties.Resources.cross;
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems == null) { panelPacketView.Enabled = false; currentPacket = null; return; }
+            if (listView1.SelectedItems.Count == 0) { panelPacketView.Enabled = false; currentPacket = null; return; }
+            lock(packets)
+            {
+                currentPacket = packets[listView1.SelectedItems[0].Index];
+            }
+            panelPacketView.Enabled = true;
+            textBox1.Text = Encoding.UTF8.GetString(currentPacket.data);
         }
     }
 }

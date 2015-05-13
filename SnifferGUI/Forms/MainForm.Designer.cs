@@ -47,9 +47,18 @@
             this.columnHeaderPacketName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
+            this.toolStripButtonCaptureEnable = new System.Windows.Forms.ToolStripButton();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.panelPacketView = new System.Windows.Forms.Panel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
+            this.panelPacketView.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -171,6 +180,7 @@
             this.listView1.TabIndex = 0;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
+            this.listView1.SelectedIndexChanged += new System.EventHandler(this.listView1_SelectedIndexChanged);
             // 
             // columnHeaderPacketType
             // 
@@ -193,6 +203,8 @@
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel2.Controls.Add(this.panelPacketView);
+            this.panel2.Controls.Add(this.toolStrip1);
             this.panel2.Location = new System.Drawing.Point(214, 27);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(558, 389);
@@ -201,6 +213,60 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripLabel1,
+            this.toolStripButtonCaptureEnable,
+            this.toolStripSeparator1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(558, 25);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripLabel1
+            // 
+            this.toolStripLabel1.Name = "toolStripLabel1";
+            this.toolStripLabel1.Size = new System.Drawing.Size(49, 22);
+            this.toolStripLabel1.Text = "Запись:";
+            // 
+            // toolStripButtonCaptureEnable
+            // 
+            this.toolStripButtonCaptureEnable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripButtonCaptureEnable.Image = global::SnifferGUI.Properties.Resources.check;
+            this.toolStripButtonCaptureEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonCaptureEnable.Name = "toolStripButtonCaptureEnable";
+            this.toolStripButtonCaptureEnable.Size = new System.Drawing.Size(23, 22);
+            this.toolStripButtonCaptureEnable.Text = "Запушена ли запись пакетов";
+            this.toolStripButtonCaptureEnable.Click += new System.EventHandler(this.toolStripButtonCaptureEnable_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // panelPacketView
+            // 
+            this.panelPacketView.Controls.Add(this.textBox1);
+            this.panelPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPacketView.Enabled = false;
+            this.panelPacketView.Location = new System.Drawing.Point(0, 25);
+            this.panelPacketView.Name = "panelPacketView";
+            this.panelPacketView.Size = new System.Drawing.Size(558, 364);
+            this.panelPacketView.TabIndex = 1;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.textBox1.Location = new System.Drawing.Point(45, 44);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(419, 259);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = "deddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" +
+    "ddddddddddddddd";
             // 
             // MainForm
             // 
@@ -222,6 +288,12 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            this.panelPacketView.ResumeLayout(false);
+            this.panelPacketView.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,6 +319,12 @@
         private System.Windows.Forms.ColumnHeader columnHeaderPacketName;
         private System.Windows.Forms.ToolStripMenuItem основныеToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem фильтрыToolStripMenuItem;
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripLabel toolStripLabel1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonCaptureEnable;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.Panel panelPacketView;
+        private System.Windows.Forms.TextBox textBox1;
     }
 }
 
