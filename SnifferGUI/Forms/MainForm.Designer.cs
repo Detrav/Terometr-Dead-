@@ -251,6 +251,7 @@
             // 
             this.panelPacketView.Controls.Add(this.richTextBox1);
             this.panelPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPacketView.Enabled = false;
             this.panelPacketView.Location = new System.Drawing.Point(0, 25);
             this.panelPacketView.Name = "panelPacketView";
             this.panelPacketView.Size = new System.Drawing.Size(558, 364);
