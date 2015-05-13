@@ -56,6 +56,11 @@ namespace SnifferGUI
          */
         PacketElement[] elements;
 
+        public PacketWithStructure()
+        {
+            elements = new PacketElement[0];
+        }
+
         public PacketWithStructure(string packetNameForFile)
         {
             using (XmlReader xr = XmlReader.Create(Path.Combine("assets", "packets",packetNameForFile+".xml")))
