@@ -59,6 +59,20 @@ namespace SnifferGUI.Forms
             }
             //splitContainer1.IsSplitterFixed = true;
             timer1.Enabled = true;
+            richTextBox1.Rtf = @"{\rtf1
+Offset 00 01 02 03 04 05 06 07 | 08 09 0A 0B 0C 0D 0E 0F\line
+ 0000: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
+ 0010: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
+ 0020: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
+ 0030: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************
+}";
+            richTextBox1.SelectionStart = 0;
+            richTextBox1.SelectionLength = 6;
+            richTextBox1.SelectionColor = Color.White;
+            richTextBox1.SelectionBackColor = Color.Black;
+
+            MessageBox.Show(richTextBox1.Rtf);
+
         }
 
         void sniffer_onParsePacket(Connection connection, TeraPacket packet)
@@ -264,7 +278,9 @@ namespace SnifferGUI.Forms
                 currentPacket = packets[listView1.SelectedItems[0].Index];
             }
             panelPacketView.Enabled = true;
-            textBox1.Text = Encoding.UTF8.GetString(currentPacket.data);
+
+
+            //currentPacket.data;
         }
     }
 }

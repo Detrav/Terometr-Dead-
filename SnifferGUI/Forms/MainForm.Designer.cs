@@ -52,7 +52,7 @@
             this.toolStripButtonCaptureEnable = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.panelPacketView = new System.Windows.Forms.Panel();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -249,24 +249,24 @@
             // 
             // panelPacketView
             // 
-            this.panelPacketView.Controls.Add(this.textBox1);
+            this.panelPacketView.Controls.Add(this.richTextBox1);
             this.panelPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPacketView.Enabled = false;
             this.panelPacketView.Location = new System.Drawing.Point(0, 25);
             this.panelPacketView.Name = "panelPacketView";
             this.panelPacketView.Size = new System.Drawing.Size(558, 364);
             this.panelPacketView.TabIndex = 1;
             // 
-            // textBox1
+            // richTextBox1
             // 
-            this.textBox1.Font = new System.Drawing.Font("Courier New", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.textBox1.Location = new System.Drawing.Point(45, 44);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(419, 259);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = "deddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd" +
-    "ddddddddddddddd";
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(558, 135);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // MainForm
             // 
@@ -278,7 +278,7 @@
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimumSize = new System.Drawing.Size(640, 480);
+            this.MinimumSize = new System.Drawing.Size(800, 480);
             this.Name = "MainForm";
             this.Text = "Form1";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -293,7 +293,6 @@
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
             this.panelPacketView.ResumeLayout(false);
-            this.panelPacketView.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -324,7 +323,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButtonCaptureEnable;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.Panel panelPacketView;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
 
