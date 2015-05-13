@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace SnifferGUI
 {
@@ -17,6 +18,7 @@ namespace SnifferGUI
         private Config()
         {
             loadConfig();
+            loadPacketName();
         }
 
         internal static Config Instance
@@ -69,6 +71,14 @@ namespace SnifferGUI
                         }
                     }
                 }
+            }
+        }
+        private void loadPacketName()
+        {
+            using (TextReader tr = new StreamReader(Path.Combine("assets", "packets.xml")))
+            {
+                XmlSerializer ser = new XmlSerializer(typeof(string[]));
+                packetName = (string[])ser.Deserialize(tr);
             }
         }
     }

@@ -157,6 +157,7 @@
             this.columnHeaderPacketSize,
             this.columnHeaderPacketName});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(0, 0);
             this.listView1.Name = "listView1";
@@ -173,7 +174,7 @@
             // columnHeaderPacketSize
             // 
             this.columnHeaderPacketSize.Text = "Размер";
-            this.columnHeaderPacketSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderPacketSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             this.columnHeaderPacketSize.Width = 40;
             // 
             // columnHeaderPacketName

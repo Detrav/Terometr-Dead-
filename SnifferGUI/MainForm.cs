@@ -18,7 +18,7 @@ namespace SnifferGUI
         int inPacketCountInt = 0;
         int outPacketCountInt = 0;
         DateTime delay = DateTime.Now;
-        List<TeraPacket> packets = new List<TeraPacket>();;
+        List<TeraPacket> packets = new List<TeraPacket>();
         string[] packetName = Config.Instance.packetName;
 
         public MainForm()
