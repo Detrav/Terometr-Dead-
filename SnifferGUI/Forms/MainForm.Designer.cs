@@ -46,19 +46,19 @@
             this.columnHeaderPacketSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderPacketName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.panel2 = new System.Windows.Forms.Panel();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.panelPacketView = new System.Windows.Forms.Panel();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.toolStripLabel1 = new System.Windows.Forms.ToolStripLabel();
             this.toolStripButtonCaptureEnable = new System.Windows.Forms.ToolStripButton();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.panelPacketView = new System.Windows.Forms.Panel();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.toolStrip1.SuspendLayout();
             this.panelPacketView.SuspendLayout();
+            this.toolStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // statusStrip1
@@ -144,14 +144,14 @@
             // основныеToolStripMenuItem
             // 
             this.основныеToolStripMenuItem.Name = "основныеToolStripMenuItem";
-            this.основныеToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.основныеToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.основныеToolStripMenuItem.Text = "Основные";
             this.основныеToolStripMenuItem.Click += new System.EventHandler(this.основныеToolStripMenuItem_Click);
             // 
             // фильтрыToolStripMenuItem
             // 
             this.фильтрыToolStripMenuItem.Name = "фильтрыToolStripMenuItem";
-            this.фильтрыToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.фильтрыToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.фильтрыToolStripMenuItem.Text = "Фильтры";
             this.фильтрыToolStripMenuItem.Click += new System.EventHandler(this.фильтрыToolStripMenuItem_Click);
             // 
@@ -210,9 +210,26 @@
             this.panel2.Size = new System.Drawing.Size(558, 389);
             this.panel2.TabIndex = 4;
             // 
-            // timer1
+            // panelPacketView
             // 
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            this.panelPacketView.Controls.Add(this.richTextBox1);
+            this.panelPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelPacketView.Location = new System.Drawing.Point(0, 25);
+            this.panelPacketView.Name = "panelPacketView";
+            this.panelPacketView.Size = new System.Drawing.Size(558, 364);
+            this.panelPacketView.TabIndex = 1;
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.ReadOnly = true;
+            this.richTextBox1.Size = new System.Drawing.Size(558, 364);
+            this.richTextBox1.TabIndex = 1;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.WordWrap = false;
             // 
             // toolStrip1
             // 
@@ -247,27 +264,9 @@
             this.toolStripSeparator1.Name = "toolStripSeparator1";
             this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
-            // panelPacketView
+            // timer1
             // 
-            this.panelPacketView.Controls.Add(this.richTextBox1);
-            this.panelPacketView.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelPacketView.Enabled = false;
-            this.panelPacketView.Location = new System.Drawing.Point(0, 25);
-            this.panelPacketView.Name = "panelPacketView";
-            this.panelPacketView.Size = new System.Drawing.Size(558, 364);
-            this.panelPacketView.TabIndex = 1;
-            // 
-            // richTextBox1
-            // 
-            this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.richTextBox1.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.richTextBox1.Location = new System.Drawing.Point(0, 0);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.ReadOnly = true;
-            this.richTextBox1.Size = new System.Drawing.Size(558, 135);
-            this.richTextBox1.TabIndex = 1;
-            this.richTextBox1.Text = "";
-            this.richTextBox1.WordWrap = false;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // MainForm
             // 
@@ -291,9 +290,9 @@
             this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.panelPacketView.ResumeLayout(false);
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
-            this.panelPacketView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

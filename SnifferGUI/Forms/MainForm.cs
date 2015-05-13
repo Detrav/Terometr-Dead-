@@ -19,7 +19,6 @@ namespace SnifferGUI.Forms
         int outPacketCountInt = 0;
         DateTime delay = DateTime.Now;
         List<TeraPacket> packets = new List<TeraPacket>();
-        string[] packetName = (string[])Config.Instance.packetName.Clone();
         int[] whiteList = Config.Instance.whiteListInt;//Не забывать их обновлять и делать lock
         bool whiteListEnable = Config.Instance.whiteListEnable;//
         bool blackListEnable = Config.Instance.blackListEnable;//
@@ -59,20 +58,10 @@ namespace SnifferGUI.Forms
             }
             //splitContainer1.IsSplitterFixed = true;
             timer1.Enabled = true;
-            richTextBox1.Rtf = @"{\rtf1
-Offset 00 01 02 03 04 05 06 07 | 08 09 0A 0B 0C 0D 0E 0F\line
- 0000: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
- 0010: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
- 0020: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************\line
- 0030: FF FF FF FF FF FF FF FF | FF FF FF FF FF FF FF FF  ****************
-}";
-            richTextBox1.SelectionStart = 0;
-            richTextBox1.SelectionLength = 6;
-            richTextBox1.SelectionColor = Color.White;
-            richTextBox1.SelectionBackColor = Color.Black;
-
-            MessageBox.Show(richTextBox1.Rtf);
-
+            /*Random rnd = new Random();
+            Byte[] b = new Byte[500];
+            rnd.NextBytes(b);
+            PacketWithStructure.getRtf(ref richTextBox1,b);*/
         }
 
         void sniffer_onParsePacket(Connection connection, TeraPacket packet)
@@ -148,10 +137,10 @@ Offset 00 01 02 03 04 05 06 07 | 08 09 0A 0B 0C 0D 0E 0F\line
                 {
                     foreach(var p in packets.Skip(listView1.Items.Count))
                     {
-                        if(p.type == TeraPacket.Type.Recv)
-                            listView1.Items.Add(new ListViewItem(new string[]{"in",p.size.ToString(),packetName[p.opCode]}));
+                        if (p.type == TeraPacket.Type.Recv)
+                            listView1.Items.Add(new ListViewItem(new string[] { "in", p.size.ToString(), Config.Instance.packetName[p.opCode] }));
                         else
-                            listView1.Items.Add(new ListViewItem(new string[]{"out",p.size.ToString(),packetName[p.opCode]}));
+                            listView1.Items.Add(new ListViewItem(new string[] { "out", p.size.ToString(), Config.Instance.packetName[p.opCode] }));
                     }
                 }
                 while(packets.Count>Config.Instance.packetMaxCount)
