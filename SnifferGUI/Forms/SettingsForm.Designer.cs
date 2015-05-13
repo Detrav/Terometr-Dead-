@@ -1,4 +1,4 @@
-﻿namespace SnifferGUI
+﻿namespace SnifferGUI.Forms
 {
     partial class SettingsForm
     {
