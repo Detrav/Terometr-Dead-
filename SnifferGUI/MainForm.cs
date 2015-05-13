@@ -18,6 +18,9 @@ namespace SnifferGUI
         int inPacketCountInt = 0;
         int outPacketCountInt = 0;
         DateTime delay = DateTime.Now;
+        List<TeraPacket> packets = new List<TeraPacket>();;
+        string[] packetName = Config.Instance.packetName;
+
         public MainForm()
         {
             InitializeComponent();
@@ -59,6 +62,10 @@ namespace SnifferGUI
             dataCountInt += packet.size;
             if (packet.type == TeraPacket.Type.Recv) inPacketCountInt++;
             else outPacketCountInt++;
+            lock(packets)
+            {
+                packets.Add(packet);
+            }
             /*
              * Как вариант тут можно сделать инвоке с жутким делегатом или сделать внешний обработчик и по таймеру обновлять форму
              * this.Invoke(new Action<ushort>((size) => {label1.Text = (long.Parse(label1.Text)+size).ToString();}),packet.size);
@@ -105,6 +112,21 @@ namespace SnifferGUI
             inPacketCount.Text = String.Format("Входящих пакетов: {0,7}", inPacketCountInt);
             outPacketCount.Text = String.Format("Исходящих пакетов: {0,5}", outPacketCountInt);
             responseLabel.Text = String.Format("Отклик: {0,5} мс", (DateTime.Now - delay).Milliseconds);
+            
+            lock(packets)
+            {
+                if(listView1.Items.Count< packets.Count)
+                {
+                    foreach(var p in packets.Skip(listView1.Items.Count))
+                    {
+                        if(p.type == TeraPacket.Type.Recv)
+                            listView1.Items.Add(new ListViewItem(new string[]{"in",p.size.ToString(),packetName[p.opCode]}));
+                        else
+                            listView1.Items.Add(new ListViewItem(new string[]{"out",p.size.ToString(),packetName[p.opCode]}));
+                    }
+                }
+            }
+            
             delay = DateTime.Now;
             timer1.Enabled = true;
         }

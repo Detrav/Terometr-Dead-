@@ -39,9 +39,12 @@
             this.настройкиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.responseLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.listView1 = new System.Windows.Forms.ListView();
+            this.columnHeaderPacketType = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderPacketSize = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeaderPacketName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -119,7 +122,7 @@
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel1.Controls.Add(this.listBox1);
+            this.panel1.Controls.Add(this.listView1);
             this.panel1.Location = new System.Drawing.Point(12, 27);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(196, 389);
@@ -135,17 +138,6 @@
             this.panel2.Size = new System.Drawing.Size(558, 389);
             this.panel2.TabIndex = 4;
             // 
-            // listBox1
-            // 
-            this.listBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(3, 3);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(190, 381);
-            this.listBox1.TabIndex = 0;
-            // 
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
@@ -157,6 +149,37 @@
             this.responseLabel.Size = new System.Drawing.Size(100, 17);
             this.responseLabel.Text = "Отклик: 00000 мс";
             this.responseLabel.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // listView1
+            // 
+            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeaderPacketType,
+            this.columnHeaderPacketSize,
+            this.columnHeaderPacketName});
+            this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.GridLines = true;
+            this.listView1.Location = new System.Drawing.Point(0, 0);
+            this.listView1.Name = "listView1";
+            this.listView1.Size = new System.Drawing.Size(196, 389);
+            this.listView1.TabIndex = 0;
+            this.listView1.UseCompatibleStateImageBehavior = false;
+            this.listView1.View = System.Windows.Forms.View.Details;
+            // 
+            // columnHeaderPacketType
+            // 
+            this.columnHeaderPacketType.Text = "Тип";
+            this.columnHeaderPacketType.Width = 30;
+            // 
+            // columnHeaderPacketSize
+            // 
+            this.columnHeaderPacketSize.Text = "Размер";
+            this.columnHeaderPacketSize.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.columnHeaderPacketSize.Width = 40;
+            // 
+            // columnHeaderPacketName
+            // 
+            this.columnHeaderPacketName.Text = "Название";
+            this.columnHeaderPacketName.Width = 200;
             // 
             // MainForm
             // 
@@ -195,9 +218,12 @@
         private System.Windows.Forms.ToolStripMenuItem настройкиToolStripMenuItem;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.ToolStripStatusLabel responseLabel;
+        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ColumnHeader columnHeaderPacketType;
+        private System.Windows.Forms.ColumnHeader columnHeaderPacketSize;
+        private System.Windows.Forms.ColumnHeader columnHeaderPacketName;
     }
 }
 
