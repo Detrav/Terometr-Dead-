@@ -89,7 +89,9 @@ namespace SnifferGUI
                             pe.name = el.InnerText;
                         else
                             pe.name = "";
+                        elementsList.Add(pe);
                     }
+                    elements = elementsList.ToArray();
                 }
             }
         }
