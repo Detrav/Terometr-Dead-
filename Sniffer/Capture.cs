@@ -170,7 +170,8 @@ namespace Sniffer
             if (ipv4Packet.PayloadPacket == null)
                 return;
             TcpPacket tcpPacket = ipv4Packet.PayloadPacket as TcpPacket;
-
+            if (tcpPacket == null)
+                return;
             Connection connection = new Connection(tcpPacket);
             TcpClient tcpClient; bool connected = false;
             lock (tcpClients)
