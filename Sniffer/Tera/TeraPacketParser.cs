@@ -225,6 +225,12 @@ namespace Sniffer.Tera
             return (string)el.value;
         }
 
+        protected void readShift(int len)
+        {
+            for (int i = 0; i < len; i++)
+                br.ReadByte();
+        }
+
         protected void close()
         {
             if (ms != null)
