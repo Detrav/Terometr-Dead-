@@ -20,9 +20,9 @@ namespace Sniffer.Tera.P2805
                 readUInt32("model");//14
                 readUInt64("player id");//18
                 readUInt64("unique id");//26
-                readShift(29);//32 + 29 = 61
+                readShift(27);//34 + 29 = 61
                 readUInt16("level");//61
-                readShift(start_name-61);
+                readShift(start_name-63);
                 readString("name", end_name);
             }
             catch { }
