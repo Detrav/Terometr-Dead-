@@ -13,12 +13,12 @@ namespace Sniffer.Tera.P2805
         {
             try
             {
-                int count = readUInt16("count");
+                int count = readUInt16(4,"count");
                 for (int i = 0; i < count; i++)
                 {
-                    readInt32("NowShift & NextShift");
-                    readInt32("Unk1");
-                    readInt32("Unk2");
+                    readInt32((ushort)(6 + 12 * i), "NowShift & NextShift");// 4 + 12
+                    readInt32((ushort)(10 + 12 * i),"Unk1");
+                    readInt32((ushort)(14 + 12 * i),"Unk2");
                 }
             }
             catch { }

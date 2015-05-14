@@ -13,17 +13,15 @@ namespace Sniffer.Tera.P2805
         {
             try
             {
-                ushort start_name = readUInt16("start name");//4
-                ushort end_name = readUInt16("end name");//6
-                readUInt16("visual len");//8
-                readUInt32("sex race class");//10
-                readUInt32("model");//14
-                readUInt64("player id");//18
-                readUInt64("unique id");//26
-                readShift(27);//34 + 29 = 61
-                readUInt16("level");//61
-                readShift(start_name-63);
-                readString("name", end_name);
+                ushort start_name = readUInt16(4,"start name");//4
+                ushort end_name = readUInt16(6,"end name");//6
+                readUInt16(8,"visual len");//8
+                readUInt32(10,"sex race class");//10
+                readUInt32(14,"model");//14
+                readUInt64(18,"player id");//18
+                readUInt64(26,"unique id");//26
+                readUInt16(61,"level");//61
+                readString(start_name,"name", end_name);
             }
             catch { }
         }

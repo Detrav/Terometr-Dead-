@@ -10,178 +10,178 @@ namespace Sniffer.Tera
     public class TeraPacketParser : TeraPacket
     {
 
-        MemoryStream ms;
-        BinaryReader br;
+        //MemoryStream ms;
+        //BinaryReader br;
         List<PacketElement> elements;
 
 
         public TeraPacketParser(TeraPacket packet)
             : base(packet.data, packet.type)
         {
-            ms = new MemoryStream(packet.data);
-            br = new BinaryReader(ms);
+            //ms = new MemoryStream(packet.data);
+            //br = new BinaryReader(ms);
             elements = new List<PacketElement>();
-            readUInt16("size");
-            readUInt16("opcode");
+            readUInt16(0,"size");
+            readUInt16(2,"opcode");
         }
 
-        protected System.Collections.BitArray readBitArray(string p)
+        protected System.Collections.BitArray readBitArray(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = new System.Collections.BitArray(new byte[1] { br.ReadByte() }),
+                start = pos,
+                value = new System.Collections.BitArray(new byte[1] { data[pos] }),
                 type = "bitarray"
             }; 
             elements.Add(el);
             return (System.Collections.BitArray)el.value;
         }
-        protected byte readByte(string p)
+        protected byte readByte(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadByte(),
+                start = pos,
+                value = data[pos],
                 type = "byte"
             }; 
             elements.Add(el);
             return (byte)el.value;
         }
-        protected sbyte readSByte(string p)
+        protected sbyte readSByte(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadSByte(),
+                start = pos,
+                value = (sbyte)data[pos],
                 type = "sbyte"
             }; 
             elements.Add(el);
             return (sbyte)el.value;
         }
-        protected ushort readUInt16(string p)
+        protected ushort readUInt16(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadUInt16(),
+                start = pos,
+                value = BitConverter.ToUInt16(data,pos),
                 type = "ushort"
             }; 
             elements.Add(el);
             return (ushort)el.value;
         }
-        protected short readInt16(string p)
+        protected short readInt16(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadInt16(),
+                start = pos,
+                value = BitConverter.ToInt16(data, pos),
                 type = "short"
             };
             elements.Add(el);
             return (short)el.value;
         }
-        protected uint readUInt32(string p)
+        protected uint readUInt32(ushort pos, string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadUInt32(),
+                start = pos,
+                value = BitConverter.ToUInt32(data,pos),
                 type = "uint"
             };
             elements.Add(el);
             return (uint)el.value;
         }
-        protected int readInt32(string p)
+        protected int readInt32(ushort pos ,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadInt32(),
+                start = pos,
+                value = BitConverter.ToInt32(data,pos),
                 type = "int"
             };
             elements.Add(el);
             return (int)el.value;
         }
-        protected ulong readUInt64(string p)
+        protected ulong readUInt64(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadUInt64(),
+                start = pos,
+                value = BitConverter.ToUInt64(data,pos),
                 type = "ulong"
             };
             elements.Add(el);
             return (ulong)el.value;
         }
-        protected long readInt64(string p)
+        protected long readInt64(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadInt64(),
+                start = pos,
+                value = BitConverter.ToInt64(data,pos),
                 type = "long"
             };
             elements.Add(el);
             return (long)el.value;
         }
-        protected float readSingle(string p)
+        protected float readSingle(ushort pos,string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadSingle(),
+                start = pos,
+                value = BitConverter.ToSingle(data,pos),
                 type = "float"
             };
             elements.Add(el);
             return (float)el.value;
         }
-        protected double readDouble(string p)
+        protected double readDouble(ushort pos, string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadDouble(),
+                start = pos,
+                value = BitConverter.ToDouble(data,pos),
                 type = "double"
             };
             elements.Add(el);
             return (double)el.value;
         }
-        protected char readChar(string p)
+        protected char readChar(ushort pos, string p)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
-                value = br.ReadChar(),
+                start = pos,
+                value = BitConverter.ToChar(data,pos),
                 type = "char"
             };
             elements.Add(el);
             return (char)el.value;
         }
-        protected string readString(string p, int len = int.MaxValue)
+        protected string readString(ushort pos,string p, int len = int.MaxValue)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
+                start = pos,
                 type = "string"
             };
-            ushort start = (ushort)ms.Position;
+            ushort start = pos;
             StringBuilder result = new StringBuilder();
             for (int i = start; i<len ; i += 2)
             {
-                char c = Convert.ToChar(br.ReadUInt16());
+                char c = Convert.ToChar(BitConverter.ToUInt16(data,i));
                 if (c == '\0')
                     break;
                 else
@@ -192,15 +192,15 @@ namespace Sniffer.Tera
             return (string)el.value;
         }
 
-        protected bool readBoolean(string p, byte s)
+        protected bool readBoolean(ushort pos,string p, byte s = 0)
         {
             if (s > 7)
                 return false;
-            var temp = new System.Collections.BitArray(new byte[1] { br.ReadByte() });
+            var temp = new System.Collections.BitArray(new byte[1] { data[pos] });
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
+                start = pos,
                 value = temp[s],
                 shift = s,
                 type = "boolean"
@@ -209,40 +209,20 @@ namespace Sniffer.Tera
             return (bool)el.value;
         }
 
-        protected string readHex(string p, int lenght)
+        protected string readHex(ushort pos,string p, int lenght)
         {
             PacketElement el = new PacketElement
             {
                 name = p,
-                start = (ushort)ms.Position,
+                start = pos,
                 type = "hex"
             };
             StringBuilder result = new StringBuilder();
-            for (; lenght > 0; lenght--)
-                result.AppendFormat("{0:X2}", br.ReadByte());
+            for (int i = 0; i< lenght; i++)
+                result.AppendFormat("{0:X2}", data[i]);
             el.value = result.ToString();
             elements.Add(el);
             return (string)el.value;
-        }
-
-        protected void readShift(int len)
-        {
-            for (int i = 0; i < len; i++)
-                br.ReadByte();
-        }
-
-        protected void close()
-        {
-            if (ms != null)
-            {
-                ms.Close();
-                ms = null;
-            }
-        }
-
-        ~TeraPacketParser()
-        {
-            close();
         }
 
         public class PacketElement
