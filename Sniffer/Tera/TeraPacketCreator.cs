@@ -15,7 +15,7 @@ namespace Sniffer.Tera
             opCodes2805.Add((ushort)OpCode2805.C_CHECK_VERSION, typeof(P2805.C_CHECK_VERSION));
         }
 
-        private static readonly TeraPacketCreator Instance
+        private static TeraPacketCreator Instance
         {
             get
             {
