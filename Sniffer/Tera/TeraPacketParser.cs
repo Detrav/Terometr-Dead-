@@ -306,10 +306,10 @@ namespace Sniffer.Tera
             }
             return result.ToString();
         }
-        public static string byteArrayToString(byte[] data, int start)
+        public static string byteArrayToString(byte[] data, int start,int len = int.MaxValue)
         {
             StringBuilder result = new StringBuilder();
-            for (int i = start; i < data.Length; i+=2)
+            for (int i = start; i < data.Length && i<len; i+=2)
             {
                 char c = BitConverter.ToChar(data,i);
                 if (c == '\0')
