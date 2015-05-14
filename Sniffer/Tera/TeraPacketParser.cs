@@ -181,7 +181,7 @@ namespace Sniffer.Tera
             StringBuilder result = new StringBuilder();
             for (int i = start; i<len ; i += 2)
             {
-                char c = br.ReadChar();
+                char c = Convert.ToChar(br.ReadUInt16());
                 if (c == '\0')
                     break;
                 else
