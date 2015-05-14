@@ -49,6 +49,7 @@
     <Compile Include="Tera\TeraPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Capture.cs" />
+    <Compile Include="Tera\TeraPacketParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
