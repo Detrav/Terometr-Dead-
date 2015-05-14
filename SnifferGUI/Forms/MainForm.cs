@@ -27,6 +27,10 @@ namespace SnifferGUI.Forms
         ushort[] blackList = (ushort[])Config.Instance.blackList.Clone();//Не забывать их обновлять и делать lock
         bool captureEnable = true; //Идёт ди запись
         TeraPacketParser currentPacket;//Текущий пакет, для просмотра
+        //Поиск Hex значений по пакетам
+        byte[] hexSearch;
+        bool hexSearchEnable = false;
+
         public MainForm()
         {
             InitializeComponent();
@@ -81,6 +85,10 @@ namespace SnifferGUI.Forms
                     if (blackList == null) return;
                     if (blackList.Contains(packet.opCode)) return;
                 }
+                if (hexSearchEnable)
+                    if (hexSearch != null)
+                        if (!searchByteArrayinByteArray(packet.data, hexSearch))
+                            return;
                 packets.Add(packet);
             }
             dataCountInt += packet.size;
@@ -283,6 +291,54 @@ namespace SnifferGUI.Forms
             ViewValueForm vvForm = new ViewValueForm();
             vvForm.packet = currentPacket;
             vvForm.Show();
+        }
+
+        private void toolStripButtonSearch_Click(object sender, EventArgs e)
+        {
+            hexSearchEnable = !hexSearchEnable;
+            if (hexSearchEnable)
+                toolStripButtonSearch.Image = Properties.Resources.check;
+            else
+                toolStripButtonSearch.Image = Properties.Resources.cross;
+        }
+
+        private void toolStripTextBoxForSearch_TextChanged(object sender, EventArgs e)
+        {
+            hexSearchEnable = false;
+                toolStripButtonSearch.Image = Properties.Resources.cross;
+                try
+                {
+                    hexSearch = stringToByteArray(toolStripTextBoxForSearch.Text);
+                }
+                catch { hexSearch = null; }
+        }
+
+        public static byte[] stringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+
+        public static bool searchByteArrayinByteArray(byte[] buffer,byte[] search, int start = 0)
+        {
+            for(int i = start;i<buffer.Length;i++)
+            {
+                if (buffer.Length - i < search.Length)
+                    return false;
+                bool flag = true;
+                for(int j = 0; j<search.Length;j++)
+                {
+                    if (buffer[i + j] != search[j])
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) return true;
+            }
+            return false;
         }
     }
 }
