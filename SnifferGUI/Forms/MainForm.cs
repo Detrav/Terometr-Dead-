@@ -29,7 +29,7 @@ namespace SnifferGUI.Forms
         TeraPacketParser currentPacket;//Текущий пакет, для просмотра
         //Поиск Hex значений по пакетам
         byte[] hexSearch;
-        bool hexSearchEnable = false;
+        int hexSearchNum = 0;
 
         public MainForm()
         {
@@ -64,10 +64,11 @@ namespace SnifferGUI.Forms
             }
             //splitContainer1.IsSplitterFixed = true;
             timer1.Enabled = true;
-            /*Random rnd = new Random();
+            
+            Random rnd = new Random();
             Byte[] b = new Byte[500];
             rnd.NextBytes(b);
-            PacketWithStructure.getRtf(ref richTextBox1,b);*/
+            packets.Add(TeraPacketCreator.create(new TeraPacket(b, TeraPacket.Type.Recv)));
         }
 
         void sniffer_onParsePacket(Connection connection, TeraPacket packet)
@@ -85,10 +86,6 @@ namespace SnifferGUI.Forms
                     if (blackList == null) return;
                     if (blackList.Contains(packet.opCode)) return;
                 }
-                if (hexSearchEnable)
-                    if (hexSearch != null)
-                        if (!searchByteArrayinByteArray(packet.data, hexSearch))
-                            return;
                 packets.Add(packet);
             }
             dataCountInt += packet.size;
@@ -281,7 +278,7 @@ namespace SnifferGUI.Forms
             }
             panelPacketView.Enabled = true;
             richTextBox1.Text = currentPacket.ToString();
-
+            reColorRtfBySearch();
 
             //currentPacket.data;
         }
@@ -295,22 +292,75 @@ namespace SnifferGUI.Forms
 
         private void toolStripButtonSearch_Click(object sender, EventArgs e)
         {
-            hexSearchEnable = !hexSearchEnable;
-            if (hexSearchEnable)
-                toolStripButtonSearch.Image = Properties.Resources.check;
-            else
-                toolStripButtonSearch.Image = Properties.Resources.cross;
+            if (captureEnable) return;
+            try { hexSearch = stringToByteArray(toolStripTextBoxForSearch.Text); }
+            catch { hexSearch = null; }
+            if (hexSearch == null) return;
+
+            for (; hexSearchNum < packets.Count; hexSearchNum++)
+                if (searchByteArrayinByteArray(packets[hexSearchNum].data, hexSearch))
+                {
+                    listView1.SelectedIndices.Clear();
+                    listView1.SelectedIndices.Add(hexSearchNum);
+                    hexSearchNum++;
+                    if (hexSearchNum >= packets.Count-1) hexSearchNum = 0;
+                    return;
+                }
+            if (hexSearchNum >= packets.Count) hexSearchNum = 0;
+            MessageBox.Show("Ничего не найдено");
+        }
+
+        private void reColorRtfBySearch()
+        {
+            if (hexSearch == null) return;
+            for (int i = 0; i < currentPacket.data.Length; i++)
+            {
+                if (currentPacket.data.Length - i < hexSearch.Length)
+                    return;
+                bool flag = true;
+                for (int j = 0; j < hexSearch.Length; j++)
+                {
+                    if (currentPacket.data[i + j] != hexSearch[j])
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                {
+                    for (int j = 0; j < hexSearch.Length; j++)
+                        highlight(i + j, Color.Black, Color.White);
+                }
+            }
+        }
+
+        private void highlight(int p, Color color1, Color color2)
+        {
+            /*
+Offset 00 01 02 03 04 05 06 07 | 08 09 0A 0B 0C 0D 0E 0F  0123456789ABCDEF
+ 0000: 87 05 F9 6E E1 D6 2F E4 | 2D C6 E7 0C DC F7 D6 73  ..ùnáÖ/ä-Æç.Ü÷Ös
+ 0010: 52 87 65 3B 4D 82 04 AB | 12 9C BA 4C 98 43 7E 1E  R.e;M..«..ºL.C~.
+ 0020: 3F 89 39 A3 DF F0 B4 7F | B7 C6 8C BB D8 30 31 EF  ?.9£ßð´.·Æ.»Ø01ï
+ 0030: D3 65 F4 3C A4 DE 83 04 | 00 4D 5B 45 1C E3 4B EA  Óeô<¤Þ...M[E.ãKê
+ 0040: 48 C9 CD 52 BE 33 93 61 | D3 E5 83 87 F6 48 D3 E1  HÉÍR¾3.aÓå..öHÓá
+ 0050: 6A CA 78 33 4E 41 79 60 | 06 34 A2 91 95 6E 63 D4  jÊx3NAy`.4¢..ncÔ
+ 0060: 7A A1 72 0F 63 DE 31 A0 | D2 92 68 BF 5A FB 0E B8  z¡r.cÞ1 Ò.h¿Zû.¸
+             */
+            int row = p / 16;
+            int start = (1 + row) * 75 + 7;
+            int col = p % 16;
+            if (col >= 8)
+            { start += 26; col -= 8; }
+            start += col * 3;
+            richTextBox1.SelectionStart = start;
+            richTextBox1.SelectionLength = 2;
+            richTextBox1.SelectionColor = color2;
+            richTextBox1.SelectionBackColor = color1;
         }
 
         private void toolStripTextBoxForSearch_TextChanged(object sender, EventArgs e)
         {
-            hexSearchEnable = false;
-                toolStripButtonSearch.Image = Properties.Resources.cross;
-                try
-                {
-                    hexSearch = stringToByteArray(toolStripTextBoxForSearch.Text);
-                }
-                catch { hexSearch = null; }
+            
         }
 
         public static byte[] stringToByteArray(string hex)
