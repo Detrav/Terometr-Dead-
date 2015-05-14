@@ -285,8 +285,5 @@ namespace Sniffer.Tera
                     sb.Append(0);
             return sb.ToString();
         }
-
-                    
-        
     }
 }
