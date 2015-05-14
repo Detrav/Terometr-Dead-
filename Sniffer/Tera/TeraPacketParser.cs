@@ -25,7 +25,7 @@ namespace Sniffer.Tera
             readUInt16("opcode");
         }
 
-        protected void readBitArray(string p)
+        protected System.Collections.BitArray readBitArray(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -35,8 +35,9 @@ namespace Sniffer.Tera
                 type = "bitarray"
             }; 
             elements.Add(el);
+            return (System.Collections.BitArray)el.value;
         }
-        protected void readByte(string p)
+        protected byte readByte(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -46,8 +47,9 @@ namespace Sniffer.Tera
                 type = "byte"
             }; 
             elements.Add(el);
+            return (byte)el.value;
         }
-        protected void readSByte(string p)
+        protected sbyte readSByte(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -57,8 +59,9 @@ namespace Sniffer.Tera
                 type = "sbyte"
             }; 
             elements.Add(el);
+            return (sbyte)el.value;
         }
-        protected void readUInt16(string p)
+        protected ushort readUInt16(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -68,8 +71,9 @@ namespace Sniffer.Tera
                 type = "ushort"
             }; 
             elements.Add(el);
+            return (ushort)el.value;
         }
-        protected void readInt16(string p)
+        protected short readInt16(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -79,8 +83,9 @@ namespace Sniffer.Tera
                 type = "short"
             };
             elements.Add(el);
+            return (short)el.value;
         }
-        protected void readUInt32(string p)
+        protected uint readUInt32(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -90,8 +95,9 @@ namespace Sniffer.Tera
                 type = "uint"
             };
             elements.Add(el);
+            return (uint)el.value;
         }
-        protected void readInt32(string p)
+        protected int readInt32(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -101,8 +107,9 @@ namespace Sniffer.Tera
                 type = "int"
             };
             elements.Add(el);
+            return (int)el.value;
         }
-        protected void readUInt64(string p)
+        protected ulong readUInt64(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -112,8 +119,9 @@ namespace Sniffer.Tera
                 type = "ulong"
             };
             elements.Add(el);
+            return (ulong)el.value;
         }
-        protected void readInt64(string p)
+        protected long readInt64(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -123,8 +131,9 @@ namespace Sniffer.Tera
                 type = "long"
             };
             elements.Add(el);
+            return (long)el.value;
         }
-        protected void readSingle(string p)
+        protected float readSingle(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -134,8 +143,9 @@ namespace Sniffer.Tera
                 type = "float"
             };
             elements.Add(el);
+            return (float)el.value;
         }
-        protected void readDouble(string p)
+        protected double readDouble(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -145,8 +155,9 @@ namespace Sniffer.Tera
                 type = "double"
             };
             elements.Add(el);
+            return (double)el.value;
         }
-        protected void readChar(string p)
+        protected char readChar(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -156,8 +167,9 @@ namespace Sniffer.Tera
                 type = "char"
             };
             elements.Add(el);
+            return (char)el.value;
         }
-        protected void readString(string p)
+        protected string readString(string p)
         {
             PacketElement el = new PacketElement
             {
@@ -167,12 +179,13 @@ namespace Sniffer.Tera
                 type = "string"
             };
             elements.Add(el);
+            return (string)el.value;
         }
 
-        protected void readBoolean(string p, byte s)
+        protected bool readBoolean(string p, byte s)
         {
             if (s > 7)
-                return;
+                return false;
             var temp = new System.Collections.BitArray(new byte[1] { br.ReadByte() });
             PacketElement el = new PacketElement
             {
@@ -183,9 +196,10 @@ namespace Sniffer.Tera
                 type = "boolean"
             };
             elements.Add(el);
+            return (bool)el.value;
         }
 
-        protected void readHex(string p, int lenght)
+        protected string readHex(string p, int lenght)
         {
             PacketElement el = new PacketElement
             {
@@ -198,6 +212,7 @@ namespace Sniffer.Tera
                 result.AppendFormat("{0:X2}", br.ReadByte());
             el.value = result.ToString();
             elements.Add(el);
+            return (string)el.value;
         }
 
         protected void close()
