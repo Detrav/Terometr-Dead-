@@ -1,8 +1,16 @@
 ﻿<Window x:Class="Terometr.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="MainWindow" Height="350" Width="525"
+        Closing="Window_Closing"
+        >
+    <DataGrid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0,0,0,0" Loaded="DataGrid_Loaded" Name="dataGrid" Unloaded="dataGrid_Unloaded"
+              CanUserAddRows="False" CanUserDeleteRows="False">
+        <DataGrid.Columns>
+            <DataGridTextColumn Header="#" Binding="{Binding [0]}"/>
+            <DataGridTextColumn Header="Player name" Binding="{Binding [1]}"/>
+            <DataGridTextColumn Header="Player id" Binding="{Binding [2]}"/>
+        </DataGrid.Columns>
+    </DataGrid>
+
 </Window>
