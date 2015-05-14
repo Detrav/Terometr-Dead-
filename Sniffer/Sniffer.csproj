@@ -49,6 +49,7 @@
     <Compile Include="Tera\OpCode2805.cs" />
     <Compile Include="Tera\P2805\S_EACH_SKILL_RESULT.cs" />
     <Compile Include="Tera\P2805\S_LOGIN.cs" />
+    <Compile Include="Tera\P2805\S_SPAWN_USER.cs" />
     <Compile Include="Tera\TeraPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Capture.cs" />
