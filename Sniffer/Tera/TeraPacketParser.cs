@@ -25,6 +25,30 @@ namespace Sniffer.Tera
             readUInt16(2,"opcode");
         }
 
+        public PacketElement this[string str]
+        {
+            get
+            {
+                foreach (var el in elements)
+                    if (el.name == str)
+                        return el;
+                return null;
+            }
+            set
+            {
+                foreach (var el in elements)
+                    if (el.name == str)
+                    {
+                        el.shift = value.shift;
+                        el.start = value.start;
+                        el.type = value.type;
+                        el.value = value.value;
+                        return;
+                    }
+                elements.Add(value);
+            }
+        }
+
         protected System.Collections.BitArray readBitArray(ushort pos,string p)
         {
             PacketElement el = new PacketElement
@@ -33,8 +57,8 @@ namespace Sniffer.Tera
                 start = pos,
                 value = new System.Collections.BitArray(new byte[1] { data[pos] }),
                 type = "bitarray"
-            }; 
-            elements.Add(el);
+            };
+            this[p] = el;
             return (System.Collections.BitArray)el.value;
         }
         protected byte readByte(ushort pos,string p)
@@ -46,7 +70,7 @@ namespace Sniffer.Tera
                 value = data[pos],
                 type = "byte"
             }; 
-            elements.Add(el);
+            this[p] =el;
             return (byte)el.value;
         }
         protected sbyte readSByte(ushort pos,string p)
@@ -57,8 +81,8 @@ namespace Sniffer.Tera
                 start = pos,
                 value = (sbyte)data[pos],
                 type = "sbyte"
-            }; 
-            elements.Add(el);
+            };
+            this[p] = el;
             return (sbyte)el.value;
         }
         protected ushort readUInt16(ushort pos,string p)
@@ -69,8 +93,8 @@ namespace Sniffer.Tera
                 start = pos,
                 value = BitConverter.ToUInt16(data,pos),
                 type = "ushort"
-            }; 
-            elements.Add(el);
+            };
+            this[p] = el;
             return (ushort)el.value;
         }
         protected short readInt16(ushort pos,string p)
@@ -82,7 +106,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToInt16(data, pos),
                 type = "short"
             };
-            elements.Add(el);
+            this[p] = el;
             return (short)el.value;
         }
         protected uint readUInt32(ushort pos, string p)
@@ -94,7 +118,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToUInt32(data,pos),
                 type = "uint"
             };
-            elements.Add(el);
+            this[p] = el;
             return (uint)el.value;
         }
         protected int readInt32(ushort pos ,string p)
@@ -106,7 +130,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToInt32(data,pos),
                 type = "int"
             };
-            elements.Add(el);
+            this[p] = el;
             return (int)el.value;
         }
         protected ulong readUInt64(ushort pos,string p)
@@ -118,7 +142,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToUInt64(data,pos),
                 type = "ulong"
             };
-            elements.Add(el);
+            this[p] = el;
             return (ulong)el.value;
         }
         protected long readInt64(ushort pos,string p)
@@ -130,7 +154,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToInt64(data,pos),
                 type = "long"
             };
-            elements.Add(el);
+            this[p] = el;
             return (long)el.value;
         }
         protected float readSingle(ushort pos,string p)
@@ -142,7 +166,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToSingle(data,pos),
                 type = "float"
             };
-            elements.Add(el);
+            this[p] = el;
             return (float)el.value;
         }
         protected double readDouble(ushort pos, string p)
@@ -154,7 +178,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToDouble(data,pos),
                 type = "double"
             };
-            elements.Add(el);
+            this[p] = el;
             return (double)el.value;
         }
         protected char readChar(ushort pos, string p)
@@ -166,7 +190,7 @@ namespace Sniffer.Tera
                 value = BitConverter.ToChar(data,pos),
                 type = "char"
             };
-            elements.Add(el);
+            this[p] = el;
             return (char)el.value;
         }
         protected string readString(ushort pos,string p, int len = int.MaxValue)
@@ -187,8 +211,8 @@ namespace Sniffer.Tera
                 else
                     result.Append(c);
             }
-            el.value = result.ToString();            
-            elements.Add(el);
+            el.value = result.ToString();
+            this[p] = el;
             return (string)el.value;
         }
 
@@ -205,7 +229,7 @@ namespace Sniffer.Tera
                 shift = s,
                 type = "boolean"
             };
-            elements.Add(el);
+            this[p] = el;
             return (bool)el.value;
         }
 
@@ -221,7 +245,7 @@ namespace Sniffer.Tera
             for (int i = 0; i< lenght; i++)
                 result.AppendFormat("{0:X2}", data[i]);
             el.value = result.ToString();
-            elements.Add(el);
+            this[p] = el;
             return (string)el.value;
         }
 
