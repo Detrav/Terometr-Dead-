@@ -13,6 +13,7 @@ namespace Sniffer.Tera
         private TeraPacketCreator()
         {
             opCodes2805.Add((ushort)OpCode2805.C_CHECK_VERSION, typeof(P2805.C_CHECK_VERSION));
+            opCodes2805.Add((ushort)OpCode2805.S_EACH_SKILL_RESULT, typeof(P2805.S_EACH_SKILL_RESULT));
         }
 
         private static TeraPacketCreator Instance

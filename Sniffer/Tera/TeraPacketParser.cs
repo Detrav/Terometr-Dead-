@@ -175,9 +175,19 @@ namespace Sniffer.Tera
             {
                 name = p,
                 start = (ushort)ms.Position,
-                value = br.ReadString(),
                 type = "string"
             };
+            ushort start = (ushort)ms.Position;
+            StringBuilder result = new StringBuilder();
+            for (int i = start; ; i += 2)
+            {
+                char c = br.ReadChar();
+                if (c == '\0')
+                    break;
+                else
+                    result.Append(c);
+            }
+            el.value = result.ToString();            
             elements.Add(el);
             return (string)el.value;
         }
@@ -267,7 +277,7 @@ namespace Sniffer.Tera
             return sb.ToString();
         }
 
-        private static string byteArrayToHexString(byte[] data, int start, int length)
+        public static string byteArrayToHexString(byte[] data, int start, int length)
         {
             StringBuilder result = new StringBuilder();
             for (int i = start; i < data.Length && i < start + length; i++)
@@ -284,6 +294,19 @@ namespace Sniffer.Tera
                 {
                     result.Append('.');
                 }
+                else
+                    result.Append(c);
+            }
+            return result.ToString();
+        }
+        public static string byteArrayToString(byte[] data, int start)
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = start; i < data.Length; i+=2)
+            {
+                char c = BitConverter.ToChar(data,i);
+                if (c == '\0')
+                    return result.ToString();
                 else
                     result.Append(c);
             }

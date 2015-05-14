@@ -11,13 +11,17 @@ namespace Sniffer.Tera.P2805
         public C_CHECK_VERSION(TeraPacket packet)
             : base(packet)
         {
-            int count = readUInt16("count");
-            for (int i = 0; i < count; i++)
+            try
             {
-                readInt32("NowShift & NextShift");
-                readInt32("Unk1");
-                readInt32("Unk2");
+                int count = readUInt16("count");
+                for (int i = 0; i < count; i++)
+                {
+                    readInt32("NowShift & NextShift");
+                    readInt32("Unk1");
+                    readInt32("Unk2");
+                }
             }
+            catch { }
         }
     }
 }

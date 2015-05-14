@@ -268,13 +268,20 @@ namespace SnifferGUI.Forms
             if (listView1.SelectedItems.Count == 0) { panelPacketView.Enabled = false; currentPacket = null; return; }
             lock(packets)
             {
-                currentPacket = new TeraPacketParser(packets[listView1.SelectedItems[0].Index]);
+                currentPacket = TeraPacketCreator.create(packets[listView1.SelectedItems[0].Index]);
             }
             panelPacketView.Enabled = true;
             richTextBox1.Text = currentPacket.ToString();
 
 
             //currentPacket.data;
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            ViewValueForm vvForm = new ViewValueForm();
+            vvForm.packet = currentPacket;
+            vvForm.Show();
         }
     }
 }
