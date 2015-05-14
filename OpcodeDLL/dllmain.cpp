@@ -30,14 +30,13 @@ DWORD WINAPI Thread(LPVOID nothing)
 {
 	ofstream fileOut;
 	ofstream fileOut2;
-	ofstream fileOutXml;
+	ofstream fileOutcs;
 	fileOut.open(OpCodeVersion + "_OpCodes_Dec.txt", ios::out);
 	fileOut2.open(OpCodeVersion + "_OpCodes_Hex.txt", ios::out);
-	fileOutXml.open(OpCodeVersion + "_OpCodes.xml", ios::out);
+	fileOutcs.open(OpCodeVersion + "_OpCodes.cs", ios::out);
 	
 	string name = "";
-	fileOutXml << "<?xml version=\"1.0\" encoding=\"utf - 8\"?>" << endl;
-	fileOutXml << "<ArrayOfString xmlns : xsi = \"http://www.w3.org/2001/XMLSchema-instance\" xmlns : xsd = \"http://www.w3.org/2001/XMLSchema\">" << endl;
+	fileOutcs << " enum OpCode" << OpCodeVersion << " : ushort {" << endl;
 	for (int i = 0; i < 0x10000; i++)
 	{
 		name = GetOpCodeName(i);
@@ -49,15 +48,16 @@ DWORD WINAPI Thread(LPVOID nothing)
 			//file2 hex output
 			fileOut2 << name << " = 0x" << std::hex << i << endl; //this will print the number in hexadecimal
 
+			//file3 cs version of enum for c#.net
+			fileOutcs << name << " = " << i << "," << endl;
 		}
-		//file3 xml version for c#.net
-		fileOutXml << "<string>" << name << "</string>" << endl;
+		
 	}
-	fileOutXml << "</ArrayOfString>";
+	fileOutcs << "}";
 
 	fileOut.close();
 	fileOut2.close();
-	fileOutXml.close();
+	fileOutcs.close();
 
 	return 1;
 }
