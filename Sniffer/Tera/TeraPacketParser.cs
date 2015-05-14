@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Sniffer.Tera
 {
-    class TeraPacketParser : TeraPacket
+    public class TeraPacketParser : TeraPacket
     {
 
         MemoryStream ms;
