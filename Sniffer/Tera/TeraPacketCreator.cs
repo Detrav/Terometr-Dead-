@@ -14,12 +14,13 @@ namespace Sniffer.Tera
         {
             opCodes2805.Add((ushort)OpCode2805.C_CHECK_VERSION, typeof(P2805.C_CHECK_VERSION));
             opCodes2805.Add((ushort)OpCode2805.S_EACH_SKILL_RESULT, typeof(P2805.S_EACH_SKILL_RESULT));
+            opCodes2805.Add((ushort)OpCode2805.S_LOGIN, typeof(P2805.S_LOGIN));
           /* 
            * На вскидку след пакеты нужны полюбому
            * 21055 S_CREATURE_CHANGE_HP
            * 21742 S_ACTION_END
            * 39998 S_SPAWN_PROJECTILE
-           * 48244 S_LOGIN
+           *+48244 S_LOGIN
            * 55589 S_EACH_SKILL_RESULT
            * 57037 S_NPC_LOCATION
            * 57105 S_DESPAWN_PROJECTILE

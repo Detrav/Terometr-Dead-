@@ -169,7 +169,7 @@ namespace Sniffer.Tera
             elements.Add(el);
             return (char)el.value;
         }
-        protected string readString(string p)
+        protected string readString(string p, int len = int.MaxValue)
         {
             PacketElement el = new PacketElement
             {
@@ -179,7 +179,7 @@ namespace Sniffer.Tera
             };
             ushort start = (ushort)ms.Position;
             StringBuilder result = new StringBuilder();
-            for (int i = start; ; i += 2)
+            for (int i = start; i<len ; i += 2)
             {
                 char c = br.ReadChar();
                 if (c == '\0')
