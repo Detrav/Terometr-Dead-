@@ -267,10 +267,10 @@ namespace Sniffer.Tera
                         sb.AppendFormat(str_with_shift, el.start, el.shift, el.name, el.value, el.type);
                         break;
                     case "bitarray":
-                        sb.AppendFormat(str, el.start, el.shift, el.name, bitArrayToString(el.value as System.Collections.BitArray), el.type);
+                        sb.AppendFormat(str, el.start, el.name, bitArrayToString(el.value as System.Collections.BitArray), el.type);
                         break;
                     default:
-                        sb.AppendFormat(str, el.start, el.shift, el.name, el.value, el.type);
+                        sb.AppendFormat(str, el.start, el.name, el.value, el.type);
                         break;
                 }
             }
@@ -282,6 +282,13 @@ namespace Sniffer.Tera
             StringBuilder result = new StringBuilder();
             for (int i = start; i < data.Length && i < start + length; i++)
                 result.AppendFormat("{0:X2} ", data[i]);
+            return result.ToString();
+        }
+        public static string byteArrayToHexStringRightToLeft(byte[] data, int start, int length)
+        {
+            StringBuilder result = new StringBuilder();
+            for (int i = start; i < data.Length && i < start + length; i++)
+                result.AppendFormat("{0:X2}", data[i]);
             return result.ToString();
         }
         private static string byteArrayToCharArray(byte[] data, int start, int length)
