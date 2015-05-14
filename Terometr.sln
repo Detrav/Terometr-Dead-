@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NdisApiWrapper", "ndisapi\N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SnifferGUI", "SnifferGUI\SnifferGUI.csproj", "{5531E5E2-46ED-4DC6-AB8F-F704561E11A0}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terometr", "Terometr\Terometr.csproj", "{E4D94429-5720-480B-AA03-ED443895B624}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -98,6 +100,18 @@ Global
 		{5531E5E2-46ED-4DC6-AB8F-F704561E11A0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5531E5E2-46ED-4DC6-AB8F-F704561E11A0}.Release|Win32.ActiveCfg = Release|Any CPU
 		{5531E5E2-46ED-4DC6-AB8F-F704561E11A0}.Release|x64.ActiveCfg = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Win32.ActiveCfg = Release|Any CPU
+		{E4D94429-5720-480B-AA03-ED443895B624}.Release|x64.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
