@@ -26,7 +26,7 @@ namespace SnifferGUI.Forms
         bool blackListEnable = Config.Instance.blackListEnable;//
         int[] blackList = Config.Instance.blackListInt;//Не забывать их обновлять и делать lock
         bool captureEnable = true; //Идёт ди запись
-        TeraPacket currentPacket;//Текущий пакет, для просмотра
+        TeraPacketParser currentPacket;//Текущий пакет, для просмотра
         public MainForm()
         {
             InitializeComponent();
@@ -266,9 +266,10 @@ namespace SnifferGUI.Forms
             if (listView1.SelectedItems.Count == 0) { panelPacketView.Enabled = false; currentPacket = null; return; }
             lock(packets)
             {
-                currentPacket = packets[listView1.SelectedItems[0].Index];
+                currentPacket = new TeraPacketParser(packets[listView1.SelectedItems[0].Index]);
             }
             panelPacketView.Enabled = true;
+            richTextBox1.Text = currentPacket.ToString();
 
 
             //currentPacket.data;
