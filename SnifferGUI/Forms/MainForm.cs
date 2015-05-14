@@ -151,8 +151,9 @@ namespace SnifferGUI.Forms
                     listView1.Items.RemoveAt(0);
                 }
             }
-            if(listView1.Items.Count>0)
-            listView1.Items[listView1.Items.Count - 1].EnsureVisible();
+            if (listView1.Items.Count > 0)
+                if (captureEnable)
+                    listView1.Items[listView1.Items.Count - 1].EnsureVisible();
             delay = DateTime.Now;
             timer1.Enabled = true;
         }
