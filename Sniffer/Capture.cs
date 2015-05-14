@@ -1,5 +1,6 @@
 ﻿using NdisApiWrapper;
 using PacketDotNet;
+using Sniffer.Tera;
 using System;
 using System.Collections;
 using System.Collections.Generic;

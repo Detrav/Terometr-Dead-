@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sniffer
+namespace Sniffer.Tera
 {
     public class TeraPacket
     {
