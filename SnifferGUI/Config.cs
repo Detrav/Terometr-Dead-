@@ -18,7 +18,6 @@ namespace SnifferGUI
         private Config()
         {
             loadConfig();
-            loadPacketName();
         }
 
         internal static Config Instance
@@ -30,15 +29,13 @@ namespace SnifferGUI
                 return instance;
             }
         }
-
         internal string serverIp = "";
         internal int adapterNumber = 0;
         internal int packetMaxCount = 1000;
-        internal string[] packetName;
         internal bool whiteListEnable = false;
         internal bool blackListEnable = false;
-        internal string[] whiteList;
-        internal string[] blackList;
+        internal ushort[] whiteList = new ushort[0];
+        internal ushort[] blackList = new ushort[0];
 
         internal static void saveConfig()
         {
@@ -55,14 +52,14 @@ namespace SnifferGUI
                 {
                     xw.WriteStartElement("whiteList");
                     foreach (var el in Instance.whiteList)
-                        xw.WriteElementString("whiteListElement", el);
+                        xw.WriteElementString("whiteListElement", el.ToString());
                     xw.WriteEndElement();
                 }
                 if (Instance.blackList != null)
                 {
                     xw.WriteStartElement("blackList");
                     foreach (var el in Instance.blackList)
-                        xw.WriteElementString("blackListElement", el);
+                        xw.WriteElementString("blackListElement", el.ToString());
                     xw.WriteEndElement();
                 }
                 xw.WriteEndElement();
@@ -76,14 +73,14 @@ namespace SnifferGUI
                 XmlDocument xd = new XmlDocument();
                 xd.Load(xr);
                 XmlNodeList elemets = xd.GetElementsByTagName("Config");
-                if(elemets.Count>0)
+                if (elemets.Count > 0)
                 {
-                    foreach(XmlNode el in elemets[0].ChildNodes)
+                    foreach (XmlNode el in elemets[0].ChildNodes)
                     {
-                        switch(el.Name)
+                        switch (el.Name)
                         {
                             case "serverIp":
-                                if(el.InnerText!=null)
+                                if (el.InnerText != null)
                                     serverIp = el.InnerText;
                                 break;
                             case "adapterNnumber":
@@ -103,17 +100,17 @@ namespace SnifferGUI
                                     blackListEnable = Boolean.Parse(el.InnerText);
                                 break;
                             case "whiteList":
-                                List<string> wl = new List<string>();
-                                foreach(XmlNode wlel in el.ChildNodes)
+                                List<ushort> wl = new List<ushort>();
+                                foreach (XmlNode wlel in el.ChildNodes)
                                     if (wlel.Name == "whiteListElement")
-                                        wl.Add(wlel.InnerText);
+                                        wl.Add(UInt16.Parse(wlel.InnerText));
                                 whiteList = wl.ToArray();
                                 break;
                             case "blackList":
-                                List<string> bl = new List<string>();
+                                List<ushort> bl = new List<ushort>();
                                 foreach (XmlNode blel in el.ChildNodes)
                                     if (blel.Name == "blackListElement")
-                                        bl.Add(blel.InnerText);
+                                        bl.Add(UInt16.Parse(blel.InnerText));
                                 blackList = bl.ToArray();
                                 break;
                         }
@@ -121,51 +118,28 @@ namespace SnifferGUI
                 }
             }
         }
-        private void loadPacketName()
+
+        public static string getPacketName(ushort opCode)
         {
-            using (TextReader tr = new StreamReader(Path.Combine("assets", "packets.xml")))
-            {
-                XmlSerializer ser = new XmlSerializer(typeof(string[]));
-                packetName = (string[])ser.Deserialize(tr);
-            }
+            return ((Sniffer.Tera.OpCode2805)opCode).ToString();
+        }
+        public static ushort[] getArrayOfPacketsName(string[] names)
+        {
+            ushort[] result = new ushort[names.Length];
+            for (int i = 0; i < names.Length;i++ )
+                result [i] = (ushort)Enum.Parse(typeof(Sniffer.Tera.OpCode2805), names[i]);
+            return result;
+        }
+        public static bool isPacketName(string name)
+        {
+            Sniffer.Tera.OpCode2805 opcodes;
+            return Enum.TryParse<Sniffer.Tera.OpCode2805>(name, out opcodes);
+        }
+        public static bool isPacket(ushort opCode)
+        {
+            return Enum.IsDefined(typeof(Sniffer.Tera.OpCode2805), opCode);
         }
 
-        public int[] whiteListInt
-        {
-            get
-            {
-                if(whiteList == null) return new int[0];
-                List<int> result = new List<int>();
-                foreach(string el in whiteList)
-                {
-                    for (int i = 0; i < packetName.Length; i++)
-                        if (packetName[i] == el)
-                        {
-                            result.Add(i);
-                            continue;
-                        }
-                }
-                return result.ToArray();
-            }
-        }
-
-        public int[] blackListInt
-        {
-            get
-            {
-                if (blackList == null) return new int[0];
-                List<int> result = new List<int>();
-                foreach (string el in blackList)
-                {
-                    for (int i = 0; i < packetName.Length; i++)
-                        if (packetName[i] == el)
-                        {
-                            result.Add(i);
-                            continue;
-                        }
-                }
-                return result.ToArray();
-            }
-        }
+       
     }
 }

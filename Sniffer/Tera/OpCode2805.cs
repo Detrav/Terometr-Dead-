@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sniffer.Tera
 {
-    enum OpCode2805 : ushort
+    public enum OpCode2805 : ushort
     {
         I_TELEPORT = 0,
         I_SPAWN_BARRACK_CHARACTER = 1,

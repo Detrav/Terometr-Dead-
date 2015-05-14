@@ -115,8 +115,8 @@ namespace SnifferGUI
                 sb.AppendFormat(" {0:X4}: {1,-24}| {2,-24} {3,-16}\n", i, byteArrayToHexString(data, i, 8), byteArrayToHexString(data, i + 8, 8), byteArrayToCharArray(data,i,16));
             }
             sb.AppendFormat("\n{0:X4} - Размер: {1}\n",0, BitConverter.ToUInt16(data, 0));
-            int opCode = BitConverter.ToUInt16(data, 2);
-            string opCodeName = Config.Instance.packetName[opCode];
+            ushort opCode = BitConverter.ToUInt16(data, 2);
+            string opCodeName = Config.getPacketName(opCode);
             if (opCodeName == "") opCodeName = "_I_UNKNOWN_RLY_SORRY";
             sb.AppendFormat("{0:X4} - Код: {1} : {2}\n",2, opCode, opCodeName);
             foreach (var el in elements)

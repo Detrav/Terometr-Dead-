@@ -21,10 +21,10 @@ namespace SnifferGUI.Forms
         int outPacketCountInt = 0;
         DateTime delay = DateTime.Now;
         List<TeraPacket> packets = new List<TeraPacket>();
-        int[] whiteList = Config.Instance.whiteListInt;//Не забывать их обновлять и делать lock
+        ushort[] whiteList = (ushort[])Config.Instance.whiteList.Clone();//Не забывать их обновлять и делать lock
         bool whiteListEnable = Config.Instance.whiteListEnable;//
         bool blackListEnable = Config.Instance.blackListEnable;//
-        int[] blackList = Config.Instance.blackListInt;//Не забывать их обновлять и делать lock
+        ushort[] blackList = (ushort[])Config.Instance.blackList.Clone();//Не забывать их обновлять и делать lock
         bool captureEnable = true; //Идёт ди запись
         TeraPacketParser currentPacket;//Текущий пакет, для просмотра
         public MainForm()
@@ -140,9 +140,9 @@ namespace SnifferGUI.Forms
                     foreach(var p in packets.Skip(listView1.Items.Count))
                     {
                         if (p.type == TeraPacket.Type.Recv)
-                            listView1.Items.Add(new ListViewItem(new string[] { "in", p.size.ToString(), Config.Instance.packetName[p.opCode] }));
+                            listView1.Items.Add(new ListViewItem(new string[] { "in", p.size.ToString(), Config.getPacketName(p.opCode) }));
                         else
-                            listView1.Items.Add(new ListViewItem(new string[] { "out", p.size.ToString(), Config.Instance.packetName[p.opCode] }));
+                            listView1.Items.Add(new ListViewItem(new string[] { "out", p.size.ToString(), Config.getPacketName(p.opCode) }));
                     }
                 }
                 while(packets.Count>Config.Instance.packetMaxCount)
@@ -182,39 +182,41 @@ namespace SnifferGUI.Forms
             if (Config.Instance.blackList != null && Config.Instance.blackList.Length > 0)
             {
                 foreach (var el in Config.Instance.blackList)
-                    filtersForm.listBoxBlack.Items.Add(el);
+                    filtersForm.listBoxBlack.Items.Add(Config.getPacketName(el));
                 filtersForm.sortListBox(ref filtersForm.listBoxBlack);
 
-                foreach (var el in Config.Instance.packetName)
-                    if (el.Length > 0)
-                        if (!Config.Instance.blackList.Contains(el))
-                            filtersForm.listBoxPacketsNameForBlack.Items.Add(el);
+                //foreach (var el in Config.getPacketsName())
+                for (ushort i = 0; i < ushort.MaxValue;i++ )
+                    if (Config.isPacket(i))
+                        if (!Config.Instance.blackList.Contains(i))
+                            filtersForm.listBoxPacketsNameForBlack.Items.Add(Config.getPacketName(i));
                 filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForBlack);
             }
             else
             {
-                foreach (var el in Config.Instance.packetName)
-                    if (el.Length > 0)
-                        filtersForm.listBoxPacketsNameForBlack.Items.Add(el);
+                for (ushort i = 0; i < ushort.MaxValue; i++)
+                    if (Config.isPacket(i))
+                        filtersForm.listBoxPacketsNameForBlack.Items.Add(Config.getPacketName(i));
                 filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForBlack);
             }
             if(Config.Instance.whiteList !=null && Config.Instance.whiteList.Length > 0)
             {
                 foreach (var el in Config.Instance.whiteList)
-                    filtersForm.listBoxWhite.Items.Add(el);
+                    filtersForm.listBoxWhite.Items.Add(Config.getPacketName(el));
                 filtersForm.sortListBox(ref filtersForm.listBoxWhite);
 
-                foreach (var el in Config.Instance.packetName)
-                    if (el.Length > 0)
-                        if (!Config.Instance.whiteList.Contains(el))
-                            filtersForm.listBoxPacketsNameForWhite.Items.Add(el);
+                //foreach (var el in Config.getPacketsName())
+                for (ushort i = 0; i < ushort.MaxValue; i++)
+                    if (Config.isPacket(i))
+                        if (!Config.Instance.whiteList.Contains(i))
+                            filtersForm.listBoxPacketsNameForWhite.Items.Add(Config.getPacketName(i));
                 filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForWhite);
             }
             else
             {
-                foreach (var el in Config.Instance.packetName)
-                    if (el.Length > 0)
-                        filtersForm.listBoxPacketsNameForWhite.Items.Add(el);
+                for (ushort i = 0; i < ushort.MaxValue; i++)
+                    if (Config.isPacket(i))
+                        filtersForm.listBoxPacketsNameForWhite.Items.Add(Config.getPacketName(i));
                 filtersForm.sortListBox(ref filtersForm.listBoxPacketsNameForWhite);
             }
             if(filtersForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
@@ -226,26 +228,26 @@ namespace SnifferGUI.Forms
                     List<string> filter = new List<string>();
                     foreach (string el in filtersForm.listBoxBlack.Items)
                         filter.Add(el);
-                    Config.Instance.blackList = filter.ToArray();
+                    Config.Instance.blackList = Config.getArrayOfPacketsName(filter.ToArray());
                 }
                 if (filtersForm.listBoxWhite.Items.Count > 0)
                 {
                     List<string> filter = new List<string>();
                     foreach (string el in filtersForm.listBoxWhite.Items)
                         filter.Add(el);
-                    Config.Instance.whiteList = filter.ToArray();
+                    Config.Instance.whiteList = Config.getArrayOfPacketsName(filter.ToArray());
                 }
                 Config.saveConfig();
                 if (Config.Instance.whiteList!=null)
                 lock (whiteList)
                 {
-                    whiteList = Config.Instance.whiteListInt;
+                    whiteList = (ushort[])Config.Instance.whiteList.Clone();
                 }
                 whiteListEnable = Config.Instance.whiteListEnable;
                 if (Config.Instance.blackList != null)
                 lock (blackList)
                 {
-                    blackList = Config.Instance.blackListInt;
+                    blackList = (ushort[])Config.Instance.blackList.Clone();
                 }
                 blackListEnable = Config.Instance.blackListEnable;
             }
