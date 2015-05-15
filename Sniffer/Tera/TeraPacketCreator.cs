@@ -40,12 +40,12 @@ namespace Sniffer.Tera
             }
         }
 
-        public static TeraPacketParser create(TeraPacket packet)
+        public static TeraPacket create(TeraPacket packet)
         {
             Type p;
             if (Instance.opCodes2805.TryGetValue(packet.opCode,out p))
-             return (TeraPacketParser)Activator.CreateInstance(p, packet);
-            return new TeraPacketParser(packet);
+             return (TeraPacket)Activator.CreateInstance(p, packet);
+            return new TeraPacket(packet);
         }
     }
 }
