@@ -1,0 +1,9 @@
+﻿<Window x:Class="Terometr.Windows.DpsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="DpsWindow" Height="300" Width="300"
+        Style="{StaticResource DpsWindowStyle}">
+    <Grid>
+        
+    </Grid>
+</Window>
