@@ -1,10 +1,15 @@
 ﻿<Window x:Class="Terometr.Windows.DpsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:controls="clr-namespace:Terometr.Themes"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
         Title="DpsWindow" Height="300" Width="300"
         Style="{StaticResource DpsWindowStyle}"
         MinWidth="140"
         MinHeight="48"
+        Loaded="Window_Loaded"
+        StateChanged="Window_StateChanged"
+        ShowInTaskbar="False"
         >
     <DockPanel
                                 HorizontalAlignment="Stretch"
@@ -153,7 +158,7 @@
              166.00,209.00 119.00,209.00 119.00,209.00 Z"
                                                     Width="16"
                                                     Height="16" />
-                            
+
                     </Button>
                     <Button x:Name="buttonNext" Style="{StaticResource DpsWindowStyleTitleBarButton}">
                         <Path
@@ -195,10 +200,34 @@
                                                     />
                     </Button>
                 </StackPanel>
+                <tb:TaskbarIcon Grid.Column="2" x:Name="myNotifyIcon" Width="0" Height="0"
+                    ToolTipText="Fallback ToolTip for Windows xp"
+                        MenuActivation="All"
+                                >
+                    <tb:TaskbarIcon.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Click="MenuItemShow_Click" Header="Показать" />
+                            <MenuItem Click="MenuItem_Click" Header="Выход" />
+                        </ContextMenu>
+                    </tb:TaskbarIcon.ContextMenu>
+                </tb:TaskbarIcon>
             </Grid>
         </Border>
-        <Grid>
-            
-        </Grid>
+        <ListBox x:Name="listBox" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="Transparent" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <controls:DpsRow Padding="0" Margin="0" HorizontalAlignment="Stretch"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="{x:Type ListBoxItem}">
+                    <Setter Property="Margin" Value="0 0 0 0"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <controls:DpsRow procent="100" playerCount="123(45.6%)" playerName="Test"/>
+        </ListBox>
     </DockPanel>
 </Window>
