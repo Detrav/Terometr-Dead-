@@ -22,6 +22,17 @@ namespace Terometr.Windows
         public DpsWindow()
         {
             InitializeComponent();
+            
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void buttonClose_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
         }
     }
 }
