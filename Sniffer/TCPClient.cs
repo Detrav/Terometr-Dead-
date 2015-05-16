@@ -23,28 +23,35 @@ namespace Sniffer
         uint[] seq = new uint[2];
         ushort[] src_port = new ushort[2];
         bool closed = false;
+        internal bool flagToDebug = false;
+        TextWriter debugWriter;
 
-
-        public TcpClient()
+        public TcpClient() : this(false) { }
+        public TcpClient(bool _flagToDebug)
         {
             // TODO: Complete member initialization
             frags[0] = new List<tcp_frag>();
             frags[1] = new List<tcp_frag>();
             reset_tcp_reassembly();
             teraClient = new Client();
+            flagToDebug = _flagToDebug;
         }
         public void Close()
         {
             if (!closed)
             {
-                if(tw!=null)
+                try
                 {
-                    try{tw.Flush();}
-                    catch { }
-                    try { tw.Close(); }
-                    catch { }
-                    tw = null;
+                    if (debugWriter != null)
+                    {
+                        try { debugWriter.Flush(); }
+                        catch { }
+                        try { debugWriter.Close(); }
+                        catch { }
+                        debugWriter = null;
+                    }
                 }
+                catch { debugWriter = null; }
                 reset_tcp_reassembly();
                 closed = true;
             }
@@ -147,14 +154,24 @@ namespace Sniffer
             frags[src_index].Add(new tcp_frag() { data = data, len = length, seq = sequence });
         }
 
-        TextWriter tw = new StreamWriter(String.Format("{0}.debug", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
+        //TextWriter tw = new StreamWriter(String.Format("{0}.debug", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
         //TextWriter tw = null;
         private void debug(string str, params object[] strs)
         {
-            if (tw != null)
+            if (flagToDebug)
             {
-                tw.WriteLine("{0} {1}",DateTime.Now.ToString("HH:mm:ss"),String.Format(str, strs));
-                tw.Flush();
+                //Создать директорию и файл
+                if(debugWriter == null)
+                {
+                    if(!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+                    if(!Directory.Exists("logs/debugs")) Directory.CreateDirectory("logs/debugs");
+                    debugWriter = new StreamWriter(String.Format("logs/debugs/TCP_{0}.debug", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
+                }
+                if (debugWriter != null)
+                {
+                    debugWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), String.Format(str, strs));
+                    debugWriter.Flush();
+                }
             }
         }
 
@@ -206,6 +223,7 @@ namespace Sniffer
                 src_port[i] = 0;
                 frags[i].Clear();
             }
+            debug("Restart, что то пошло не так!");
         }
     }
 }

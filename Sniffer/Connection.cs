@@ -46,5 +46,10 @@ namespace Sniffer
             return ((srcIp.GetHashCode() ^ srcPort.GetHashCode()) as object).GetHashCode() ^
                 ((dstIp.GetHashCode() ^ dstPort.GetHashCode()) as object).GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return String.Format("From {0}:{1} To {2}:{3}", srcIp, srcPort, dstIp, dstPort);
+        }
     }
 }

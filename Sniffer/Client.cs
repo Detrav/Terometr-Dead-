@@ -148,8 +148,7 @@ namespace Sniffer
         }
 
 
-        uint seq_client;
-        uint seq_server;
+
         public System.IO.TextWriter tw;
         internal TeraPacket parsePacket()
         {

@@ -26,6 +26,11 @@ namespace Sniffer.Tera
          * В предыдущей версии я пробовал считывать данные из файла, но потом всёже передумал
          * и решил что ридер будет в самом пакете и сразу будет проходить возможный парсинг.
          * Сделаю наследование от TeraPacket
-         */ 
+         */
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} {2}", size, opCode, TeraPacketParser.byteArrayToHexStringRightToLeft(data,0,data.Length));
+        }
     }
 }

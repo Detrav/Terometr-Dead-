@@ -4,6 +4,7 @@ using Sniffer.Tera;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.InteropServices;
@@ -33,6 +34,27 @@ namespace Sniffer
         public event OnParsePacket onParsePacket;
         private Thread threadParsePacket;
         bool needToStop = false;
+        //Loger
+        public bool flagToDebug
+        {
+            get { return _flagToDebug; }
+            set
+            {
+                lock (tcpClients)
+                {
+                    foreach (var con in tcpClients)
+                    {
+                        con.Value.flagToDebug = value;
+                    }
+                }
+                _flagToDebug = value;
+            }
+        }
+        private bool _flagToDebug = false;
+        public bool flagToPacketLog = false;
+        public bool flagToSnifferLog = false;
+        TextWriter packetLogWriter;
+        TextWriter snifferLogWriter;
 
         public Capture() : this("") { }
 
@@ -143,8 +165,10 @@ namespace Sniffer
             {
                 if(needToStop)
                 {
+                    snifferLog("Запуск снифера");
                     Marshal.FreeHGlobal(bufferPtr);
                     Ndisapi.CloseFilterDriver(driverPtr);
+                    if (snifferLogWriter != null) snifferLogWriter.Close();
                     return;
                 }
                 if (Ndisapi.ReadPacket(driverPtr, ref request))
@@ -182,13 +206,14 @@ namespace Sniffer
             //Проводим проверку второго из трёх сообщений для соединения, если такой есть то создаём новый клиент
             if (tcpPacket.Syn && tcpPacket.Ack && 0 == tcpPacket.PayloadData.Length && !connected)
             {
-                tcpClient = new TcpClient();
+                tcpClient = new TcpClient(_flagToDebug);
                 tcpClients.Add(connection, tcpClient);
                 lock (clients)
                 {
                     clients.Add(connection, tcpClient.teraClient);
                 }
                 connected = true;
+                snifferLog("Новое соединение: " + connection.ToString());
             }
 
             if (tcpPacket.Ack && connected)
@@ -203,6 +228,7 @@ namespace Sniffer
                 {
                     clients.Remove(connection);
                 }
+                snifferLog("Конец соединения: " + connection.ToString());
             }
         }
 
@@ -211,18 +237,50 @@ namespace Sniffer
             TeraPacket packet;
             while(true)
             {
-                if (needToStop) return;
+                if (needToStop)
+                {
+                    if (packetLogWriter != null) packetLogWriter.Close();
+                    return;
+                }
                 lock (clients)
                 {
                     foreach (var client in clients)
                     {
                         while ((packet = client.Value.parsePacket()) != null)
                         {
+                            packetLog(packet);
                             onParsePacket(client.Key, packet);
                         }
                     }
                 }
                 Thread.Sleep(16);
+            }
+        }
+
+        void packetLog(TeraPacket p)
+        {
+            if (flagToPacketLog)
+            {
+                //Создать директорию и файл
+                if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+                if (!Directory.Exists("logs/packets")) Directory.CreateDirectory("logs/packets");
+                if (packetLogWriter == null)
+                    packetLogWriter = new StreamWriter(String.Format("logs/packets/Tera_{0}.packet", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
+                packetLogWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), p.ToString());
+                packetLogWriter.Flush();
+            }
+        }
+
+        void snifferLog(string str)
+        {
+            if(flagToSnifferLog)
+            {
+                if (!Directory.Exists("logs")) Directory.CreateDirectory("logs");
+                if (!Directory.Exists("logs/sniffer")) Directory.CreateDirectory("logs/sniffer");
+                if(snifferLogWriter == null)
+                    snifferLogWriter = new StreamWriter(String.Format("logs/sniffer/WinPKFilter_{0}.log", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
+                packetLogWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), str);
+                packetLogWriter.Flush();
             }
         }
     }

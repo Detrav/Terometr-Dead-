@@ -294,6 +294,7 @@ namespace Sniffer.Tera
                 result.AppendFormat("{0:X2} ", data[i]);
             return result.ToString();
         }
+        //Тоже самое что и предыдущий, только без пробела, назвал функцию с права на лево, т.к. переменная попадая в поток записывается для нас справа на лево
         public static string byteArrayToHexStringRightToLeft(byte[] data, int start, int length)
         {
             StringBuilder result = new StringBuilder();
