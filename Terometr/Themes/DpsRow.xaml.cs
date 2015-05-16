@@ -49,7 +49,7 @@ namespace Terometr.Themes
             set
             {
                 playerCountProperty = value;
-                this.OnPropertyChanged(playerName);
+                this.OnPropertyChanged("playerName");
             }
         }
 
