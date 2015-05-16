@@ -11,6 +11,7 @@ namespace Sniffer
         //Основное
         public Client teraClient {get; private set;}
         //Сделаем как описанно в http://www.theforce.dk/hearthstone/, спасибо автору
+        //Пришлось код писать с 0, т.к. на http://www.theforce.dk/hearthstone/ ошибка :(
         internal struct tcp_frag
         {
             public uint seq;
