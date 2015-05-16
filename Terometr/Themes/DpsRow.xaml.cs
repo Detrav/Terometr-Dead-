@@ -45,24 +45,13 @@ namespace Terometr.Themes
 
         public string playerCount
         {
-            get { return playerCountProperty; }
-            set
-            {
-                playerCountProperty = value;
-                this.OnPropertyChanged("playerName");
-            }
+            get { return (string)GetValue(playerCountProperty); }
+            set { SetValue(playerCountProperty, value); }
         }
 
-        public string playerCountProperty { get; set; }
+        public static readonly DependencyProperty playerCountProperty =
+            DependencyProperty.Register("playerCount",typeof(string),typeof(DpsRow),null);
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+        
     }
 }
