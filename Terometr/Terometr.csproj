@@ -63,6 +63,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data\PlayerInfo.cs" />
+    <Compile Include="Data\Repository.cs" />
     <Compile Include="Themes\DpsRow.xaml.cs">
       <DependentUpon>DpsRow.xaml</DependentUpon>
     </Compile>
