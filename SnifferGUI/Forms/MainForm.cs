@@ -55,6 +55,9 @@ namespace SnifferGUI.Forms
                 Config.Instance.adapterNumber = init.comboBox1.SelectedIndex;
                 Config.saveConfig();
                 sniffer.serverIp = Config.Instance.serverIp;
+                sniffer.flagToDebug = Config.Instance.flagToDebug;
+                sniffer.flagToPacketLog = Config.Instance.flagToPacketLog;
+                sniffer.flagToSnifferLog = Config.Instance.flagToSnifferLog;
                 sniffer.start(Config.Instance.adapterNumber);
             }
             else
@@ -167,9 +170,15 @@ namespace SnifferGUI.Forms
         {
             SettingsForm settingsForm = new SettingsForm();
             settingsForm.numericUpDown1.Value = Config.Instance.packetMaxCount;
+            settingsForm.checkBoxForDebug.Checked = Config.Instance.flagToDebug;
+            settingsForm.checkBoxForPacketLog.Checked = Config.Instance.flagToPacketLog;
+            settingsForm.checkBoxForSnifferLog.Checked = Config.Instance.flagToSnifferLog;
             if(settingsForm.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
                 Config.Instance.packetMaxCount = (int)settingsForm.numericUpDown1.Value;
+                Config.Instance.flagToDebug = settingsForm.checkBoxForDebug.Checked;
+                Config.Instance.flagToPacketLog = settingsForm.checkBoxForPacketLog.Checked;
+                Config.Instance.flagToSnifferLog = settingsForm.checkBoxForSnifferLog.Checked;
                 Config.saveConfig();
             }
         }

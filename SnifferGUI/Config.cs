@@ -36,6 +36,10 @@ namespace SnifferGUI
         internal bool blackListEnable = false;
         internal ushort[] whiteList = new ushort[0];
         internal ushort[] blackList = new ushort[0];
+        //Логеры для снифера
+        internal bool flagToDebug = false;
+        internal bool flagToPacketLog = false;
+        internal bool flagToSnifferLog = false;
 
         internal static void saveConfig()
         {
@@ -62,6 +66,11 @@ namespace SnifferGUI
                         xw.WriteElementString("blackListElement", el.ToString());
                     xw.WriteEndElement();
                 }
+                //Логер
+                xw.WriteElementString("flagToDebug", Instance.flagToDebug.ToString());
+                xw.WriteElementString("flagToPacketLog", Instance.flagToPacketLog.ToString());
+                xw.WriteElementString("flagToSnifferLog", Instance.flagToSnifferLog.ToString());
+                //Конец, добавлять сюда
                 xw.WriteEndElement();
                 xw.WriteEndDocument();
             }
@@ -112,6 +121,18 @@ namespace SnifferGUI
                                     if (blel.Name == "blackListElement")
                                         bl.Add(UInt16.Parse(blel.InnerText));
                                 blackList = bl.ToArray();
+                                break;
+                            case "flagToDebug":
+                                if (el.InnerText != null)
+                                    flagToDebug = Boolean.Parse(el.InnerText);
+                                break;
+                            case "flagToPacketLog":
+                                if (el.InnerText != null)
+                                    flagToPacketLog = Boolean.Parse(el.InnerText);
+                                break;
+                            case "flagToSnifferLog":
+                                if (el.InnerText != null)
+                                    flagToSnifferLog = Boolean.Parse(el.InnerText);
                                 break;
                         }
                     }

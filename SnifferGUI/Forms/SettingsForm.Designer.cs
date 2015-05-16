@@ -32,6 +32,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.checkBoxForDebug = new System.Windows.Forms.CheckBox();
+            this.checkBoxForSnifferLog = new System.Windows.Forms.CheckBox();
+            this.checkBoxForPacketLog = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -91,11 +94,44 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
+            // checkBoxForDebug
+            // 
+            this.checkBoxForDebug.AutoSize = true;
+            this.checkBoxForDebug.Location = new System.Drawing.Point(12, 47);
+            this.checkBoxForDebug.Name = "checkBoxForDebug";
+            this.checkBoxForDebug.Size = new System.Drawing.Size(121, 17);
+            this.checkBoxForDebug.TabIndex = 4;
+            this.checkBoxForDebug.Text = "checkBoxForDebug";
+            this.checkBoxForDebug.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxForSnifferLog
+            // 
+            this.checkBoxForSnifferLog.AutoSize = true;
+            this.checkBoxForSnifferLog.Location = new System.Drawing.Point(12, 70);
+            this.checkBoxForSnifferLog.Name = "checkBoxForSnifferLog";
+            this.checkBoxForSnifferLog.Size = new System.Drawing.Size(137, 17);
+            this.checkBoxForSnifferLog.TabIndex = 5;
+            this.checkBoxForSnifferLog.Text = "checkBoxForSnifferLog";
+            this.checkBoxForSnifferLog.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxForPacketLog
+            // 
+            this.checkBoxForPacketLog.AutoSize = true;
+            this.checkBoxForPacketLog.Location = new System.Drawing.Point(12, 93);
+            this.checkBoxForPacketLog.Name = "checkBoxForPacketLog";
+            this.checkBoxForPacketLog.Size = new System.Drawing.Size(141, 17);
+            this.checkBoxForPacketLog.TabIndex = 6;
+            this.checkBoxForPacketLog.Text = "checkBoxForPacketLog";
+            this.checkBoxForPacketLog.UseVisualStyleBackColor = true;
+            // 
             // SettingsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(346, 261);
+            this.Controls.Add(this.checkBoxForPacketLog);
+            this.Controls.Add(this.checkBoxForSnifferLog);
+            this.Controls.Add(this.checkBoxForDebug);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
@@ -118,5 +154,8 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
         public System.Windows.Forms.NumericUpDown numericUpDown1;
+        public System.Windows.Forms.CheckBox checkBoxForDebug;
+        public System.Windows.Forms.CheckBox checkBoxForSnifferLog;
+        public System.Windows.Forms.CheckBox checkBoxForPacketLog;
     }
 }
