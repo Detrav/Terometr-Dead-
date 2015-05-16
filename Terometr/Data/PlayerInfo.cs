@@ -25,32 +25,27 @@ namespace Terometr.Data
         public double dps;
         public ulong damage;
         public DateTime last = DateTime.MinValue;
-        public double dD;// часть урона
-        public double n;
+        public DateTime first = DateTime.MinValue;
 
 
         internal void addDamage(ushort type, uint value)
         {
             if (type == 1)
             {
-
                 double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
                 if (delay > 15)
                 {
-                        n = 0.0;
                         dps = 0;
                         damage = 0;
                         last = DateTime.Now;
-                        dD = 0.0;
+                        first = DateTime.Now;
                         return;
                 }
-                n+=1;
-                dD += value;
                 damage += value;
-                if (delay <= 0.0)
+                double dt = (DateTime.Now - first).TotalMilliseconds / 1000.0;
+                if (dt <= 0.0)
                     return;
-                dps = dps + (dD/delay - dps) / n;
-                dD = 0;
+                dps = damage /dt;
                 last = DateTime.Now;
             }
         }
