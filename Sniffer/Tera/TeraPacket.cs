@@ -30,7 +30,7 @@ namespace Sniffer.Tera
 
         public override string ToString()
         {
-            return String.Format("{0} {1} {2}", size, opCode, TeraPacketParser.byteArrayToHexStringRightToLeft(data,0,data.Length));
+            return String.Format("{0,6} {1,6} {2}", size, opCode, TeraPacketParser.byteArrayToHexStringRightToLeft(data,0,data.Length));
         }
     }
 }

@@ -279,8 +279,8 @@ namespace Sniffer
                 if (!Directory.Exists("logs/sniffer")) Directory.CreateDirectory("logs/sniffer");
                 if(snifferLogWriter == null)
                     snifferLogWriter = new StreamWriter(String.Format("logs/sniffer/WinPKFilter_{0}.log", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
-                packetLogWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), str);
-                packetLogWriter.Flush();
+                snifferLogWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), str);
+                snifferLogWriter.Flush();
             }
         }
     }
