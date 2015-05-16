@@ -24,7 +24,7 @@ namespace Sniffer.Tera.P2805
                 readUInt16(52,"type");//52
                 readByte(54,"crit");//54
                 readByte(55,"електровсплеск");//55
-                readByte(56,"overturned 1");//56
+                readByte(56,"overturned 1");//56 //Походу крит
                 readByte(57,"overturned 2");//57
             }
             catch { }

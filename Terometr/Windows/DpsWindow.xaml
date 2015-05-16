@@ -10,6 +10,8 @@
         Loaded="Window_Loaded"
         StateChanged="Window_StateChanged"
         ShowInTaskbar="False"
+        Deactivated="Window_Deactivated"
+        Closing="Window_Closing"
         >
     <DockPanel
                                 HorizontalAlignment="Stretch"

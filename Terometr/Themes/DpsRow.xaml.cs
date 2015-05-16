@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,12 +26,15 @@ namespace Terometr.Themes
             InitializeComponent();
         }
 
-        public DpsRow(double d, string s1, string s2): this()
+        public DpsRow(ulong i, double d, string s1, string s2): this()
         {
+            id = i;
             procent = d;
             playerName = s1;
             playerCount = s2;
         }
+
+        public ulong id { get; set; }
 
         public double procent { get; set; }
 
@@ -39,6 +43,26 @@ namespace Terometr.Themes
 
         public string playerName { get; set; }
 
-        public string playerCount { get; set; }
+        public string playerCount
+        {
+            get { return playerCountProperty; }
+            set
+            {
+                playerCountProperty = value;
+                this.OnPropertyChanged(playerName);
+            }
+        }
+
+        public string playerCountProperty { get; set; }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

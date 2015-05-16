@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace Terometr.Data
 {
-    class ProjectileInfo
+    class DpsInfo
     {
+        public double dps;
+        public string name;
+        public ulong damage;
+        public bool update;
     }
 }

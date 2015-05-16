@@ -11,6 +11,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Terometr.Data;
 using Terometr.Themes;
 
 namespace Terometr.Windows
@@ -20,12 +22,16 @@ namespace Terometr.Windows
     /// </summary>
     public partial class DpsWindow : Window
     {
+        DispatcherTimer timer;
         public DpsWindow()
         {
             InitializeComponent();
             myNotifyIcon.Icon = System.Drawing.Icon.FromHandle(Properties.Resources.icon.GetHicon());
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+            timer.IsEnabled = true;
+            timer.Tick += timer_Tick;
         }
-
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
         {
@@ -34,14 +40,7 @@ namespace Terometr.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            listBox.Items.Add(new DpsRow( 100.0, "Detrav", "1450{40%}" ));
-            listBox.Items.Add(new DpsRow( 78.0, "Pofigist", "250{27%}" ));
-            listBox.Items.Add(new DpsRow( 40.0, "Varted", "145{10%}" ));
-            listBox.Items.Add(new DpsRow(20.0, "Witaly", "14{2%}"));
-            listBox.Items.Add(new DpsRow(100.0, "Detrav", "1450{40%}"));
-            listBox.Items.Add(new DpsRow(78.0, "Pofigist", "250{27%}"));
-            listBox.Items.Add(new DpsRow(40.0, "Varted", "145{10%}"));
-            listBox.Items.Add(new DpsRow(20.0, "Witaly", "14{2%}"));
+            
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -64,6 +63,23 @@ namespace Terometr.Windows
         private void MenuItemShow_Click(object sender, RoutedEventArgs e)
         {
             Show();
+        }
+
+        private void Window_Deactivated(object sender, EventArgs e)
+        {
+            Window window = (Window)sender;
+            window.Topmost = true;
+        }
+
+        MySnifferForTest test = new MySnifferForTest();
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            test.close();
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            Repository.Instance.updateWPFDpss(listBox.Items);
         }
     }
 }

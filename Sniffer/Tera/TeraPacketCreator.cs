@@ -16,6 +16,10 @@ namespace Sniffer.Tera
             opCodes2805.Add((ushort)OpCode2805.S_EACH_SKILL_RESULT, typeof(P2805.S_EACH_SKILL_RESULT));
             opCodes2805.Add((ushort)OpCode2805.S_LOGIN, typeof(P2805.S_LOGIN));
             opCodes2805.Add((ushort)OpCode2805.S_SPAWN_USER, typeof(P2805.S_SPAWN_USER));
+            opCodes2805.Add((ushort)OpCode2805.S_DESPAWN_PROJECTILE, typeof(P2805.S_DESPAWN_PROJECTILE));
+
+            opCodes2805.Add((ushort)OpCode2805.S_SPAWN_PROJECTILE, typeof(P2805.S_SPAWN_PROJECTILE));
+            opCodes2805.Add((ushort)OpCode2805.S_DESPAWN_USER, typeof(P2805.S_DESPAWN_USER));
           /* 
            * На вскидку след пакеты нужны полюбому
            * 21055 S_CREATURE_CHANGE_HP

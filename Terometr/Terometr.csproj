@@ -62,8 +62,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Data\DpsInfo.cs" />
+    <Compile Include="Data\MySnifferForTest.cs" />
     <Compile Include="Data\PlayerInfo.cs" />
-    <Compile Include="Data\ProjectileInfo.cs" />
     <Compile Include="Data\Repository.cs" />
     <Compile Include="Themes\DpsRow.xaml.cs">
       <DependentUpon>DpsRow.xaml</DependentUpon>

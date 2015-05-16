@@ -20,13 +20,38 @@ namespace Terometr.Data
          * 7) Нужно удалить?
          * Не знаю
          */
-        string name;
-        ulong id;
-        bool inParty;
-        double dps;
-        ulong damage;
-        double crit;
-        DateTime last;
-        bool delete;
+        public string name;
+        public ulong id;
+        public double dps;
+        public ulong damage;
+        public DateTime last = DateTime.MinValue;
+
+        internal void addDamage(ushort type, uint value)
+        {
+            if (type == 1)
+            {
+                if (dps == 0)
+                {
+                    dps = value;
+                    damage += value;
+                    last = DateTime.Now;
+                    return;
+                }
+                double delay = (DateTime.Now - last).TotalMilliseconds/1000.0;
+                if(delay< 0.1)
+                {
+                    int test;
+                }
+                /*if (delay > 15)
+                {
+                    damage += value;
+                    //last = DateTime.Now;
+                    return;
+                }*/
+                dps = dps + ((double)value - dps) / delay;
+                damage += value;
+                //last = DateTime.Now;
+            }
+        }
     }
 }

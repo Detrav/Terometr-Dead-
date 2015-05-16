@@ -23,7 +23,8 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Label x:Name="labelName" Grid.Column="0" Margin="0" Padding="2 0 2 0" FontFamily="Comic Sans MS" FontWeight="Bold" Foreground="White" Content="{Binding Path=playerName}"/>
-            <Label x:Name="labelCount" HorizontalContentAlignment="Right" TextBlock.TextAlignment="Right" Grid.Column="1" Margin="0" Padding="2 0 2 0" FontFamily="Comic Sans MS" FontWeight="Bold" Foreground="White" Content="{Binding Path=playerCount}"></Label>
+            <Label x:Name="labelCount" HorizontalContentAlignment="Right" TextBlock.TextAlignment="Right" Grid.Column="1" Margin="0" Padding="2 0 2 0" FontFamily="Comic Sans MS" FontWeight="Bold" Foreground="White"
+                   Content="{Binding Path=playerCount, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
     </Grid>
 </UserControl>
