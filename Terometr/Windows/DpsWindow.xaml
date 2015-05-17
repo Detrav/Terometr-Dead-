@@ -74,7 +74,8 @@
                         </Button>
                         <Button
                             x:Name="buttonNew"
-                            Style="{StaticResource DpsWindowStyleTitleBarButton}">
+                            Style="{StaticResource DpsWindowStyleTitleBarButton}"
+                            Click="buttonNew_Click">
                             <Path
                                 Stroke="{Binding RelativeSource={RelativeSource AncestorType=Button}, Path=Foreground}"
                                 StrokeThickness="1"

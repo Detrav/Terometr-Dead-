@@ -49,6 +49,7 @@ namespace Detrav.Terometr.TeraApi
         ulong selfId;
         int dpsBehavior = 0;
         double battleTimeout = 5;
+        public bool needToClear = false;//Repository.instance.sniffer_onParsePacket
 
 
         private void addOrUpdatePlayer(ulong playerId, string playerName)
@@ -143,15 +144,15 @@ namespace Detrav.Terometr.TeraApi
                 dpss.Clear();
             }
         }
-        internal SortedList<ulong,DpsInfo> updateWPFDpss(out ulong sumDamage)
+        internal SortedList<ulong,DpsInfo> updateWPFDpss(out double sumDamage)
         {
             SortedList<ulong, DpsInfo> result = new SortedList<ulong, DpsInfo>();
-            ulong resultDamage = 0;
+            double resultDamage = 0;
             lock(dpss)
             {
                 foreach(var dps in dpss)
                 {
-                    result.Add(dps.Value.damage, dps.Value.Copy());
+                    result.Add((ulong)dps.Value.damage, dps.Value.Copy());
                     resultDamage += dps.Value.damage;
                 }
             }

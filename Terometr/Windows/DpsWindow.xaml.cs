@@ -93,18 +93,39 @@ namespace Detrav.Terometr.Windows
             window.Topmost = true;
         }
 
-        
+
 
         void timer_Tick(object sender, EventArgs e)
         {
-            ulong damage;
-            Repository.Instance.updateWPFDpss(out damage);
+            timer.Stop();
+            double damage;
+            var array = Repository.Instance.updateWPFDpss(out damage);
+            while (listBox.Items.Count < array.Count)
+                listBox.Items.Add(new DpsRow());
+            while (listBox.Items.Count > array.Count)
+                listBox.Items.RemoveAt(0);
+            int i = 0;
+            foreach(var el in array)
+            {
+                var dpsRow = (listBox.Items[i] as DpsRow);
+                dpsRow.procent = Math.Max(0,Math.Min(el.Value.damage/damage,100));
+                dpsRow.playerName = el.Value.name;
+                dpsRow.playerCount = String.Format("{0:0.00}", el.Value.dps);
+                i++;
+            }
+            UpdateLayout();
+            timer.Start();
         }
 
         private void buttonConfig_Click(object sender, RoutedEventArgs e)
         {
             ConfigWindow window = new ConfigWindow();
             window.ShowDialog();
+        }
+
+        private void buttonNew_Click(object sender, RoutedEventArgs e)
+        {
+            Repository.Instance.needToClear = true;
         }
     }
 }

@@ -54,6 +54,7 @@ namespace Detrav.Terometr.TeraApi
 
         void sniffer_onParsePacket(Connection connection, Detrav.Sniffer.Tera.TeraPacket packet)
         {
+            if (needToClear) clearDpss();//Repository.Instance.needToClear
             OpCode2805 code = (OpCode2805)packet.opCode;
             TeraPacketParser p;
             switch (code)

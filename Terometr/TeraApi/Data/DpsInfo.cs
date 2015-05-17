@@ -10,7 +10,7 @@ namespace Detrav.Terometr.TeraApi.Data
     {
         public double dps;
         public string name;
-        public ulong damage;
+        public double damage;
 
         public DpsInfo Copy()
         {
