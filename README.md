@@ -9,10 +9,13 @@
   * [Microsoft .NET Framework 4.5.1](https://www.microsoft.com/ru-RU/download/details.aspx?id=40773)
 2.  Распаковываем архив
 3.  Запускаем exe файл : Terometr.exe
-4.  Запускаем игру TERA
+4.  Открываем настройки и выбираем нужный сервер и устройство
+5.  Запускаем игру TERA
 
 # Скриншоты
-
+![sceenshot1](http://i.gyazo.com/88176a805d485e8ee56c86c0585e04be.png)
+![sceenshot2](http://i.gyazo.com/20ff4c0d59fb30cdfe96aca2bba97a0f.png)
+![sceenshot3](http://i.gyazo.com/44ba6b572ed35b4bf57a07fd0184ac5b.png)
 # Вопросы и ответы
 
   [**Задать свой вопрос можно здесь!**](https://github.com/Detrav/Terometr/issues)
