@@ -47,7 +47,11 @@ namespace Detrav.Terometr.TeraApi
         Dictionary<ulong, ulong> shots;
         Dictionary<ulong, DpsInfo> dpss;
         ulong selfId;
-        public void addOrUpdatePlayer(ulong playerId, string playerName)
+        int dpsBehavior = 0;
+        double battleTimeout = 5;
+
+
+        private void addOrUpdatePlayer(ulong playerId, string playerName)
         {
             PlayerInfo p;
             if (!players.TryGetValue(playerId, out p))
@@ -60,12 +64,12 @@ namespace Detrav.Terometr.TeraApi
                 p.name = playerName;
             }
         }
-        public void updateSelfPlayer(ulong playerId, string playerName)
+        private void updateSelfPlayer(ulong playerId, string playerName)
         {
             selfId = playerId;
             addOrUpdatePlayer(playerId, playerName);
         }
-        public void addOrUpdateShot(ulong shotId, ulong playerId)
+        private void addOrUpdateShot(ulong shotId, ulong playerId)
         {
             ulong p;
             if (!shots.TryGetValue(shotId, out p))
@@ -77,13 +81,13 @@ namespace Detrav.Terometr.TeraApi
                 shots[shotId] = playerId;
             }
         }
-        public void removeShot(ulong shotId)
+        private void removeShot(ulong shotId)
         {
             ulong p;
             if (shots.TryGetValue(shotId, out p))
                 shots.Remove(shotId);
         }
-        public void removePlayer(ulong playerId)
+        private void removePlayer(ulong playerId)
         {
             PlayerInfo p;
             if (players.TryGetValue(playerId, out p))
@@ -91,12 +95,13 @@ namespace Detrav.Terometr.TeraApi
                 players.Remove(playerId);
             }
         }
-        public void damage(ulong uId, ushort type, uint value)
+        private void damage(ulong uId, ushort type, uint value)
         {
-            PlayerInfo p;
+            PlayerInfo p = null;
             if (players.TryGetValue(uId, out p))
             {
-                p.addDamage(type, value);
+                if(p.addDamage(type, value,dpsBehavior,battleTimeout,selfId))
+                    clearDpss();
                 updateDpss(p);
                 return;
             }
@@ -105,13 +110,14 @@ namespace Detrav.Terometr.TeraApi
                 return;//Error
             if (players.TryGetValue(s, out p))
             {
-                p.addDamage(type, value);
+                if (p.addDamage(type, value, dpsBehavior, battleTimeout, selfId))
+                    clearDpss();
                 updateDpss(p);
                 return;
             }
             //Error
         }
-        public void updateDpss(PlayerInfo p)
+        private void updateDpss(PlayerInfo p)
         {
             lock(dpss)
             {
@@ -128,7 +134,16 @@ namespace Detrav.Terometr.TeraApi
                 }
             }
         }
-        public SortedList<ulong,DpsInfo> updateWPFDpss(out ulong sumDamage)
+        private void clearDpss()
+        {
+            foreach (var p in players)
+                p.Value.Clear();
+            lock (dpss)
+            {
+                dpss.Clear();
+            }
+        }
+        internal SortedList<ulong,DpsInfo> updateWPFDpss(out ulong sumDamage)
         {
             SortedList<ulong, DpsInfo> result = new SortedList<ulong, DpsInfo>();
             ulong resultDamage = 0;
@@ -146,7 +161,8 @@ namespace Detrav.Terometr.TeraApi
 
         internal void reConfigurate(double _battleTimeout, int _dpsBehavior)
         {
-            throw new NotImplementedException();
+            battleTimeout = _battleTimeout;
+            dpsBehavior = _dpsBehavior;
         }
     }
 }

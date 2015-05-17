@@ -27,27 +27,71 @@ namespace Detrav.Terometr.TeraApi.Data
         public DateTime last = DateTime.MinValue;
         public DateTime first = DateTime.MinValue;
 
-
-        internal void addDamage(ushort type, uint value)
+        internal bool addDamage(ushort type, uint value, int behavior ,double timeout, ulong selfId)
         {
-            if (type == 1)
+            if(type != 1) return false;
+            switch(behavior)
             {
-                double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
-                if (delay > 15)
-                {
-                        dps = 0;
-                        damage = 0;
-                        last = DateTime.Now;
-                        first = DateTime.Now;
-                        return;
-                }
-                damage += value;
-                double dt = (DateTime.Now - first).TotalMilliseconds / 1000.0;
-                if (dt <= 0.0)
-                    return;
-                dps = damage /dt;
-                last = DateTime.Now;
+                case 0://Добавляем ДПС всегда и по таймауту выходим из боя
+                    addDamage(value, timeout);
+                    return false;
+                case 1://Сбрасываем значение ДПС каждый раз при выходе из боя
+                    addDamageWithReSet(value, timeout);
+                    return false;
+                case 2://Сбрасываем все занчения ДПС :(
+                    if(selfId == id)
+                    return true;
+                    addDamage(value, timeout);
+                    return false;
             }
+            return false;
         }
+
+        private void addDamage(uint value, double timeout)
+        {
+
+            double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
+            if (delay > timeout)
+            {
+                //dps = 0;
+                //damage = 0;
+                first += DateTime.Now - last;
+                last = DateTime.Now;
+                return;
+            }
+            damage += value;
+            double dt = (DateTime.Now - first).TotalMilliseconds / 1000.0;
+            if (dt <= 0.0)
+                return;
+            dps = damage / dt;
+            last = DateTime.Now;
+        }
+        private void addDamageWithReSet(uint value, double timeout)
+        {
+
+            double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
+            if (delay > timeout)
+            {
+                dps = 0;
+                damage = 0;
+                last = DateTime.Now;
+                first = DateTime.Now;
+                return;
+            }
+            damage += value;
+            double dt = (DateTime.Now - first).TotalMilliseconds / 1000.0;
+            if (dt <= 0.0)
+                return;
+            dps = damage / dt;
+            last = DateTime.Now;
+        }
+        internal void Clear()
+        {
+            last = DateTime.MinValue;
+            first = DateTime.MinValue;
+            dps = 0;
+            damage = 0;
+        }
+
     }
 }
