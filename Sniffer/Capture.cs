@@ -32,7 +32,7 @@ namespace Detrav.Sniffer
         private Dictionary<Connection, Client> clients;
         public delegate void OnParsePacket(Connection connection, TeraPacket packet);
         public event OnParsePacket onParsePacket;
-        private Thread threadParsePacket;
+         private Thread threadParsePacket;
         bool needToStop = false;
         //Loger
         public bool flagToDebug
@@ -149,7 +149,9 @@ namespace Detrav.Sniffer
 
         public void stop()
         {
-                needToStop = true;
+            needToStop = true;
+            threadLookingForPacket.Join(1000);
+            threadParsePacket.Join(1000);
         }
 
         ~Capture()

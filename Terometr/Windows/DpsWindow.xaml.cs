@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Detrav.Terometr.Data;
 using Detrav.Terometr.Themes;
 
 namespace Detrav.Terometr.Windows
@@ -71,7 +70,7 @@ namespace Detrav.Terometr.Windows
             window.Topmost = true;
         }
 
-        MySnifferForTest test = new MySnifferForTest();
+        Detrav.Terometr.TeraApi.MySnifferForTest test = new Detrav.Terometr.TeraApi.MySnifferForTest();
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             test.close();
@@ -80,7 +79,7 @@ namespace Detrav.Terometr.Windows
 
         void timer_Tick(object sender, EventArgs e)
         {
-            Repository.Instance.updateWPFDpss(listBox.Items);
+            Detrav.Terometr.TeraApi.Repository.Instance.updateWPFDpss(listBox.Items);
         }
     }
 }

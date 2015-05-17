@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Detrav.Terometr.TeraApi.Data
+using Detrav.Terometr.TeraApi.Data;
 
 namespace Detrav.Terometr.TeraApi
 {
