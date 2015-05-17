@@ -8,13 +8,13 @@ using Detrav.Terometr.TeraApi.Data;
 namespace Detrav.Terometr.TeraApi
 {
     //Да да, у него должно быть другое применение, однако я захотел назвать синглтон так
-    class Repository
+    partial class Repository
     {
         //Помню както первый раз услышал про синглтон, долго не мог понять с чем его едять
         //про патерны вобще молчу, хоть бы в университете когда учили расказали про них
         //И вот я прихожу на собеседование, и меня спрашивают, какие патерны знаете...... Чё?
         //Сейчас я знаю порядка 10 вариантов синглтона :)
-        //Такой вариант предлагают мелкомягкие, хотя я встречал более рациональный, этот мне нравиться
+        //Такой вариант предлагают мелкомягкие, хотя я встречал более рациональный, но этот мне нравиться больше
         private static volatile Repository instance;
         private static object syncRoot = new object();
 
@@ -47,7 +47,6 @@ namespace Detrav.Terometr.TeraApi
         Dictionary<ulong, ulong> shots;
         Dictionary<ulong, DpsInfo> dpss;
         ulong selfId;
-
         public void addOrUpdatePlayer(ulong playerId, string playerName)
         {
             PlayerInfo p;
@@ -61,13 +60,11 @@ namespace Detrav.Terometr.TeraApi
                 p.name = playerName;
             }
         }
-
         public void updateSelfPlayer(ulong playerId, string playerName)
         {
             selfId = playerId;
             addOrUpdatePlayer(playerId, playerName);
         }
-
         public void addOrUpdateShot(ulong shotId, ulong playerId)
         {
             ulong p;
@@ -80,14 +77,12 @@ namespace Detrav.Terometr.TeraApi
                 shots[shotId] = playerId;
             }
         }
-
         public void removeShot(ulong shotId)
         {
             ulong p;
             if (shots.TryGetValue(shotId, out p))
                 shots.Remove(shotId);
         }
-
         public void removePlayer(ulong playerId)
         {
             PlayerInfo p;
@@ -96,7 +91,6 @@ namespace Detrav.Terometr.TeraApi
                 players.Remove(playerId);
             }
         }
-
         public void damage(ulong uId, ushort type, uint value)
         {
             PlayerInfo p;
@@ -117,7 +111,6 @@ namespace Detrav.Terometr.TeraApi
             }
             //Error
         }
-
         public void updateDpss(PlayerInfo p)
         {
             lock(dpss)
@@ -137,7 +130,6 @@ namespace Detrav.Terometr.TeraApi
                 }
             }
         }
-
         public void updateWPFDpss(System.Windows.Controls.ItemCollection items)
         {
             lock(dpss)

@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Detrav.Terometr.Themes;
+using Detrav.Terometr.TeraApi;
 
 namespace Detrav.Terometr.Windows
 {
@@ -30,8 +31,6 @@ namespace Detrav.Terometr.Windows
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.IsEnabled = true;
             timer.Tick += timer_Tick;
-            Properties.Settings.Default.adapterIndex++;
-            Properties.Settings.Default.Save();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -41,7 +40,25 @@ namespace Detrav.Terometr.Windows
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            
+            this.Top = Properties.Settings.Default.windowTop;
+            this.Left = Properties.Settings.Default.windowLeft;
+            this.Height = Properties.Settings.Default.windowHeight;
+            this.Width = Properties.Settings.Default.windowWidth;
+
+            Repository.Instance.reStartSniffer(
+                Properties.Settings.Default.serverIp,
+                Properties.Settings.Default.adapterIndex);
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Repository.Instance.stopSniffer();
+            myNotifyIcon.Visibility = System.Windows.Visibility.Hidden;
+            Properties.Settings.Default.windowTop = this.Top;
+            Properties.Settings.Default.windowLeft = this.Left;
+            Properties.Settings.Default.windowHeight = this.Height;
+            Properties.Settings.Default.windowWidth = this.Width;
+            Properties.Settings.Default.Save();
         }
 
         private void Window_StateChanged(object sender, EventArgs e)
@@ -72,16 +89,17 @@ namespace Detrav.Terometr.Windows
             window.Topmost = true;
         }
 
-        Detrav.Terometr.TeraApi.MySnifferForTest test = new Detrav.Terometr.TeraApi.MySnifferForTest();
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            test.close();
-            myNotifyIcon.Visibility = System.Windows.Visibility.Hidden;
-        }
+        
 
         void timer_Tick(object sender, EventArgs e)
         {
-            Detrav.Terometr.TeraApi.Repository.Instance.updateWPFDpss(listBox.Items);
+            Repository.Instance.updateWPFDpss(listBox.Items);
+        }
+
+        private void buttonConfig_Click(object sender, RoutedEventArgs e)
+        {
+            ConfigWindow window = new ConfigWindow();
+            window.ShowDialog();
         }
     }
 }

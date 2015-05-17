@@ -63,7 +63,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TeraApi\Data\DpsInfo.cs" />
-    <Compile Include="TeraApi\MySnifferForTest.cs" />
+    <Compile Include="TeraApi\Data\ServerInfoItem.cs" />
+    <Compile Include="TeraApi\SnifferManager.cs" />
     <Compile Include="TeraApi\Data\PlayerInfo.cs" />
     <Compile Include="TeraApi\Repository.cs" />
     <Compile Include="Themes\DpsRow.xaml.cs">
@@ -71,6 +72,9 @@
     </Compile>
     <Compile Include="Themes\DpsWindowStyle.xaml.cs">
       <DependentUpon>DpsWindowStyle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\ConfigWindow.xaml.cs">
+      <DependentUpon>ConfigWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\DpsWindow.xaml.cs">
       <DependentUpon>DpsWindow.xaml</DependentUpon>
@@ -119,6 +123,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\ConfigWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\DpsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,6 +134,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="assets\servers.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

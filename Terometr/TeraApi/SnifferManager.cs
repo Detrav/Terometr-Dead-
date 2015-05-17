@@ -5,19 +5,51 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Detrav.Terometr.TeraApi.Data;
 
 namespace Detrav.Terometr.TeraApi
 {
-    class MySnifferForTest
+    partial class Repository
     {
-        Capture sniffer;
-
-        public MySnifferForTest()
+        Capture sniffer = null;
+        string serverIp = "";
+        public string[] devices { get; set; }
+        public ServerInfoItem[] serverList
         {
-            sniffer = new Capture("91.225.237.8");
-            sniffer.getDevices();
+            get
+            {
+                using (System.IO.TextReader tr = new System.IO.StreamReader("assets/servers.xml"))
+                {
+                    System.Xml.Serialization.XmlSerializer xer = new System.Xml.Serialization.XmlSerializer(typeof(ServerInfoItem[]));
+                    return (ServerInfoItem[])xer.Deserialize(tr);
+                }
+            }
+            set
+            {
+                using (System.IO.TextWriter tw = new System.IO.StreamWriter("assets/servers.xml"))
+                {
+                    System.Xml.Serialization.XmlSerializer xer = new System.Xml.Serialization.XmlSerializer(typeof(ServerInfoItem[]));
+                    xer.Serialize(tw, value);
+                }
+            }
+        }
+        int device;
+
+        public void reStartSniffer(string serv, int dev)
+        {
+            if (sniffer != null)
+            {
+                if (serv == serverIp && dev == device)
+                    return;
+                sniffer.stop();
+                sniffer = null;
+            }
+            sniffer = new Capture(serv);
+            serverIp = serv;
+            devices = sniffer.getDevices();
             sniffer.onParsePacket += sniffer_onParsePacket;
-            sniffer.start(0);
+            sniffer.start(dev);
+            device = dev;
         }
 
         void sniffer_onParsePacket(Connection connection, Detrav.Sniffer.Tera.TeraPacket packet)
@@ -53,9 +85,10 @@ namespace Detrav.Terometr.TeraApi
             }
         }
 
-        public void close()
+        public void stopSniffer()
         {
             sniffer.stop();
+            sniffer = null;
         }
     }
 }
