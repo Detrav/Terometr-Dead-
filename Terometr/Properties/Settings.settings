@@ -20,5 +20,11 @@
     <Setting Name="serverIp" Type="System.String" Scope="User">
       <Value Profile="(Default)">91.225.237.5</Value>
     </Setting>
+    <Setting Name="battleTimeout" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">5.153</Value>
+    </Setting>
+    <Setting Name="dpsBehaviorType" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

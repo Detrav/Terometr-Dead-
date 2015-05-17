@@ -48,6 +48,10 @@ namespace Detrav.Terometr.Windows
             Repository.Instance.reStartSniffer(
                 Properties.Settings.Default.serverIp,
                 Properties.Settings.Default.adapterIndex);
+            Repository.Instance.reConfigurate(
+                Properties.Settings.Default.battleTimeout,
+                Properties.Settings.Default.dpsBehaviorType
+                );
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -93,7 +97,8 @@ namespace Detrav.Terometr.Windows
 
         void timer_Tick(object sender, EventArgs e)
         {
-            Repository.Instance.updateWPFDpss(listBox.Items);
+            ulong damage;
+            Repository.Instance.updateWPFDpss(out damage);
         }
 
         private void buttonConfig_Click(object sender, RoutedEventArgs e)

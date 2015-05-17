@@ -6,11 +6,15 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr.TeraApi.Data
 {
-    class DpsInfo
+    struct DpsInfo
     {
         public double dps;
         public string name;
         public ulong damage;
-        public bool update;
+
+        public DpsInfo Copy()
+        {
+            return new DpsInfo { dps = this.dps,name = this.name,damage = this.damage };
+        }
     }
 }

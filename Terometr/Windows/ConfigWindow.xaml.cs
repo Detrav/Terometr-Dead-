@@ -38,10 +38,24 @@ namespace Detrav.Terometr.Windows
                     break;
                 }
             }
+            double battleTimeout;
+            if (!Double.TryParse(textBoxBattleTimeout.Text, out battleTimeout))
+                battleTimeout = 5.153;
+            Properties.Settings.Default.battleTimeout = battleTimeout;
+            if (radioButtonBehavior1.IsChecked == true)
+                Properties.Settings.Default.dpsBehaviorType = 1;
+            else if (radioButtonBehavior2.IsChecked == true)
+                Properties.Settings.Default.dpsBehaviorType = 2;
+            else
+                Properties.Settings.Default.dpsBehaviorType = 0;
             Properties.Settings.Default.Save();
             Repository.Instance.reStartSniffer(
                 Properties.Settings.Default.serverIp,
                 Properties.Settings.Default.adapterIndex);
+            Repository.Instance.reConfigurate(
+                Properties.Settings.Default.battleTimeout,
+                Properties.Settings.Default.dpsBehaviorType
+                );
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
@@ -62,6 +76,14 @@ namespace Detrav.Terometr.Windows
                 comboBoxServers.Items.Add(d.serverName);
                 if (Properties.Settings.Default.serverIp == d.serverIp)
                     comboBoxServers.SelectedItem = d.serverName;
+            }
+            textBoxBattleTimeout.Text = Properties.Settings.Default.battleTimeout.ToString();
+            switch (Properties.Settings.Default.dpsBehaviorType)
+            {
+                case 0: radioButtonBehavior0.IsChecked = true; break;
+                case 1: radioButtonBehavior1.IsChecked = true; break;
+                case 2: radioButtonBehavior2.IsChecked = true; break;
+                default: radioButtonBehavior0.IsChecked = true; break;
             }
             UpdateLayout();
         }

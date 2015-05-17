@@ -120,43 +120,33 @@ namespace Detrav.Terometr.TeraApi
                 {
                     dps.dps = p.dps;
                     dps.damage = p.damage;
-                    dps.update = true;
                 }
                 else
                 {
                     dps = new DpsInfo() { dps = p.dps, damage = p.damage, name =p.name };
                     dpss.Add(p.id, dps);
-                    dps.update = true;
                 }
             }
         }
-        public void updateWPFDpss(System.Windows.Controls.ItemCollection items)
+        public SortedList<ulong,DpsInfo> updateWPFDpss(out ulong sumDamage)
         {
+            SortedList<ulong, DpsInfo> result = new SortedList<ulong, DpsInfo>();
+            ulong resultDamage = 0;
             lock(dpss)
             {
                 foreach(var dps in dpss)
-                    if(dps.Value.update)
-                    {
-                        bool flag = true;
-                        foreach(Detrav.Terometr.Themes.DpsRow item in items)
-                        {
-                            if(item.id == dps.Key)
-                            {
-                                item.playerCount = String.Format("{0}", dps.Value.dps);
-                                flag = false;
-                                dps.Value.update = false;
-                                break;
-                            }
-                        }
-                        if (flag)
-                        {
-                            var dpsRow = new Detrav.Terometr.Themes.DpsRow(
-                                dps.Key, 0, dps.Value.name, dps.Value.dps.ToString());
-                            items.Add(dpsRow);
-                            dps.Value.update = false;
-                        }
-                    }
+                {
+                    result.Add(dps.Value.damage, dps.Value.Copy());
+                    resultDamage += dps.Value.damage;
+                }
             }
+            sumDamage = resultDamage;
+            return result;
+        }
+
+        internal void reConfigurate(double _battleTimeout, int _dpsBehavior)
+        {
+            throw new NotImplementedException();
         }
     }
 }

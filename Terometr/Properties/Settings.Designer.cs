@@ -94,5 +94,29 @@ namespace Detrav.Terometr.Properties {
                 this["serverIp"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5.153")]
+        public double battleTimeout {
+            get {
+                return ((double)(this["battleTimeout"]));
+            }
+            set {
+                this["battleTimeout"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int dpsBehaviorType {
+            get {
+                return ((int)(this["dpsBehaviorType"]));
+            }
+            set {
+                this["dpsBehaviorType"] = value;
+            }
+        }
     }
 }
