@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Detrav.Terometr.TeraApi.Data
 
-namespace Detrav.Terometr.Data
+namespace Detrav.Terometr.TeraApi
 {
     //Да да, у него должно быть другое применение, однако я захотел назвать синглтон так
     class Repository

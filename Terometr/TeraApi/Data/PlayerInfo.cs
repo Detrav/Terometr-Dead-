@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Detrav.Terometr.Data
+namespace Detrav.Terometr.TeraApi.Data
 {
     class PlayerInfo
     {

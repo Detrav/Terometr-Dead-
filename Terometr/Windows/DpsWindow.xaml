@@ -162,10 +162,6 @@
                             Value="Stretch" />
                     </Style>
                 </ListBox.ItemContainerStyle>
-                <controls:DpsRow
-                    procent="100"
-                    playerCount="123(45.6%)"
-                    playerName="Test" />
             </ListBox>
         </DockPanel>
         <tb:TaskbarIcon
