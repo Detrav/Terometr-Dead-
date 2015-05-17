@@ -1,4 +1,4 @@
-﻿namespace Crypt
+﻿namespace Detrav.Crypt
 {
     public class Sha
     {

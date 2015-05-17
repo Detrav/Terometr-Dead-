@@ -1,4 +1,4 @@
-﻿using Crypt;
+﻿using Detrav.Crypt;
 using PacketDotNet;
 using Sniffer.Tera;
 using System;

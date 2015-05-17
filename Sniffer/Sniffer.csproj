@@ -67,10 +67,6 @@
       <Project>{56e515ad-c5d9-4a46-a430-ba57e4eafae8}</Project>
       <Name>Crypt</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ndisapi\NdisApiWrapper.csproj">
-      <Project>{188c7ee3-7cd5-44ca-819a-c400474493bf}</Project>
-      <Name>NdisApiWrapper</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
