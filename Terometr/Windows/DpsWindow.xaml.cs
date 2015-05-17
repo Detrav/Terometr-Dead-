@@ -30,6 +30,8 @@ namespace Detrav.Terometr.Windows
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.IsEnabled = true;
             timer.Tick += timer_Tick;
+            Properties.Settings.Default.adapterIndex++;
+            Properties.Settings.Default.Save();
         }
 
         private void buttonClose_Click(object sender, RoutedEventArgs e)
