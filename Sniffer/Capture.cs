@@ -63,7 +63,7 @@ namespace Detrav.Sniffer
             GCHandle.Alloc(adapters);
             if ((Ndisapi.IsDriverLoaded(driverPtr)))
             {
-                ready = true;
+                ready = Ndisapi.GetTcpipBoundAdaptersInfo(driverPtr, ref adapters);
             }
             this.server = serverIp;
             threadLookingForPacket = new Thread(lookingForPacket);
@@ -76,8 +76,6 @@ namespace Detrav.Sniffer
         {
             if (ready)
             {
-                bool flag = Ndisapi.GetTcpipBoundAdaptersInfo(driverPtr, ref adapters);
-                if (!flag) return null;
                 string[] result = new string[adapters.m_nAdapterCount];
                 for (int i = 0; i < adapters.m_nAdapterCount; i++)
                 {
