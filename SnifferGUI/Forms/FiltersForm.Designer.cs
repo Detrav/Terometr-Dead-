@@ -1,4 +1,4 @@
-﻿namespace SnifferGUI.Forms
+﻿namespace Detrav.SnifferGUI.Forms
 {
     partial class FiltersForm
     {

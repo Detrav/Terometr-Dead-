@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace SnifferGUI.Forms
+namespace Detrav.SnifferGUI.Forms
 {
     public partial class MainForm : Form
     {

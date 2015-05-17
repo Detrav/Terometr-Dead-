@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace SnifferGUI
+namespace Detrav.SnifferGUI
 {
     /*
      * Сделаю синглтон для конфига с отложеной иницилизацией

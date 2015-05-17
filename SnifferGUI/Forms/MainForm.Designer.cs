@@ -1,4 +1,4 @@
-﻿namespace SnifferGUI.Forms
+﻿namespace Detrav.SnifferGUI.Forms
 {
     partial class MainForm
     {
@@ -259,7 +259,7 @@
             // toolStripButtonCaptureEnable
             // 
             this.toolStripButtonCaptureEnable.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonCaptureEnable.Image = global::SnifferGUI.Properties.Resources.check;
+            this.toolStripButtonCaptureEnable.Image = global::Detrav.SnifferGUI.Properties.Resources.check;
             this.toolStripButtonCaptureEnable.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonCaptureEnable.Name = "toolStripButtonCaptureEnable";
             this.toolStripButtonCaptureEnable.Size = new System.Drawing.Size(23, 22);
@@ -295,7 +295,7 @@
             // toolStripButtonSearch
             // 
             this.toolStripButtonSearch.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButtonSearch.Image = global::SnifferGUI.Properties.Resources.check;
+            this.toolStripButtonSearch.Image = global::Detrav.SnifferGUI.Properties.Resources.check;
             this.toolStripButtonSearch.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonSearch.Name = "toolStripButtonSearch";
             this.toolStripButtonSearch.Size = new System.Drawing.Size(23, 22);

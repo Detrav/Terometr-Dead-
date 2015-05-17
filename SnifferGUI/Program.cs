@@ -1,11 +1,11 @@
-﻿using SnifferGUI.Forms;
+﻿using Detrav.SnifferGUI.Forms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace SnifferGUI
+namespace Detrav.SnifferGUI
 {
     static class Program
     {

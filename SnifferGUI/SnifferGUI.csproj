@@ -7,7 +7,7 @@
     <ProjectGuid>{5531E5E2-46ED-4DC6-AB8F-F704561E11A0}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SnifferGUI</RootNamespace>
+    <RootNamespace>Detrav.SnifferGUI</RootNamespace>
     <AssemblyName>SnifferGUI</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
