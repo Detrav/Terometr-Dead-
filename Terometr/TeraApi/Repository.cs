@@ -137,6 +137,7 @@ namespace Detrav.Terometr.TeraApi
         }
         private void clearDpss()
         {
+            needToClear = false;
             foreach (var p in players)
                 p.Value.Clear();
             lock (dpss)
@@ -146,18 +147,36 @@ namespace Detrav.Terometr.TeraApi
         }
         internal SortedList<ulong,DpsInfo> updateWPFDpss(out double sumDamage)
         {
-            SortedList<ulong, DpsInfo> result = new SortedList<ulong, DpsInfo>();
+            SortedList<ulong, DpsInfo> result = new SortedList<ulong, DpsInfo>(new DuplicateKeyComparer<ulong>());
             double resultDamage = 0;
             lock(dpss)
             {
                 foreach(var dps in dpss)
                 {
+                    if ((ulong)dps.Value.damage == 0 || (int)dps.Value.dps == 0) continue;
                     result.Add((ulong)dps.Value.damage, dps.Value.Copy());
                     resultDamage += dps.Value.damage;
                 }
             }
             sumDamage = resultDamage;
             return result;
+        }
+
+        public class DuplicateKeyComparer<TKey> : IComparer<TKey> where TKey : IComparable
+        {
+            #region IComparer<TKey> Members
+
+            public int Compare(TKey x, TKey y)
+            {
+                int result = x.CompareTo(y);
+
+                if (result == 0)
+                    return 1;   // Handle equality as beeing greater
+                else
+                    return result;
+            }
+
+            #endregion
         }
 
         internal void reConfigurate(double _battleTimeout, int _dpsBehavior)

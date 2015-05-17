@@ -36,13 +36,31 @@ namespace Detrav.Terometr.Themes
 
         public ulong id { get; set; }
 
-        public double procent { get; set; }
+        public double procent
+        {
+            get { return (double)GetValue(procentProperty); }
+            set { SetValue(procentProperty, value); }
+        }
+
+        public static readonly DependencyProperty procentProperty =
+            DependencyProperty.Register("procent", typeof(double), typeof(DpsRow), null);
 
         /*public static readonly DependencyProperty procentProperty =
             DependencyProperty.Register("procent",typeof(double),typeof(DpsRow),0.0);*/
 
-        public string playerName { get; set; }
+        public string playerName
+        {
+            get { return (string)GetValue(playerNameProperty); }
+            set { SetValue(playerNameProperty,value); }
+        }
 
+        public static readonly DependencyProperty playerNameProperty =
+            DependencyProperty.Register("playerName", typeof(string), typeof(DpsRow), null);
+
+
+        //public string playerCount { get; set; }
+        
+        
         public string playerCount
         {
             get { return (string)GetValue(playerCountProperty); }

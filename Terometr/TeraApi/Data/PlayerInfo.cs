@@ -53,9 +53,8 @@ namespace Detrav.Terometr.TeraApi.Data
             double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
             if (delay > timeout)
             {
-                //dps = 0;
-                //damage = 0;
-                first += DateTime.Now - last;
+                damage += value;
+                first += DateTime.Now - last - TimeSpan.FromSeconds(timeout);
                 last = DateTime.Now;
                 return;
             }
@@ -72,10 +71,10 @@ namespace Detrav.Terometr.TeraApi.Data
             double delay = (DateTime.Now - last).TotalMilliseconds / 1000.0;
             if (delay > timeout)
             {
-                dps = 0;
-                damage = 0;
+                dps = value;
+                damage = value;
                 last = DateTime.Now;
-                first = DateTime.Now;
+                first = DateTime.Now - TimeSpan.FromSeconds(timeout);
                 return;
             }
             damage += value;

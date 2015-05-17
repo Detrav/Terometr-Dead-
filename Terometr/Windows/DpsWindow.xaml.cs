@@ -105,10 +105,11 @@ namespace Detrav.Terometr.Windows
             while (listBox.Items.Count > array.Count)
                 listBox.Items.RemoveAt(0);
             int i = 0;
-            foreach(var el in array)
+            foreach(var el in array.Reverse())
             {
+                if (i == 0) damage = el.Value.damage;
                 var dpsRow = (listBox.Items[i] as DpsRow);
-                dpsRow.procent = Math.Max(0,Math.Min(el.Value.damage/damage,100));
+                dpsRow.procent = Math.Max(0,Math.Min(el.Value.damage/damage*100.0,100));
                 dpsRow.playerName = el.Value.name;
                 dpsRow.playerCount = String.Format("{0:0.00}", el.Value.dps);
                 i++;

@@ -27,7 +27,7 @@
             VerticalAlignment="Stretch"
             Background="Transparent"
             BorderBrush="Transparent"
-            Value="{Binding Path=procent}" />
+            Value="{Binding Path=procent, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
         <Grid
             HorizontalAlignment="Stretch"
             VerticalAlignment="Stretch"
@@ -45,7 +45,7 @@
                 FontFamily="Comic Sans MS"
                 FontWeight="Bold"
                 Foreground="White"
-                Content="{Binding Path=playerName}" />
+                Content="{Binding Path=playerName, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
             <Label
                 x:Name="labelCount"
                 HorizontalContentAlignment="Right"
