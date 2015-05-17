@@ -75,6 +75,7 @@ namespace Detrav.Terometr.Windows
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             test.close();
+            myNotifyIcon.Visibility = System.Windows.Visibility.Hidden;
         }
 
         void timer_Tick(object sender, EventArgs e)
