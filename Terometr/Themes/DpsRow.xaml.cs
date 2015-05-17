@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Terometr.Themes
+namespace Detrav.Terometr.Themes
 {
     /// <summary>
     /// Логика взаимодействия для DpsRow.xaml

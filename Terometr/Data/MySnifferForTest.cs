@@ -1,12 +1,12 @@
-﻿using Sniffer;
-using Sniffer.Tera;
+﻿using Detrav.Sniffer;
+using Detrav.Sniffer.Tera;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terometr.Data
+namespace Detrav.Terometr.Data
 {
     class MySnifferForTest
     {
@@ -20,7 +20,7 @@ namespace Terometr.Data
             sniffer.start(0);
         }
 
-        void sniffer_onParsePacket(Connection connection, Sniffer.Tera.TeraPacket packet)
+        void sniffer_onParsePacket(Connection connection, Detrav.Sniffer.Tera.TeraPacket packet)
         {
             OpCode2805 code = (OpCode2805)packet.opCode;
             TeraPacketParser p;

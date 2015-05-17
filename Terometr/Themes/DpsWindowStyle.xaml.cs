@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Terometr.Themes
+namespace Detrav.Terometr.Themes
 {
     /// <summary>
     /// Логика взаимодействия для DpsWindowStyle.xaml

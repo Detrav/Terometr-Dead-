@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terometr.Data
+namespace Detrav.Terometr.Data
 {
     //Да да, у него должно быть другое применение, однако я захотел назвать синглтон так
     class Repository
@@ -145,7 +145,7 @@ namespace Terometr.Data
                     if(dps.Value.update)
                     {
                         bool flag = true;
-                        foreach(Terometr.Themes.DpsRow item in items)
+                        foreach(Detrav.Terometr.Themes.DpsRow item in items)
                         {
                             if(item.id == dps.Key)
                             {
@@ -157,7 +157,7 @@ namespace Terometr.Data
                         }
                         if (flag)
                         {
-                            var dpsRow = new Terometr.Themes.DpsRow(
+                            var dpsRow = new Detrav.Terometr.Themes.DpsRow(
                                 dps.Key, 0, dps.Value.name, dps.Value.dps.ToString());
                             items.Add(dpsRow);
                             dps.Value.update = false;

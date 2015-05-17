@@ -1,5 +1,5 @@
-﻿using Sniffer;
-using Sniffer.Tera;
+﻿using Detrav.Sniffer;
+using Detrav.Sniffer.Tera;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

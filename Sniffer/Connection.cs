@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sniffer
+namespace Detrav.Sniffer
 {
     // Спасибо http://www.theforce.dk/hearthstone/ за проделанную работу
     public class Connection

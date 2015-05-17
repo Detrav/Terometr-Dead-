@@ -1,6 +1,6 @@
 ﻿using NdisApiWrapper;
 using PacketDotNet;
-using Sniffer.Tera;
+using Detrav.Sniffer.Tera;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sniffer
+namespace Detrav.Sniffer
 {
     public class Capture
     {

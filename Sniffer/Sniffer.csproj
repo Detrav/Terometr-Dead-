@@ -7,7 +7,7 @@
     <ProjectGuid>{999BC3F0-8B7D-4C51-93DD-0D11E8E6E3C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sniffer</RootNamespace>
+    <RootNamespace>Detrav.Sniffer</RootNamespace>
     <AssemblyName>Sniffer</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="NdisApiWrapper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\MyResources\ndisdll86_32\NdisApiWrapper.dll</HintPath>
+    </Reference>
     <Reference Include="PacketDotNet">
       <HintPath>..\packages\PacketDotNet.0.13.0\lib\net\PacketDotNet.dll</HintPath>
     </Reference>

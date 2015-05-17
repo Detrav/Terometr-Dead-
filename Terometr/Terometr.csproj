@@ -7,7 +7,7 @@
     <ProjectGuid>{E4D94429-5720-480B-AA03-ED443895B624}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Terometr</RootNamespace>
+    <RootNamespace>Detrav.Terometr</RootNamespace>
     <AssemblyName>Terometr</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

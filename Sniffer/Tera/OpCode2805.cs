@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sniffer.Tera
+namespace Detrav.Sniffer.Tera
 {
     public enum OpCode2805 : ushort
     {

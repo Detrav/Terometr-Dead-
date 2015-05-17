@@ -142,23 +142,23 @@ namespace SnifferGUI
 
         public static string getPacketName(ushort opCode)
         {
-            return ((Sniffer.Tera.OpCode2805)opCode).ToString();
+            return ((Detrav.Sniffer.Tera.OpCode2805)opCode).ToString();
         }
         public static ushort[] getArrayOfPacketsName(string[] names)
         {
             ushort[] result = new ushort[names.Length];
             for (int i = 0; i < names.Length;i++ )
-                result [i] = (ushort)Enum.Parse(typeof(Sniffer.Tera.OpCode2805), names[i]);
+                result [i] = (ushort)Enum.Parse(typeof(Detrav.Sniffer.Tera.OpCode2805), names[i]);
             return result;
         }
         public static bool isPacketName(string name)
         {
-            Sniffer.Tera.OpCode2805 opcodes;
-            return Enum.TryParse<Sniffer.Tera.OpCode2805>(name, out opcodes);
+            Detrav.Sniffer.Tera.OpCode2805 opcodes;
+            return Enum.TryParse<Detrav.Sniffer.Tera.OpCode2805>(name, out opcodes);
         }
         public static bool isPacket(ushort opCode)
         {
-            return Enum.IsDefined(typeof(Sniffer.Tera.OpCode2805), opCode);
+            return Enum.IsDefined(typeof(Detrav.Sniffer.Tera.OpCode2805), opCode);
         }
 
        

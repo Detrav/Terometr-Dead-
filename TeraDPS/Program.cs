@@ -18,7 +18,7 @@ namespace TeraDPS
         public static counts count = new counts();
         static void Main(string[] args)
         {
-            Sniffer.Capture sniffer = new Sniffer.Capture("91.225.237.8");
+            Detrav.Sniffer.Capture sniffer = new Detrav.Sniffer.Capture("91.225.237.8");
             if (sniffer.ready)
             {
                 string[] devices = sniffer.getDevices();
@@ -34,15 +34,15 @@ namespace TeraDPS
             }
         }
 
-        static void sniffer_onParsePacket(Sniffer.Connection connection, Sniffer.Tera.TeraPacket packet)
+        static void sniffer_onParsePacket(Detrav.Sniffer.Connection connection, Detrav.Sniffer.Tera.TeraPacket packet)
         {
             switch(packet.type)
             { 
-                case Sniffer.Tera.TeraPacket.Type.Recv:
+                case Detrav.Sniffer.Tera.TeraPacket.Type.Recv:
                     count.r++;
                     Console.WriteLine("{0,15} {1,6} {2,6} {3,6}", count.r, "recv", packet.size, names[packet.opCode]);
                     break;
-                case Sniffer.Tera.TeraPacket.Type.Send:
+                case Detrav.Sniffer.Tera.TeraPacket.Type.Send:
                     count.s++;
                     Console.WriteLine("{0,15} {1,6} {2,6} {3,6}", count.s, "send", packet.size, names[packet.opCode]);
                     break;

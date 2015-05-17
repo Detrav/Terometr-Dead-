@@ -12,10 +12,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Terometr.Data;
-using Terometr.Themes;
+using Detrav.Terometr.Data;
+using Detrav.Terometr.Themes;
 
-namespace Terometr.Windows
+namespace Detrav.Terometr.Windows
 {
     /// <summary>
     /// Логика взаимодействия для DpsWindow.xaml

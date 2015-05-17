@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terometr.Data
+namespace Detrav.Terometr.Data
 {
     class DpsInfo
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Sniffer.Tera.P2805
+namespace Detrav.Sniffer.Tera.P2805
 {
     class C_CHECK_VERSION : TeraPacketParser
     {
