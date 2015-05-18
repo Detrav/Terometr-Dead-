@@ -22,10 +22,9 @@ namespace Detrav.Sniffer
         private TCP_AdapterList adapters = new TCP_AdapterList();
         public bool ready { get; private set; }
         private Thread threadLookingForPacket;
-        private INTERMEDIATE_BUFFER[] buffers;
-        private IntPtr[] bufferPtrs;
-        private ETH_REQUEST[] requests;
-        private uint requestCount;
+        private INTERMEDIATE_BUFFER buffer;
+        private IntPtr bufferPtr;
+        private ETH_REQUEST request;
         //Для обработки
         private string[] servers;
         private Dictionary<Connection, TcpClient> tcpClients;
@@ -90,17 +89,8 @@ namespace Detrav.Sniffer
             return null;
         }
 
-        /// <summary>
-        /// Устарелый, используйте без параметров
-        /// </summary>
-        /// <param name="num"></param>
-        public void start(int num)
-        {
-            //Для совместимости
-            start();
-        }
 
-        public void start()
+        public void start(int num)
         {
             if (ready)
             {
@@ -111,7 +101,7 @@ namespace Detrav.Sniffer
                 };
                 Ndisapi.SetAdapterMode(driverPtr, ref mode);
                 IP_ADDRESS_V4[] serversIp = new IP_ADDRESS_V4[servers.Length];
-                for(int i =0;i<=servers.Length;i++)
+                for (int i = 0; i <= servers.Length; i++)
                     serversIp[i] = new IP_ADDRESS_V4()
                 {
                     m_AddressType = Ndisapi.IP_SUBNET_V4_TYPE,
@@ -124,7 +114,7 @@ namespace Detrav.Sniffer
                 //Filters
                 STATIC_FILTER_TABLE filtersTable = new STATIC_FILTER_TABLE();
                 filtersTable.m_StaticFilters = new STATIC_FILTER[256];
-                filtersTable.m_TableSize = (uint)(3*servers.Length);
+                filtersTable.m_TableSize = (uint)(3 * servers.Length);
                 for (int i = 0; i < filtersTable.m_TableSize; i += 3)
                 {
                     filtersTable.m_StaticFilters[i].m_Adapter = 0; // applied to all adapters
@@ -148,21 +138,15 @@ namespace Detrav.Sniffer
                 }
                 Ndisapi.SetPacketFilterTable(driverPtr, ref filtersTable);
 
-                // Allocate and initialize packet structures
-                requestCount = adapters.m_nAdapterCount;
-                buffers = new INTERMEDIATE_BUFFER[requestCount];
-                bufferPtrs = new IntPtr[requestCount];
-                requests = new ETH_REQUEST[requestCount];
-                for (int i = 0; i < requestCount; i++)
+
+
+                buffer = new INTERMEDIATE_BUFFER();
+                Win32Api.ZeroMemory(bufferPtr, Marshal.SizeOf(buffer));
+                request = new ETH_REQUEST
                 {
-                    buffers[i] = new INTERMEDIATE_BUFFER();
-                    Win32Api.ZeroMemory(bufferPtrs[i], Marshal.SizeOf(buffers[i]));
-                    requests[i] = new ETH_REQUEST
-                    {
-                        hAdapterHandle = adapters.m_nAdapterHandle[i],
-                        EthPacket = { Buffer = bufferPtrs[i] }
-                    };
-                }
+                    hAdapterHandle = adapters.m_nAdapterHandle[num],
+                    EthPacket = { Buffer = bufferPtr }
+                };
                 threadLookingForPacket.Start();
                 threadParsePacket.Start();
                 ready = false;
@@ -188,21 +172,17 @@ namespace Detrav.Sniffer
                 if (needToStop)
                 {
                     snifferLog("Запуск снифера");
-                    for (int i = 0; i < requestCount; i++)
-                        Marshal.FreeHGlobal(bufferPtrs[i]);
+                        Marshal.FreeHGlobal(bufferPtr);
                     Ndisapi.CloseFilterDriver(driverPtr);
                     if (snifferLogWriter != null) snifferLogWriter.Close();
                     return;
                 }
-                bool sleep = true;
-                for (int i = 0; i < requestCount; i++)
-                    if (Ndisapi.ReadPacket(driverPtr, ref requests[i]))
+                    if (Ndisapi.ReadPacket(driverPtr, ref request))
                     {
-                        buffers[i] = (INTERMEDIATE_BUFFER)Marshal.PtrToStructure(bufferPtrs[i], typeof(INTERMEDIATE_BUFFER));
-                        captureDevice_OnPacketArrival(buffers[i]);
-                        sleep = false;
+                        buffer = (INTERMEDIATE_BUFFER)Marshal.PtrToStructure(bufferPtr, typeof(INTERMEDIATE_BUFFER));
+                        captureDevice_OnPacketArrival(buffer);
                     }
-                if (sleep) System.Threading.Thread.Sleep(16);
+                    else System.Threading.Thread.Sleep(16);
             }
         }
         void captureDevice_OnPacketArrival(INTERMEDIATE_BUFFER packetBuffer)
