@@ -141,6 +141,7 @@ namespace Detrav.Sniffer
 
 
                 buffer = new INTERMEDIATE_BUFFER();
+                bufferPtr = Marshal.AllocHGlobal(Marshal.SizeOf(buffer));
                 Win32Api.ZeroMemory(bufferPtr, Marshal.SizeOf(buffer));
                 request = new ETH_REQUEST
                 {
