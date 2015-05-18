@@ -56,8 +56,6 @@ namespace Detrav.Sniffer
         TextWriter packetLogWriter;
         TextWriter snifferLogWriter;
 
-        public Capture() : this(null) { }
-
         public Capture(string[] serversIp)
         {
             GCHandle.Alloc(adapters);
@@ -73,6 +71,10 @@ namespace Detrav.Sniffer
             tcpClients = new Dictionary<Connection, TcpClient>();
             clients = new Dictionary<Connection, Client>();
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        public Capture(string str) : this(new string[1] { str }) { }
 
         public string[] getDevices()
         {
@@ -86,6 +88,16 @@ namespace Detrav.Sniffer
                 return result;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Устарелый, используйте без параметров
+        /// </summary>
+        /// <param name="num"></param>
+        public void start(int num)
+        {
+            //Для совместимости
+            start();
         }
 
         public void start()
