@@ -28,6 +28,7 @@ namespace Detrav.Sniffer
                         while ((packet = client.Value.parsePacket()) != null)
                         {
                             packetLog(packet);
+                            if (onParsePacket != null) onParsePacket(this, new PacketEventArgs(client.Key, packet));
                             //onParsePacket(client.Key, packet);
                         }
                     }
@@ -35,7 +36,10 @@ namespace Detrav.Sniffer
                     {
                         var itemsToRemove = clients.Where(f => f.Value.delete).ToArray();
                         foreach (var item in itemsToRemove)
+                        {
                             clients.Remove(item.Key);
+                            if (onEndConnection != null) onEndConnection(this, new ConnectionEventArgs(item.Key));
+                        }
                     }
                 }
                 Thread.Sleep(16);
@@ -53,6 +57,7 @@ namespace Detrav.Sniffer
                     packetLogWriter = new StreamWriter(String.Format("logs/packets/Tera_{0}.packet", DateTime.Now.ToString("MMM_dd_HH_mm_ss")));
                 packetLogWriter.WriteLine("{0} {1}", DateTime.Now.ToString("HH:mm:ss"), p.ToString());
                 packetLogWriter.Flush();
+                
             }
         }
     }

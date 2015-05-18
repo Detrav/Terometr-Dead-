@@ -127,6 +127,8 @@ namespace Detrav.Sniffer
                 threadLookingForPacket.Start();
                 threadParsePacket.Start();
                 ready = false;
+
+                if (onStartedSniffer != null) onStartedSniffer(this, EventArgs.Empty);
             }
         }
 
@@ -146,6 +148,7 @@ namespace Detrav.Sniffer
                 needToStop = true;
                 threadLookingForPacket.Join(1000);
                 threadParsePacket.Join(1000);
+                if (onStoppedSniffer != null) onStoppedSniffer(this, EventArgs.Empty);
             }
             disposed = true;
         }

@@ -66,6 +66,7 @@ namespace Detrav.Sniffer
                 }
                 connected = true;
                 snifferLog("Новое соединение: " + connection.ToString());
+                if (onNewConnection != null) onNewConnection(this, new ConnectionEventArgs(connection));
             }
 
             if (tcpPacket.Ack && connected)
