@@ -22,8 +22,11 @@ namespace Detrav.Sniffer
 
         private static byte[] initPacket = new byte[4] { 0x01, 0x00, 0x00, 0x00 };
 
+        public bool delete { get; set; }
+
         public Client()
         {
+            delete = false;
             teraPackets = new Queue<TeraPacket>();
             reStart();
         }
@@ -147,9 +150,6 @@ namespace Detrav.Sniffer
             return result;
         }
 
-
-
-        public System.IO.TextWriter tw;
         internal TeraPacket parsePacket()
         {
             if (teraPackets.Count == 0)
