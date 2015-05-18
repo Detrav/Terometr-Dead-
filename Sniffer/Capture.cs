@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Detrav.Sniffer
 {
-    public partial class Capture
+    public partial class Capture : IDisposable
     {
         //Драйвер на перехват
         private IntPtr driverPtr = Ndisapi.OpenFilterDriver();
@@ -51,7 +51,8 @@ namespace Detrav.Sniffer
         private bool flagToSnifferLog = false;
         TextWriter packetLogWriter;
         TextWriter snifferLogWriter;
-        
+        //Деструктор
+        private bool disposed = false;
 
         public Capture()
         {
@@ -128,15 +129,30 @@ namespace Detrav.Sniffer
                 ready = false;
             }
         }
-        public void stop()
+
+        public void Dispose()
         {
-            needToStop = true;
-            threadLookingForPacket.Join(1000);
-            threadParsePacket.Join(1000);
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+                return;
+
+            if (disposing)
+            {
+                needToStop = true;
+                threadLookingForPacket.Join(1000);
+                threadParsePacket.Join(1000);
+            }
+            disposed = true;
+        }
+
         ~Capture()
         {
-            stop();
+            Dispose();
         }
     }
 }

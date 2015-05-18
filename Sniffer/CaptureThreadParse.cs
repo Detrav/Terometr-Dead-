@@ -28,7 +28,7 @@ namespace Detrav.Sniffer
                         while ((packet = client.Value.parsePacket()) != null)
                         {
                             packetLog(packet);
-                            onParsePacket(client.Key, packet);
+                            //onParsePacket(client.Key, packet);
                         }
                     }
                     if(existToDelete)
