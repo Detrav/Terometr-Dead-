@@ -7,200 +7,92 @@ using System.Threading.Tasks;
 
 namespace Detrav.Sniffer.Tera
 {
-    public class TeraPacketParser : TeraPacket
+    public class TeraPacketParser
     {
 
         //MemoryStream ms;
         //BinaryReader br;
-        List<PacketElement> elements;
-
+        //List<PacketElement> elements;
+        [PacketInfo(0)]
+        public ushort size { get; set; }
+        [PacketInfo(0)]
+        public ushort opCode;
+        public TeraPacket.PacketType type;
+        public byte[] data;
+        Type t;
 
         public TeraPacketParser(TeraPacket packet)
-            : base(packet.data, packet.type)
         {
-            //ms = new MemoryStream(packet.data);
-            //br = new BinaryReader(ms);
-            elements = new List<PacketElement>();
-            readUInt16(0,"size");
-            readUInt16(2,"opcode");
+            t = this.GetType();
+            data = packet.data;
+            type = packet.type;
+            size = readUInt16(0);
+            opCode = readUInt16(2);
         }
 
-        public PacketElement this[string str]
+        /*public object this[string str]
         {
             get
             {
-                foreach (var el in elements)
-                    if (el.name == str)
-                        return el;
-                return null;
+                return t.GetProperty(str).
             }
             set
             {
-                foreach (var el in elements)
-                    if (el.name == str)
-                    {
-                        el.shift = value.shift;
-                        el.start = value.start;
-                        el.type = value.type;
-                        el.value = value.value;
-                        return;
-                    }
-                elements.Add(value);
+                t.GetField(str).SetValue(this, value);
             }
-        }
+        }*/
 
-        protected System.Collections.BitArray readBitArray(ushort pos,string p)
+        protected System.Collections.BitArray readBitArray(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = new System.Collections.BitArray(new byte[1] { data[pos] }),
-                type = "bitarray"
-            };
-            this[p] = el;
-            return (System.Collections.BitArray)el.value;
+            return new System.Collections.BitArray(new byte[1] { data[pos] });
         }
-        protected byte readByte(ushort pos,string p)
+        protected byte readByte(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = data[pos],
-                type = "byte"
-            }; 
-            this[p] =el;
-            return (byte)el.value;
+            return data[pos];
         }
-        protected sbyte readSByte(ushort pos,string p)
+        protected sbyte readSByte(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = (sbyte)data[pos],
-                type = "sbyte"
-            };
-            this[p] = el;
-            return (sbyte)el.value;
+            return (sbyte)data[pos];
         }
-        protected ushort readUInt16(ushort pos,string p)
+        protected ushort readUInt16(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToUInt16(data,pos),
-                type = "ushort"
-            };
-            this[p] = el;
-            return (ushort)el.value;
+            return BitConverter.ToUInt16(data, pos);
         }
-        protected short readInt16(ushort pos,string p)
+        protected short readInt16(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToInt16(data, pos),
-                type = "short"
-            };
-            this[p] = el;
-            return (short)el.value;
+            return BitConverter.ToInt16(data, pos);
         }
-        protected uint readUInt32(ushort pos, string p)
+        protected uint readUInt32(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToUInt32(data,pos),
-                type = "uint"
-            };
-            this[p] = el;
-            return (uint)el.value;
+            return BitConverter.ToUInt32(data, pos);
         }
-        protected int readInt32(ushort pos ,string p)
+        protected int readInt32(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToInt32(data,pos),
-                type = "int"
-            };
-            this[p] = el;
-            return (int)el.value;
+            return BitConverter.ToInt32(data, pos);
         }
-        protected ulong readUInt64(ushort pos,string p)
+        protected ulong readUInt64(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToUInt64(data,pos),
-                type = "ulong"
-            };
-            this[p] = el;
-            return (ulong)el.value;
+            return BitConverter.ToUInt64(data, pos);
         }
-        protected long readInt64(ushort pos,string p)
+        protected long readInt64(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToInt64(data,pos),
-                type = "long"
-            };
-            this[p] = el;
-            return (long)el.value;
+            return BitConverter.ToInt64(data, pos);
         }
-        protected float readSingle(ushort pos,string p)
+        protected float readSingle(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToSingle(data,pos),
-                type = "float"
-            };
-            this[p] = el;
-            return (float)el.value;
+            return BitConverter.ToSingle(data, pos);
         }
-        protected double readDouble(ushort pos, string p)
+        protected double readDouble(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToDouble(data,pos),
-                type = "double"
-            };
-            this[p] = el;
-            return (double)el.value;
+            return BitConverter.ToDouble(data,pos);
         }
-        protected char readChar(ushort pos, string p)
+        protected char readChar(ushort pos)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = BitConverter.ToChar(data,pos),
-                type = "char"
-            };
-            this[p] = el;
-            return (char)el.value;
+            return Convert.ToChar(BitConverter.ToUInt16(data,pos));
         }
-        protected string readString(ushort pos,string p, int len = int.MaxValue)
+        protected string readString(ushort pos, int len = int.MaxValue)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                type = "string"
-            };
+            
             ushort start = pos;
             StringBuilder result = new StringBuilder();
             for (int i = start; i<len ; i += 2)
@@ -211,51 +103,21 @@ namespace Detrav.Sniffer.Tera
                 else
                     result.Append(c);
             }
-            el.value = result.ToString();
-            this[p] = el;
-            return (string)el.value;
+            return result.ToString();
         }
-
-        protected bool readBoolean(ushort pos,string p, byte s = 0)
+        protected bool readBoolean(ushort pos, byte s = 0)
         {
             if (s > 7)
                 return false;
             var temp = new System.Collections.BitArray(new byte[1] { data[pos] });
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                value = temp[s],
-                shift = s,
-                type = "boolean"
-            };
-            this[p] = el;
-            return (bool)el.value;
+            return temp[s];
         }
-
-        protected string readHex(ushort pos,string p, int lenght)
+        protected byte[] readHex(ushort pos , int lenght)
         {
-            PacketElement el = new PacketElement
-            {
-                name = p,
-                start = pos,
-                type = "hex"
-            };
-            StringBuilder result = new StringBuilder();
-            for (int i = 0; i< lenght; i++)
-                result.AppendFormat("{0:X2}", data[i]);
-            el.value = result.ToString();
-            this[p] = el;
-            return (string)el.value;
-        }
-
-        public class PacketElement
-        {
-            public string name = null;
-            public ushort start = 0;//в байтах
-            public byte shift = 0;//в битах
-            public object value = null;
-            public string type = null;
+            byte[] bb = new byte[lenght];
+            for (int i = 0; i < lenght; i++)
+                bb[i] = data[i + pos];
+            return bb;
         }
 
         public override string ToString()
@@ -267,21 +129,29 @@ namespace Detrav.Sniffer.Tera
                 sb.AppendFormat(" {0:X4}: {1,-24}| {2,-24} {3,-16}\n", i, byteArrayToHexString(data, i, 8), byteArrayToHexString(data, i + 8, 8), byteArrayToCharArray(data, i, 16));
             }
             sb.Append("\n");
-            foreach (var el in elements)
+            foreach (var el in t.GetProperties())
             {
-                string str = "{0:X4} - {1} : {2} : {3}\n";
-                string str_with_shift = "{0:X4}+{1} - {2} : {3} : {4}\n";
-                switch (el.type)
+                if (Attribute.IsDefined(el, typeof(PacketInfo)))
                 {
-                    case "boolean":
-                        sb.AppendFormat(str_with_shift, el.start, el.shift, el.name, el.value, el.type);
-                        break;
-                    case "bitarray":
-                        sb.AppendFormat(str, el.start, el.name, bitArrayToString(el.value as System.Collections.BitArray), el.type);
-                        break;
-                    default:
-                        sb.AppendFormat(str, el.start, el.name, el.value, el.type);
-                        break;
+                    PacketInfo attr  = (PacketInfo)(el.GetCustomAttributes(typeof(PacketInfo),false)[0]);
+                    string str = "{0:X4} - {1} : {2} : {3}\n";
+                    string str_with_shift = "{0:X4}+{1} - {2} : {3} : {4}\n";
+                    switch (el.PropertyType.ToString())
+                    {
+                        case "boolean"://Поменять
+                            sb.AppendFormat(str_with_shift, attr.shift, attr.shift, el.Name, el.GetValue(this), el.PropertyType);
+                            break;
+                        case "bitarray"://Поменять
+                            sb.AppendFormat(str, attr.start, el.Name, bitArrayToString(el.GetValue(this) as System.Collections.BitArray), el.PropertyType);
+                            break;
+                        case "hex"://Поменять
+                            break;
+                        default:
+                            //Поменять
+                            //sb.AppendFormat(str, attr.start, el.Name, el.GetValue(this), el.PropertyType);
+                            sb.AppendFormat(str, attr.start, el.Name, "", el.PropertyType);
+                            break;
+                    }
                 }
             }
             return sb.ToString();

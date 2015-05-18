@@ -8,7 +8,7 @@ namespace Detrav.Sniffer.Tera
 {
     public class TeraPacket
     {
-        public Type type;
+        public PacketType type;
         public ushort size;
         public ushort opCode;
         public byte[] data;
@@ -20,7 +20,7 @@ namespace Detrav.Sniffer.Tera
             opCode = BitConverter.ToUInt16(data, 2);//id пакета или OpCode
             type = _type;
         }
-        public enum Type { Send, Recv }
+        public enum PacketType { Send, Recv }
 
         /*
          * В предыдущей версии я пробовал считывать данные из файла, но потом всёже передумал

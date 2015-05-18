@@ -8,6 +8,11 @@ namespace Detrav.Sniffer.Tera.P2805
 {
     class C_CHECK_VERSION : TeraPacketParser
     {
+        [PacketInfo(4)]
+        int count { get; set; }
+        
+
+
         public C_CHECK_VERSION(TeraPacket packet)
             : base(packet)
         {
