@@ -51,7 +51,6 @@
   <ItemGroup>
     <Compile Include="Client.cs" />
     <Compile Include="Connection.cs" />
-    <Compile Include="PcapCapture.cs" />
     <Compile Include="TcpClient.cs" />
     <Compile Include="Tera\P2805\C_CHECK_VERSION.cs" />
     <Compile Include="Tera\OpCode2805.cs" />
