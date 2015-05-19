@@ -64,7 +64,9 @@
                                   IsReadOnly="True"
                                   AutoGenerateColumns="False"
                                   VerticalAlignment="Stretch"
-                                  SelectionMode="Single">
+                                  SelectionMode="Single"
+                                  SelectionChanged="dataGrid_SelectionChanged"
+                                  >
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="###"
                                                     Width="Auto"
@@ -174,8 +176,9 @@
                         <Image Source="pack://siteoforigin:,,,/assets/images/search.png" />
                     </Button>
                 </ToolBar>
-                <RichTextBox Grid.Row="1"
-                             IsReadOnly="True" />
+                <TextBlock x:Name="textBlockPacket"
+                           Grid.Row="1"
+                           FontFamily="Courier New" />
             </Grid>
         </Grid>
         <StatusBar Grid.Row="1">

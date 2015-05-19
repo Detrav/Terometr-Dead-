@@ -142,5 +142,12 @@ namespace Teroniffer.UserElements
                 packets.Add(new DataPacket(packets.Count, teraPacket));
             }
         }
+
+        private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            textBlockPacket.Text = Detrav.Sniffer.Tera.TeraPacketCreator.create((dataGrid.SelectedItem as DataPacket).getTeraPacket()).ToString();
+            /*richTextBox.Document.Blocks.Clear();
+            richTextBox.Selection.Text = Detrav.Sniffer.Tera.TeraPacketCreator.create((dataGrid.SelectedItem as DataPacket).getTeraPacket()).ToString();*/
+        }
     }
 }
