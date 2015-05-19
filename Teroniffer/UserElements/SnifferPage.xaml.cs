@@ -94,21 +94,20 @@ namespace Teroniffer.UserElements
 
         private void buttonWhite_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dataGrid.SelectedItem != null)
+            {
+                listBoxWhite.Items.Add((dataGrid.SelectedItem as DataPacket).opCode);
+                tabControl.SelectedIndex = 1;
+            }
         }
 
         private void buttonBlack_Click(object sender, RoutedEventArgs e)
         {
-            try
+            if (dataGrid.SelectedItem != null)
             {
-                if (dataGrid.SelectedItem != null)
-                {
-                    listBoxBlack.Items.Add((dataGrid.SelectedItem as DataPacket).opCode);
-                    tabControl.SelectedIndex = 1;
-                }
+                listBoxBlack.Items.Add((dataGrid.SelectedItem as DataPacket).opCode);
+                tabControl.SelectedIndex = 1;
             }
-            catch { }
-            
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
