@@ -112,7 +112,32 @@ namespace Teroniffer.UserElements
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
-
+        }
+        private static byte[] stringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+        private static int byteArrayContaints(byte[] bb, byte[] what)
+        {
+            int len = bb.Length - what.Length;
+            for (int i = 0; i < len; i++)
+            {
+                bool flag = true;
+                for(int j=0;j<what.Length;j++)
+                {
+                    if(bb[i+j]!=what[j])
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag)
+                    return i;
+            }
+            return -1;
         }
 
         private void buttonPrev_Click(object sender, RoutedEventArgs e)
@@ -158,6 +183,13 @@ namespace Teroniffer.UserElements
                         bs.Add(item);
                     packs = from p in packs where !bs.Contains(p.opCode) select p;
                 }
+                //Медлено по строке
+                try
+                {
+                    byte[] bb = stringToByteArray(searchBox.Text);
+                    packs = from p in packs where byteArrayContaints(p.getTeraPacket().data, bb) >=0 select p;
+                }
+                catch { }
                 //Поиск будет отдельно
                 dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = packs.Skip(skip).Take(take);
