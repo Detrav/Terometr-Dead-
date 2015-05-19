@@ -13,5 +13,12 @@ namespace Detrav.Terometr.TeraApi.Data
                 return (ServerInfoItem[])xer.Deserialize(tr);
             }
         }
+        public static string[] getServersName(ServerInfoItem[] servs)
+        {
+            string[] result = new string[servs.Length];
+            for (int i = 0; i < servs.Length; i++)
+                result[i] = servs[i].serverName;
+            return result;
+        }
     }
 }
