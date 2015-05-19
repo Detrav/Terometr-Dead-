@@ -112,6 +112,18 @@ namespace Teroniffer.UserElements
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                if(dataGrid.SelectedItem!=null)
+                {
+                
+                byte[] bb = stringToByteArray(searchBox.Text);
+
+
+                MessageBox.Show(byteArrayContaints((dataGrid.SelectedItem as DataPacket).getTeraPacket().data, bb).ToString("X2"));
+                }
+            }
+            catch { MessageBox.Show("ERROR"); }
         }
         private static byte[] stringToByteArray(string hex)
         {
