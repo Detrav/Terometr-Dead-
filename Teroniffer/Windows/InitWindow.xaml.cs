@@ -19,12 +19,17 @@ namespace Teroniffer.Windows
     /// </summary>
     public partial class InitWindow : Window
     {
-        public int selectedIndex { get; private set; }
-        public InitWindow(string[] list)
+        public int selectedIndexDevice { get; private set; }
+        public int selectedIndexServer { get; private set; }
+        public InitWindow(string[] listDevices, string[] listServers)
         {
             InitializeComponent();
-            foreach (var el in list)
-                listBox.Items.Add(el);
+            foreach (var el in listDevices)
+                listBoxDevices.Items.Add(el);
+            listBoxDevices.SelectedIndex = Properties.Settings.Default.initWindowDeviceIndex;
+            foreach (var el in listServers)
+                listBoxServers.Items.Add(el);
+            listBoxServers.SelectedIndex = Properties.Settings.Default.initWindowServerIndex;
         }
 
         private void buttonCansel_Click(object sender, RoutedEventArgs e)
@@ -34,12 +39,21 @@ namespace Teroniffer.Windows
 
         private void buttonOk_Click(object sender, RoutedEventArgs e)
         {
-            if (listBox.SelectedIndex < 0)
+            if (listBoxDevices.SelectedIndex < 0)
             {
                 System.Windows.MessageBox.Show("Нужно выбрать одно из устройств!");
                 return;
             }
-            selectedIndex = listBox.SelectedIndex;
+            if (listBoxServers.SelectedIndex < 0)
+            {
+                System.Windows.MessageBox.Show("Нужно выбрать один из серверов!");
+                return;
+            }
+            selectedIndexDevice = listBoxDevices.SelectedIndex;
+            selectedIndexServer = listBoxServers.SelectedIndex;
+            Properties.Settings.Default.initWindowDeviceIndex = listBoxDevices.SelectedIndex;
+            Properties.Settings.Default.initWindowServerIndex = listBoxServers.SelectedIndex;
+            Properties.Settings.Default.Save();
             DialogResult = true;
         }
     }

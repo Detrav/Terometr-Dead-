@@ -28,24 +28,35 @@ namespace Teroniffer.Windows
     {
         Capture capture;
         ServerInfoItem[] servers = ServerInfoItem.servers();
+        Dictionary<Connection, SnifferPage> snifferPages;
         public MainWindow()
         {
             InitializeComponent();
+            snifferPages = new Dictionary<Connection, SnifferPage>();
             listBoxWhatNow.Items.Add("Ожидание запуска драйвера...");
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             capture = new Capture();
-            InitWindow initWindow = new InitWindow(capture.devices);
+            //Запускаем окно настроек соединения
+            InitWindow initWindow = new InitWindow(capture.devices,ServerInfoItem.getServersName(servers));
             if (initWindow.ShowDialog() != true) { Close(); return; }
-            List<string> strs = new List<string>();
-            foreach (var el in servers)
-                strs.Add(el.serverIp);
-            capture.serverIps = strs.ToArray();
+            capture.serverIps = new string[1]{ servers[initWindow.selectedIndexServer].serverIp };
             capture.onStartedSniffer += capture_onStartedSniffer;
             capture.onNewConnection += capture_onNewConnection;
-            capture.start(initWindow.selectedIndex);
+            capture.onParsePacket += capture_onParsePacket;
+            capture.start(initWindow.selectedIndexDevice);
+        }
+
+        void capture_onParsePacket(object sender, PacketEventArgs e)
+        {
+            SnifferPage sn;
+            lock(snifferPages)
+            {
+                snifferPages.TryGetValue(e.connection, out sn);
+            }
+            sn.parsePacket(e.packet);
         }
 
         void capture_onStartedSniffer(object sender, EventArgs e)
@@ -61,10 +72,17 @@ namespace Teroniffer.Windows
         {
             string serverName = "Unknown";
             foreach(var el in servers)
-                if (el.serverIp == e.connection.srcIp) { serverName = el.serverName; break; }
-                else if (el.serverIp == e.connection.dstIp) { serverName = el.serverName; break; }
-            SnifferPage snifferPage = new SnifferPage();
-            tabControl.Items.Add(new TabItem() { Header = serverName, Content = snifferPage });
+                if (el.serverIp == e.connection.srcIp) { serverName = e.connection.dstPort.ToString(); break; }
+                else if (el.serverIp == e.connection.dstIp) { serverName = e.connection.srcPort.ToString(); break; }
+            Dispatcher.Invoke(new Action<string>((sName) =>
+            {
+                SnifferPage snifferPage = new SnifferPage();
+                tabControl.Items.Add(new TabItem() { Header = sName, Content = snifferPage });
+                lock(snifferPages)
+                {
+                    snifferPages.Add(e.connection,snifferPage);
+                }
+            }),serverName);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

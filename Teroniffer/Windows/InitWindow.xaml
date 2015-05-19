@@ -7,9 +7,11 @@
         ResizeMode="NoResize">
     <DockPanel>
         <Label DockPanel.Dock="Top">Выбирите устройство захвата:</Label>
-        <ListBox DockPanel.Dock="Top"
-                 x:Name="listBox"
-                 Height="150"></ListBox>
+        <ComboBox DockPanel.Dock="Top"
+                  x:Name="listBoxDevices"></ComboBox>
+        <Label DockPanel.Dock="Top">Выбирите сервер:</Label>
+        <ComboBox DockPanel.Dock="Top"
+                  x:Name="listBoxServers"></ComboBox>
         <DockPanel DockPanel.Dock="Bottom"
                    Height="24"
                    VerticalAlignment="Bottom">

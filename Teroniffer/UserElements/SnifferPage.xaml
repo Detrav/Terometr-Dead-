@@ -14,11 +14,11 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="250" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TabControl Grid.Column="0"
-                        MinWidth="200">
+                        MinWidth="200" >
                 <TabItem Header="Данные">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -29,12 +29,14 @@
                         <StackPanel Grid.Row="0"
                                     Orientation="Horizontal">
                             <Label Content="От" />
-                            <TextBox Width="60"
+                            <TextBox x:Name="textBoxSkip"
+                                Width="60"
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      Text="0" />
-                            <Label Content="До" />
-                            <TextBox Width="60"
+                            <Label Content="Кол." />
+                            <TextBox x:Name="textBoxCount"
+                                Width="60"
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      Text="1000" />
