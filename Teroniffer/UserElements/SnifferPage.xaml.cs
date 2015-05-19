@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Teroniffer.Core;
+using Teroniffer.Windows;
 
 namespace Teroniffer.UserElements
 {
@@ -246,5 +247,45 @@ namespace Teroniffer.UserElements
             /*richTextBox.Document.Blocks.Clear();
             richTextBox.Selection.Text = Detrav.Sniffer.Tera.TeraPacketCreator.create((dataGrid.SelectedItem as DataPacket).getTeraPacket()).ToString();*/
         }
+
+        private void MenuItem_AddWhite_Click(object sender, RoutedEventArgs e)
+        {
+            AddPacketWindow w = new AddPacketWindow();
+            if (w.ShowDialog() == true)
+            {
+                listBoxWhite.Items.Add(w.valueEnum);
+            }
+        }
+
+        private void MenuItem_AddBlack_Click(object sender, RoutedEventArgs e)
+        {
+            AddPacketWindow w = new AddPacketWindow();
+            if (w.ShowDialog() == true)
+            {
+                listBoxBlack.Items.Add(w.valueEnum);
+            }
+        }
+
+        private void MenuItem_RemoveWhite_Click(object sender, RoutedEventArgs e)
+        {
+            while(listBoxWhite.SelectedIndex>=0)
+            {
+                listBoxWhite.Items.RemoveAt(listBoxWhite.SelectedIndex);
+            }
+        }
+
+        private void MenuItem_RemoveBlack_Click(object sender, RoutedEventArgs e)
+        {
+            while(listBoxBlack.SelectedIndex >=0 )
+            {
+                listBoxBlack.Items.RemoveAt(listBoxBlack.SelectedIndex);
+            }
+        }
+
+        private void buttonCopy_Click(object sender, RoutedEventArgs e)
+        {
+            Clipboard.SetText(textBlockPacket.Text);
+        }
+        
     }
 }

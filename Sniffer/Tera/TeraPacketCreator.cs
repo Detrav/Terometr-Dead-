@@ -67,5 +67,16 @@ namespace Detrav.Sniffer.Tera
             }
             return null;
         }
+
+        public static System.Collections.IEnumerable getEnumList()
+        {
+            switch (Instance.version)
+            {
+                case OpCodeVersion.P2805:
+                    return Enum.GetValues(typeof(OpCode2805)).Cast<OpCode2805>();;
+            }
+            return null;
+            
+        }
     }
 }

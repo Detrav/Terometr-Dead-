@@ -18,8 +18,8 @@
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TabControl x:Name="tabControl"
-                Grid.Column="0"
-                        MinWidth="200" >
+                        Grid.Column="0"
+                        MinWidth="200">
                 <TabItem Header="Данные">
                     <Grid>
                         <Grid.RowDefinitions>
@@ -31,13 +31,13 @@
                                     Orientation="Horizontal">
                             <Label Content="От" />
                             <TextBox x:Name="textBoxSkip"
-                                Width="60"
+                                     Width="60"
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      Text="0" />
                             <Label Content="Кол." />
                             <TextBox x:Name="textBoxCount"
-                                Width="60"
+                                     Width="60"
                                      HorizontalContentAlignment="Center"
                                      VerticalContentAlignment="Center"
                                      Text="1000" />
@@ -66,8 +66,7 @@
                                   AutoGenerateColumns="False"
                                   VerticalAlignment="Stretch"
                                   SelectionMode="Single"
-                                  SelectionChanged="dataGrid_SelectionChanged"
-                                  >
+                                  SelectionChanged="dataGrid_SelectionChanged">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="###"
                                                     Width="Auto"
@@ -100,8 +99,10 @@
                                      MinHeight="75">
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Добавить" />
-                                        <MenuItem Header="Удалить" />
+                                        <MenuItem Header="Добавить"
+                                                  Click="MenuItem_AddWhite_Click" />
+                                        <MenuItem Header="Удалить"
+                                                  Click="MenuItem_RemoveWhite_Click" />
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                             </ListBox>
@@ -110,8 +111,10 @@
                                      MinHeight="75">
                                 <ListBox.ContextMenu>
                                     <ContextMenu>
-                                        <MenuItem Header="Добавить" />
-                                        <MenuItem Header="Удалить" />
+                                        <MenuItem Header="Добавить"
+                                                  Click="MenuItem_AddBlack_Click" />
+                                        <MenuItem Header="Удалить"
+                                                  Click="MenuItem_RemoveBlack_Click" />
                                     </ContextMenu>
                                 </ListBox.ContextMenu>
                             </ListBox>
@@ -144,6 +147,14 @@
                             ToolTip="Сохранить список пакетов"
                             Click="buttonSave_Click">
                         <Image Source="pack://siteoforigin:,,,/assets/images/save.png" />
+                    </Button>
+                    <Button x:Name="buttonCopy"
+                            Padding="0"
+                            Width="32"
+                            Height="32"
+                            ToolTip="Копировать пакет, не нашёл значка по лучше"
+                            Click="buttonCopy_Click">
+                        <Image Source="pack://siteoforigin:,,,/assets/images/bug.png" />
                     </Button>
                     <Button x:Name="buttonEdit"
                             Padding="0"
@@ -183,14 +194,16 @@
                 </ToolBar>
                 <TextBlock x:Name="textBlockPacket"
                            Grid.Row="1"
-                           FontFamily="Courier New" />
+                           FontFamily="Courier New"  />
             </Grid>
         </Grid>
         <StatusBar Grid.Row="1">
             <Label Content="Кол. пакетов:" />
-            <Label x:Name="labelPacketCount" Content="1000000" />
+            <Label x:Name="labelPacketCount"
+                   Content="1000000" />
             <Label Content="Исп. память:" />
-            <Label x:Name="labelMemoryUsage" Content="GC.GetTotalMemory(true);" />
+            <Label x:Name="labelMemoryUsage"
+                   Content="GC.GetTotalMemory(true);" />
         </StatusBar>
     </Grid>
 </UserControl>

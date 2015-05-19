@@ -1,0 +1,30 @@
+﻿<Window x:Class="Teroniffer.Windows.AddPacketWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Добавление пакета"
+        Height="300"
+        Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0">Выберите пакет:</Label>
+        <ListBox x:Name="listBox"
+                 VerticalAlignment="Stretch"
+                 Grid.Row="1" />
+        <DockPanel Height="24"
+                   Grid.Row="2">
+            <Button x:Name="buttonCansel"
+                    Width="65"
+                    DockPanel.Dock="Left"
+                    Click="buttonCansel_Click">Отмена</Button>
+            <Button x:Name="buttonOk"
+                    Width="65"
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right"
+                    Click="buttonOk_Click">OK</Button>
+        </DockPanel>
+    </Grid>
+</Window>

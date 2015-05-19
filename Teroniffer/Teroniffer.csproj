@@ -59,6 +59,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\AddPacketWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\InitWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -75,6 +79,9 @@
     <Compile Include="Core\ServerInfoItem.cs" />
     <Compile Include="UserElements\SnifferPage.xaml.cs">
       <DependentUpon>SnifferPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\AddPacketWindow.xaml.cs">
+      <DependentUpon>AddPacketWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
@@ -143,6 +150,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\servers.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\images\bug.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
