@@ -10,6 +10,7 @@ namespace Detrav.Sniffer.Tera
     {
         private Dictionary<ushort, Type> opCodes2805 = new Dictionary<ushort, Type>();
         private static TeraPacketCreator instance = null;
+        private OpCodeVersion version;
         private TeraPacketCreator()
         {
             opCodes2805.Add((ushort)OpCode2805.C_CHECK_VERSION, typeof(P2805.C_CHECK_VERSION));
@@ -50,6 +51,21 @@ namespace Detrav.Sniffer.Tera
             if (Instance.opCodes2805.TryGetValue(packet.opCode,out p))
              return (TeraPacketParser)Activator.CreateInstance(p, packet);
             return new TeraPacketParser(packet);
+        }
+
+        public static void setVersion(OpCodeVersion ver)
+        {
+            Instance.version = ver;
+        }
+
+        public static object getOpCode(ushort c)
+        {
+            switch(Instance.version)
+            {
+                case OpCodeVersion.P2805:
+                    return (OpCode2805)c;
+            }
+            return null;
         }
     }
 }
