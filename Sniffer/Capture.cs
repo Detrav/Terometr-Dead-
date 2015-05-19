@@ -77,7 +77,7 @@ namespace Detrav.Sniffer
                 };
                 Ndisapi.SetAdapterMode(driverPtr, ref mode);
                 IP_ADDRESS_V4[] serversIp = new IP_ADDRESS_V4[serverIps.Length];
-                for (int i = 0; i <= serverIps.Length; i++)
+                for (int i = 0; i < serverIps.Length; i++)
                     serversIp[i] = new IP_ADDRESS_V4()
                 {
                     m_AddressType = Ndisapi.IP_SUBNET_V4_TYPE,
@@ -90,8 +90,8 @@ namespace Detrav.Sniffer
                 //Filters
                 STATIC_FILTER_TABLE filtersTable = new STATIC_FILTER_TABLE();
                 filtersTable.m_StaticFilters = new STATIC_FILTER[256];
-                filtersTable.m_TableSize = (uint)(3 * serverIps.Length);
-                for (int i = 0; i < filtersTable.m_TableSize; i += 3)
+                filtersTable.m_TableSize = (uint)(2 * serverIps.Length+1);
+                for (int i = 0; i < filtersTable.m_TableSize; i += 2)
                 {
                     filtersTable.m_StaticFilters[i].m_Adapter = 0; // applied to all adapters
                     filtersTable.m_StaticFilters[i].m_ValidFields = Ndisapi.NETWORK_LAYER_VALID;
@@ -107,11 +107,11 @@ namespace Detrav.Sniffer
                     filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_dwUnionSelector = Ndisapi.IPV4;
                     filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_IPv4.m_ValidFields = Ndisapi.IP_V4_FILTER_SRC_ADDRESS;
                     filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_IPv4.m_SrcAddress = serversIp[i / 3];
-                    filtersTable.m_StaticFilters[i + 2].m_Adapter = 0; // applied to all adapters
-                    filtersTable.m_StaticFilters[i + 2].m_ValidFields = 0;
-                    filtersTable.m_StaticFilters[i + 2].m_FilterAction = Ndisapi.FILTER_PACKET_PASS;
-                    filtersTable.m_StaticFilters[i + 2].m_dwDirectionFlags = Ndisapi.PACKET_FLAG_ON_RECEIVE | Ndisapi.PACKET_FLAG_ON_SEND;
                 }
+                filtersTable.m_StaticFilters[2 * serverIps.Length].m_Adapter = 0; // applied to all adapters
+                filtersTable.m_StaticFilters[2 * serverIps.Length].m_ValidFields = 0;
+                filtersTable.m_StaticFilters[2 * serverIps.Length].m_FilterAction = Ndisapi.FILTER_PACKET_PASS;
+                filtersTable.m_StaticFilters[2 * serverIps.Length].m_dwDirectionFlags = Ndisapi.PACKET_FLAG_ON_RECEIVE | Ndisapi.PACKET_FLAG_ON_SEND;
                 Ndisapi.SetPacketFilterTable(driverPtr, ref filtersTable);
 
 
@@ -146,8 +146,10 @@ namespace Detrav.Sniffer
             if (disposing)
             {
                 needToStop = true;
-                threadLookingForPacket.Join(1000);
-                threadParsePacket.Join(1000);
+                try { threadLookingForPacket.Join(1000); }
+                catch { }
+                try { threadParsePacket.Join(1000); }
+                catch { }
                 if (onStoppedSniffer != null) onStoppedSniffer(this, EventArgs.Empty);
             }
             disposed = true;
