@@ -179,9 +179,9 @@
         </Grid>
         <StatusBar Grid.Row="1">
             <Label Content="Кол. пакетов:" />
-            <Label Content="1000000" />
+            <Label x:Name="labelPacketCount" Content="1000000" />
             <Label Content="Исп. память:" />
-            <Label Content="GC.GetTotalMemory(true);" />
+            <Label x:Name="labelMemoryUsage" Content="GC.GetTotalMemory(true);" />
         </StatusBar>
     </Grid>
 </UserControl>
