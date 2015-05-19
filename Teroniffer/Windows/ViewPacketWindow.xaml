@@ -1,0 +1,60 @@
+﻿<Window x:Class="Teroniffer.Windows.ViewPacketWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ViewPacketWindow"
+        Height="300"
+        Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"
+               Content="Номер первого байта:" />
+        <DockPanel Grid.Row="1"
+                   LastChildFill="True">
+            <Button Width="25"
+                    Content="+"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right" />
+            <Button Width="25"
+                    Content="-"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right" />
+            <TextBox Name="numericBoxStart"
+                     Text="0"
+                     DockPanel.Dock="Left"
+                     HorizontalAlignment="Stretch" />
+        </DockPanel>
+        <Label Grid.Row="2"
+               Content="Сдвиг или размер:" />
+        <DockPanel Grid.Row="3"
+                   LastChildFill="True">
+            <Button Width="25"
+                    Content="+"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right" />
+            <Button Width="25"
+                    Content="-"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right" />
+            <TextBox Name="numericBoxSize"
+                     Text="0"
+                     DockPanel.Dock="Left"
+                     HorizontalAlignment="Stretch" />
+        </DockPanel>
+        <Label Grid.Row="4"
+               Content="Тип данных:" />
+        <ComboBox x:Name="comboBoxType"
+            Grid.Row="5">
+        </ComboBox>
+        <TextBox x:Name="textBox"
+                 Grid.Row="6"
+                 FontFamily="Courier New" />
+    </Grid>
+</Window>

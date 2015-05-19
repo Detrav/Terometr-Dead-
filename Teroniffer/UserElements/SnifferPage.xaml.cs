@@ -90,7 +90,12 @@ namespace Teroniffer.UserElements
 
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
         {
-
+            if (dataGrid.SelectedItem != null)
+            {
+                ViewPacketWindow w = new ViewPacketWindow();
+                w.setData((dataGrid.SelectedItem as DataPacket).getTeraPacket().data);
+                w.Show();
+            }
         }
 
         private void buttonWhite_Click(object sender, RoutedEventArgs e)
