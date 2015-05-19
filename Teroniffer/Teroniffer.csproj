@@ -59,6 +59,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Windows\InitWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -68,8 +72,12 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\DataPacket.cs" />
+    <Compile Include="Core\ServerInfoItem.cs" />
     <Compile Include="UserElements\SnifferPage.xaml.cs">
       <DependentUpon>SnifferPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\InitWindow.xaml.cs">
+      <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -130,6 +138,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\images\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\servers.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
