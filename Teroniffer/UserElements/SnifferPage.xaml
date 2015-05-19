@@ -63,7 +63,8 @@
                                   CanUserSortColumns="True"
                                   IsReadOnly="True"
                                   AutoGenerateColumns="False"
-                                  VerticalAlignment="Stretch">
+                                  VerticalAlignment="Stretch"
+                                  SelectionMode="Single">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Header="###"
                                                     Width="Auto"
