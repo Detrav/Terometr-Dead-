@@ -17,7 +17,8 @@
                 <ColumnDefinition Width="250" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
-            <TabControl Grid.Column="0"
+            <TabControl x:Name="tabControl"
+                Grid.Column="0"
                         MinWidth="200" >
                 <TabItem Header="Данные">
                     <Grid>
@@ -85,38 +86,41 @@
                     </Grid>
                 </TabItem>
                 <TabItem Header="Фильтры">
-                    <StackPanel>
-                        <Label Content="Тип пакета" />
-                        <ComboBox x:Name="comboBoxType"
-                            SelectedIndex="0">
-                            <System:String>Не важно</System:String>
-                            <System:String>Recv</System:String>
-                            <System:String>Send</System:String>
-                        </ComboBox>
-                        <Label Content="Белый список" />
-                        <ListBox Height="50">
-                            <ListBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Добавить" />
-                                    <MenuItem Header="Удалить" />
-                                </ContextMenu>
-                            </ListBox.ContextMenu>
-                        </ListBox>
-                        
-                        <Label Content="Чёрный список" />
-                        <ListBox Height="50">
-                            <ListBox.ContextMenu>
-                                <ContextMenu>
-                                    <MenuItem Header="Добавить" />
-                                    <MenuItem Header="Удалить" />
-                                </ContextMenu>
-                            </ListBox.ContextMenu>
-                        </ListBox>
-                        <Button x:Name="buttonFilterImport"
-                                Click="buttonFilterImport_Click">Импорт</Button>
-                        <Button x:Name="buttonFilterExport"
-                                Click="buttonFilterExport_Click">Экспорт</Button>
-                    </StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel>
+                            <Label Content="Тип пакета" />
+                            <ComboBox x:Name="comboBoxType"
+                                      SelectedIndex="0">
+                                <System:String>Не важно</System:String>
+                                <System:String>Recv</System:String>
+                                <System:String>Send</System:String>
+                            </ComboBox>
+                            <Label Content="Белый список" />
+                            <ListBox x:Name="listBoxWhite"
+                                     MinHeight="75">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Добавить" />
+                                        <MenuItem Header="Удалить" />
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                            </ListBox>
+                            <Label Content="Чёрный список" />
+                            <ListBox x:Name="listBoxBlack"
+                                     MinHeight="75">
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Добавить" />
+                                        <MenuItem Header="Удалить" />
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                            </ListBox>
+                            <Button x:Name="buttonFilterImport"
+                                    Click="buttonFilterImport_Click">Импорт</Button>
+                            <Button x:Name="buttonFilterExport"
+                                    Click="buttonFilterExport_Click">Экспорт</Button>
+                        </StackPanel>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
             <Grid Grid.Column="1">

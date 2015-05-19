@@ -103,7 +103,7 @@ namespace Teroniffer.Windows
             {
                 byte[] bb = new byte[r.Next(100,200)];
                 r.NextBytes(bb);
-                if(r.Next(0,1)==0) capture_onParsePacket(this, new PacketEventArgs(c,new TeraPacket(bb, TeraPacket.Type.Recv)));
+                if(r.Next(0,2)==0) capture_onParsePacket(this, new PacketEventArgs(c,new TeraPacket(bb, TeraPacket.Type.Recv)));
                 else capture_onParsePacket(this, new PacketEventArgs(c,new TeraPacket(bb, TeraPacket.Type.Send)));
             }
         }

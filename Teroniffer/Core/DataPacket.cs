@@ -12,7 +12,7 @@ namespace Teroniffer.Core
         public int num { get; set; }
         public TeraPacket.Type type { get; set; }
         public ushort size { get; set; }
-        public OpCode2805 opCode { get; set; }
+        public object opCode { get; set; }
         private TeraPacket packet;
         public DataPacket(int num, TeraPacket packet)
         {
@@ -20,7 +20,7 @@ namespace Teroniffer.Core
             this.num = num;
             this.type = packet.type;
             this.size = packet.size;
-            this.opCode = (OpCode2805)packet.opCode;
+            this.opCode = TeraPacketCreator.getOpCode(packet.opCode);
         }
 
         public TeraPacket getTeraPacket() { return packet; }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using Detrav.Sniffer.Tera;
+using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -98,7 +99,16 @@ namespace Teroniffer.UserElements
 
         private void buttonBlack_Click(object sender, RoutedEventArgs e)
         {
-
+            try
+            {
+                if (dataGrid.SelectedItem != null)
+                {
+                    listBoxBlack.Items.Add((dataGrid.SelectedItem as DataPacket).opCode);
+                    tabControl.SelectedIndex = 1;
+                }
+            }
+            catch { }
+            
         }
 
         private void buttonSearch_Click(object sender, RoutedEventArgs e)
@@ -126,10 +136,30 @@ namespace Teroniffer.UserElements
             lock (packets)
             {
                 var packs = packets.Select(p => p);
+                //Проверка на тип пакета
                 if (comboBoxType.SelectedIndex == 1)
                     packs = packs.Where(p => p.type == Detrav.Sniffer.Tera.TeraPacket.Type.Recv);
                 else if (comboBoxType.SelectedIndex == 2)
                     packs = packs.Where(p => p.type == Detrav.Sniffer.Tera.TeraPacket.Type.Send);
+                //Проверка на белый лист
+                List<object> ws = new List<object>();
+                if(listBoxWhite.Items.Count>0)
+                {
+                    
+                    foreach (var item in listBoxWhite.Items)
+                        ws.Add(item);
+                    packs = from p in packs where ws.Contains(p.opCode) select p;
+                }
+                //Проверка на черный лист
+                List<object> bs = new List<object>();
+                if (listBoxBlack.Items.Count > 0)
+                {
+                    
+                    foreach (var item in listBoxBlack.Items)
+                        bs.Add(item);
+                    packs = from p in packs where !bs.Contains(p.opCode) select p;
+                }
+                //Поиск будет отдельно
                 dataGrid.ItemsSource = null;
                 dataGrid.ItemsSource = packs.Skip(skip).Take(take);
                 dataGrid.Items.Refresh();    
@@ -168,6 +198,7 @@ namespace Teroniffer.UserElements
 
         private void dataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if(dataGrid.SelectedItem!=null)
             textBlockPacket.Text = Detrav.Sniffer.Tera.TeraPacketCreator.create((dataGrid.SelectedItem as DataPacket).getTeraPacket()).ToString();
             /*richTextBox.Document.Blocks.Clear();
             richTextBox.Selection.Text = Detrav.Sniffer.Tera.TeraPacketCreator.create((dataGrid.SelectedItem as DataPacket).getTeraPacket()).ToString();*/
