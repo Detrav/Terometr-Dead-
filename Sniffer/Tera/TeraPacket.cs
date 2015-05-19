@@ -8,10 +8,10 @@ namespace Detrav.Sniffer.Tera
 {
     public class TeraPacket
     {
-        public Type type;
-        public ushort size;
-        public ushort opCode;
-        public byte[] data;
+        public Type type {get;set;}
+        public ushort size { get; set; }
+        public ushort opCode { get; set; }
+        public byte[] data { get; private set; }
 
         public TeraPacket(byte[] _data, Type _type)
         {

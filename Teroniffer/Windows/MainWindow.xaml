@@ -1,7 +1,14 @@
 ﻿<Window x:Class="Teroniffer.Windows.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:userElements="clr-namespace:Teroniffer.UserElements"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
+        <TabControl>
+            <TabItem Header="Меню"></TabItem>
+            <TabItem Header="Соединение 1">
+                <userElements:SnifferPage></userElements:SnifferPage>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Detrav.Sniffer.Tera;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
+using Teroniffer.Core;
 
 namespace Teroniffer.Windows
 {
@@ -20,9 +23,11 @@ namespace Teroniffer.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+
         public MainWindow()
         {
             InitializeComponent();
         }
+
     }
 }
