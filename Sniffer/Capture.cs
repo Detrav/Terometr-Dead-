@@ -91,22 +91,27 @@ namespace Detrav.Sniffer
                 STATIC_FILTER_TABLE filtersTable = new STATIC_FILTER_TABLE();
                 filtersTable.m_StaticFilters = new STATIC_FILTER[256];
                 filtersTable.m_TableSize = (uint)(2 * serverIps.Length+1);
-                for (int i = 0; i < filtersTable.m_TableSize; i += 2)
+                for (int i = 0; i < 2 * serverIps.Length; i += 2)
                 {
                     filtersTable.m_StaticFilters[i].m_Adapter = 0; // applied to all adapters
                     filtersTable.m_StaticFilters[i].m_ValidFields = Ndisapi.NETWORK_LAYER_VALID;
                     filtersTable.m_StaticFilters[i].m_FilterAction = Ndisapi.FILTER_PACKET_REDIRECT;
+                    
                     filtersTable.m_StaticFilters[i].m_dwDirectionFlags = Ndisapi.PACKET_FLAG_ON_SEND;
                     filtersTable.m_StaticFilters[i].m_NetworkFilter.m_dwUnionSelector = Ndisapi.IPV4;
                     filtersTable.m_StaticFilters[i].m_NetworkFilter.m_IPv4.m_ValidFields = Ndisapi.IP_V4_FILTER_DEST_ADDRESS;
-                    filtersTable.m_StaticFilters[i].m_NetworkFilter.m_IPv4.m_DestAddress = serversIp[i / 3];
+                    
+                    filtersTable.m_StaticFilters[i].m_NetworkFilter.m_IPv4.m_DestAddress = serversIp[i / 2];
+                    
                     filtersTable.m_StaticFilters[i + 1].m_Adapter = 0; // applied to all adapters
                     filtersTable.m_StaticFilters[i + 1].m_ValidFields = Ndisapi.NETWORK_LAYER_VALID;
                     filtersTable.m_StaticFilters[i + 1].m_FilterAction = Ndisapi.FILTER_PACKET_REDIRECT;
+                    
                     filtersTable.m_StaticFilters[i + 1].m_dwDirectionFlags = Ndisapi.PACKET_FLAG_ON_RECEIVE;
                     filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_dwUnionSelector = Ndisapi.IPV4;
                     filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_IPv4.m_ValidFields = Ndisapi.IP_V4_FILTER_SRC_ADDRESS;
-                    filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_IPv4.m_SrcAddress = serversIp[i / 3];
+                    
+                    filtersTable.m_StaticFilters[i + 1].m_NetworkFilter.m_IPv4.m_SrcAddress = serversIp[i / 2];
                 }
                 filtersTable.m_StaticFilters[2 * serverIps.Length].m_Adapter = 0; // applied to all adapters
                 filtersTable.m_StaticFilters[2 * serverIps.Length].m_ValidFields = 0;
