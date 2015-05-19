@@ -56,5 +56,7 @@ namespace Teroniffer.Windows
             Properties.Settings.Default.Save();
             DialogResult = true;
         }
+
+        
     }
 }

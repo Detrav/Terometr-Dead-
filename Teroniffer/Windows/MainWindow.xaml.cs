@@ -47,6 +47,7 @@ namespace Teroniffer.Windows
             capture.onNewConnection += capture_onNewConnection;
             capture.onParsePacket += capture_onParsePacket;
             capture.start(initWindow.selectedIndexDevice);
+            test();
         }
 
         void capture_onParsePacket(object sender, PacketEventArgs e)
@@ -90,5 +91,21 @@ namespace Teroniffer.Windows
             capture.Dispose();
         }
 
+
+        private void test()
+        {
+            Connection c = new Connection("", 0, "", 0);
+            capture_onNewConnection(this, new ConnectionEventArgs(c));
+
+            Random r = new Random();
+
+            for(int i =0; i<1000;i++)
+            {
+                byte[] bb = new byte[r.Next(100,200)];
+                r.NextBytes(bb);
+                if(r.Next(0,1)==0) capture_onParsePacket(this, new PacketEventArgs(c,new TeraPacket(bb, TeraPacket.Type.Recv)));
+                else capture_onParsePacket(this, new PacketEventArgs(c,new TeraPacket(bb, TeraPacket.Type.Send)));
+            }
+        }
     }
 }
