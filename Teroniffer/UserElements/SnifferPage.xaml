@@ -87,7 +87,8 @@
                 <TabItem Header="Фильтры">
                     <StackPanel>
                         <Label Content="Тип пакета" />
-                        <ComboBox SelectedIndex="0">
+                        <ComboBox x:Name="comboBoxType"
+                            SelectedIndex="0">
                             <System:String>Не важно</System:String>
                             <System:String>Recv</System:String>
                             <System:String>Send</System:String>

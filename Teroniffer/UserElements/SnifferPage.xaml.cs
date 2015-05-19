@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,12 +62,28 @@ namespace Teroniffer.UserElements
 
         private void buttonNew_Click(object sender, RoutedEventArgs e)
         {
-
+            lock (packets)
+            {
+                packets.Clear();
+            }
+            buttonRefresh_Click(sender, e);
         }
 
         private void buttonSave_Click(object sender, RoutedEventArgs e)
         {
-
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Text file (*.txt)|*.txt";
+            if (sfd.ShowDialog()==true)
+            {
+                using (System.IO.TextWriter tw = new System.IO.StreamWriter(sfd.OpenFile()))
+                {
+                    lock (packets)
+                    {
+                        foreach (var p in packets)
+                            tw.WriteLine(p.getTeraPacket().ToString());
+                    }
+                }
+            }
         }
 
         private void buttonEdit_Click(object sender, RoutedEventArgs e)
@@ -108,10 +125,16 @@ namespace Teroniffer.UserElements
             Int32.TryParse(textBoxCount.Text,out take);
             lock (packets)
             {
+                var packs = packets.Select(p => p);
+                if (comboBoxType.SelectedIndex == 1)
+                    packs = packs.Where(p => p.type == Detrav.Sniffer.Tera.TeraPacket.Type.Recv);
+                else if (comboBoxType.SelectedIndex == 2)
+                    packs = packs.Where(p => p.type == Detrav.Sniffer.Tera.TeraPacket.Type.Send);
                 dataGrid.ItemsSource = null;
-                dataGrid.ItemsSource = packets.Skip(skip).Take(take);
-                dataGrid.Items.Refresh();
+                dataGrid.ItemsSource = packs.Skip(skip).Take(take);
+                dataGrid.Items.Refresh();    
             }
+            
         }
 
         private void buttonNext_Click(object sender, RoutedEventArgs e)
