@@ -94,7 +94,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Core\Api\TeraApi.cs" />
+    <Compile Include="Core\TeraApi.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TeraApi\Data\DpsInfo.cs" />
     <Compile Include="TeraApi\Data\ServerInfoItem.cs" />
@@ -164,6 +164,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="assets\images\Volume.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="assets\images\new.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="assets\servers.xml">

@@ -32,24 +32,39 @@
                     ToolTip="Левая кнопка свернуть | Правая кнопка закрыть">
                 <Image Source="{StaticResource HideImage}" />
             </Button>
-            <Button Style="{StaticResource TitleButtonStyle}"
+            <Button x:Name="buttonForward"
+                Style="{StaticResource TitleButtonStyle}"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right">
+                    DockPanel.Dock="Right"
+                    Click="buttonForward_Click">
                 <Image Source="{StaticResource ForwardImage}" />
             </Button>
-            <Button Style="{StaticResource TitleButtonStyle}"
+            <Button x:Name="buttonBack"
+                Style="{StaticResource TitleButtonStyle}"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right">
+                    DockPanel.Dock="Right"
+                    Click="buttonBack_Click">
                 <Image Source="{StaticResource BackImage}" />
             </Button>
-            <Button Style="{StaticResource TitleButtonStyle}"
+            <Button x:Name="buttonInfo"
+                Style="{StaticResource TitleButtonStyle}"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right">
+                    DockPanel.Dock="Right"
+                    Click="buttonInfo_Click">
                 <Image Source="{StaticResource InfoImage}" />
             </Button>
-            <Button Style="{StaticResource TitleButtonStyle}"
+            <Button x:Name="buttonNew"
+                Style="{StaticResource TitleButtonStyle}"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right">
+                    DockPanel.Dock="Right"
+                    Click="buttonNew_Click">
+                <Image Source="{StaticResource NewImage}" />
+            </Button>
+            <Button x:Name="buttonVolume"
+                Style="{StaticResource TitleButtonStyle}"
+                    HorizontalAlignment="Right"
+                    DockPanel.Dock="Right"
+                    Click="buttonVolume_Click">
                 <Image Source="{StaticResource VolumeImage}" />
             </Button>
         </DockPanel>
@@ -62,10 +77,10 @@
                     <Label Foreground="{StaticResource TitleTextColor}"
                            Content="Ждём драйвер..." />
                     <Label Foreground="{StaticResource TitleTextColor}"
-                           Content="Шаблон для новых соединений:" />
-                    <ListBox Style="{StaticResource ListBoxButtonsStyle}"
-                             SelectionChanged="ListBox_SelectionChanged">
-                        <System:String>Добавить</System:String>
+                           Content="Модули:" />
+                    <ListBox Style="{StaticResource ListBoxButtonsStyle}">
+                        <CheckBox IsChecked="True"
+                            Style="{StaticResource ResourceKey=CheckBoxStyle}">DPS метер</CheckBox>
                     </ListBox>
                 </StackPanel>
             </TabItem>

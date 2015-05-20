@@ -60,14 +60,37 @@ namespace Detrav.Terometr.Windows
             (sender as Button).ContextMenu = menu;
         }
 
-
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void buttonBack_Click(object sender, RoutedEventArgs e)
         {
-            var l = (sender as ListBox);
-            if (l.SelectedIndex >= 0)
-                MessageBox.Show("test");
-            l.SelectedIndex = -1;
+            if (tabControl.SelectedIndex == 0)
+                tabControl.SelectedIndex = tabControl.Items.Count - 1;
+            else
+                tabControl.SelectedIndex--;
         }
 
+        private void buttonForward_Click(object sender, RoutedEventArgs e)
+        {
+            if (tabControl.SelectedIndex == tabControl.Items.Count - 1)
+                tabControl.SelectedIndex = 0;
+            else
+                tabControl.SelectedIndex++;
+        }
+
+        private void buttonInfo_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not released yet");
+        }
+
+        private void buttonNew_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not released yet");
+        }
+
+        private void buttonVolume_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Not released yet");
+        }
+
+        
     }
 }

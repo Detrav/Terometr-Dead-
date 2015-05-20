@@ -20,6 +20,8 @@
                  UriSource="pack://siteoforigin:,,,/assets/images/forward.png" />
     <BitmapImage x:Key="HideImage"
                  UriSource="pack://siteoforigin:,,,/assets/images/hide.png" />
+    <BitmapImage x:Key="NewImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/new.png" />
     <Style x:Key="MainWindowStyle"
            TargetType="{x:Type Window}">
         <Setter Property="WindowStyle"
@@ -142,7 +144,7 @@
         <Setter Property="Background"
                 Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
         <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
+                Value="Stretch" />
         <Setter Property="BorderBrush"
                 Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
         <Setter Property="SelectionMode"
@@ -164,6 +166,15 @@
         <Setter Property="HorizontalAlignment"
                 Value="Stretch" />
         <Setter Property="HorizontalContentAlignment"
-                Value="Center" />
+                Value="Stretch" />
+    </Style>
+    <Style x:Key="CheckBoxStyle"
+           TargetType="CheckBox">
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch"    />
+        <Setter Property="Foreground" 
+                Value="{StaticResource TitleTextColor}"/>
+        <Setter Property="FontFamily"
+                Value="Comic Sans MS" />
     </Style>
 </ResourceDictionary>
