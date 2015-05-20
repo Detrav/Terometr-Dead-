@@ -1,0 +1,169 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <SolidColorBrush x:Key="WindowBorderColor"
+                     Color="#FF394f59" />
+    <SolidColorBrush x:Key="WindowBackgroundColor"
+                     Color="#55131516" />
+    <SolidColorBrush x:Key="TabControlBackgroundColor"
+                     Color="Transparent" />
+    <SolidColorBrush x:Key="TitleTextColor"
+                     Color="White" />
+    <SolidColorBrush x:Key="WindowTitleColor"
+                     Color="#FF394f59" />
+    <BitmapImage x:Key="VolumeImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/volume.png" />
+    <BitmapImage x:Key="InfoImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/info.png" />
+    <BitmapImage x:Key="BackImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/back.png" />
+    <BitmapImage x:Key="ForwardImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/forward.png" />
+    <BitmapImage x:Key="HideImage"
+                 UriSource="pack://siteoforigin:,,,/assets/images/hide.png" />
+    <Style x:Key="MainWindowStyle"
+           TargetType="{x:Type Window}">
+        <Setter Property="WindowStyle"
+                Value="None" />
+        <Setter Property="AllowsTransparency"
+                Value="True" />
+        <Setter Property="Background"
+                Value="Transparent" />
+        <Setter Property="ResizeMode"
+                Value="CanResizeWithGrip" />
+        <Setter Property="MinHeight"
+                Value="40" />
+        <Setter Property="MinWidth"
+                Value="150" />
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome NonClientFrameEdges="None"
+                              GlassFrameThickness="0"
+                              ResizeBorderThickness="7"
+                              CaptionHeight="16" />
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Window}">
+                    <!--Border x:Name="partContainer" Padding="0" CornerRadius="10"-->
+                    <Grid TextOptions.TextRenderingMode="ClearType"
+                          TextOptions.TextFormattingMode="Display">
+                        <Border x:Name="partBorder"
+                                Width="Auto"
+                                Height="Auto"
+                                Background="{StaticResource ResourceKey=WindowBackgroundColor}"
+                                BorderBrush="{StaticResource ResourceKey=WindowBorderColor}"
+                                BorderThickness="2"
+                                Padding="0"
+                                CornerRadius="5">
+                            <ContentPresenter />
+                        </Border>
+                    </Grid>
+                    <!--/Border-->
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TabControlStyle"
+           TargetType="TabControl">
+        <Setter Property="Margin"
+                Value="0 0 0 5" />
+        <Setter Property="Background"
+                Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
+    </Style>
+    <Style x:Key="TabItemStyle"
+           TargetType="TabItem">
+        <Setter Property="Visibility"
+                Value="Collapsed" />
+    </Style>
+    <Style x:Key="TitleButtonStyle"
+           TargetType="Button">
+        <Setter Property="Margin"
+                Value="5 0 0 0" />
+        <Setter Property="Padding"
+                Value="0 0" />
+        <Setter Property="Foreground"
+                Value="{StaticResource ResourceKey=TitleTextColor}" />
+        <Setter Property="FontFamily"
+                Value="Comic Sans MS" />
+        <Setter Property="HorizontalAlignment"
+                Value="Left" />
+        <Setter Property="Focusable"
+                Value="false" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome"
+                Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Grid>
+                        <Border x:Name="partBorder"
+                                Background="Transparent"
+                                CornerRadius="5" />
+                        <ContentPresenter />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+                            <Setter TargetName="partBorder"
+                                    Property="Background"
+                                    Value="#FFF" />
+                            <Setter TargetName="partBorder"
+                                    Property="Opacity"
+                                    Value="0.4" />
+                        </Trigger>
+                        <Trigger Property="IsPressed"
+                                 Value="True">
+                            <Setter TargetName="partBorder"
+                                    Property="Background"
+                                    Value="{StaticResource WindowBackgroundColor}" />
+                            <Setter TargetName="partBorder"
+                                    Property="Opacity"
+                                    Value="1" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="TitlePanel"
+           TargetType="DockPanel">
+        <Setter Property="Background"
+                Value="{StaticResource WindowTitleColor}" />
+    </Style>
+    <Style x:Key="ContentPanelStyle"
+           TargetType="StackPanel">
+        <Setter Property="Margin"
+                Value="0 -10 0 0" />
+    </Style>
+    <Style x:Key="ListBoxButtonsStyle"
+           TargetType="ListBox">
+        <Setter Property="Background"
+                Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+        <Setter Property="BorderBrush"
+                Value="{StaticResource ResourceKey=TabControlBackgroundColor}" />
+        <Setter Property="SelectionMode"
+                Value="Single" />
+        <Style.Resources>
+            <Style TargetType="ListBoxItem">
+                <Setter Property="Background"
+                        Value="{StaticResource ResourceKey=WindowTitleColor}" />
+                <Setter Property="Foreground"
+                        Value="{StaticResource ResourceKey=TitleTextColor}" />
+            </Style>
+        </Style.Resources>
+    </Style>
+    <Style x:Key="ContentButtonStyle"
+           TargetType="Button"
+           BasedOn="{StaticResource TitleButtonStyle}">
+        <Setter Property="Margin"
+                Value="0" />
+        <Setter Property="HorizontalAlignment"
+                Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment"
+                Value="Center" />
+    </Style>
+</ResourceDictionary>
