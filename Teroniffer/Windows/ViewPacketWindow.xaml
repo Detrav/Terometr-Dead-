@@ -1,7 +1,7 @@
 ﻿<Window x:Class="Teroniffer.Windows.ViewPacketWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="ViewPacketWindow"
+        Title="Просмотр пакета"
         Height="300"
         Width="300">
     <Grid>
@@ -21,15 +21,19 @@
             <Button Width="25"
                     Content="+"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right" />
+                    DockPanel.Dock="Right" 
+                    Click="Button_Click_plus1"/>
             <Button Width="25"
                     Content="-"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right" />
+                    DockPanel.Dock="Right"
+                    Click="Button_Click_minus1" />
             <TextBox Name="numericBoxStart"
                      Text="0"
                      DockPanel.Dock="Left"
-                     HorizontalAlignment="Stretch" />
+                     HorizontalAlignment="Stretch" 
+                     KeyUp="numericBoxStart_KeyUp"
+                     TextChanged="numericBoxStart_TextChanged"/>
         </DockPanel>
         <Label Grid.Row="2"
                Content="Сдвиг или размер:" />
@@ -38,23 +42,30 @@
             <Button Width="25"
                     Content="+"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right" />
+                    DockPanel.Dock="Right"
+                    Click="Button_Click_plus2" />
             <Button Width="25"
                     Content="-"
                     HorizontalAlignment="Right"
-                    DockPanel.Dock="Right" />
+                    DockPanel.Dock="Right"
+                    Click="Button_Click_minus2" />
             <TextBox Name="numericBoxSize"
                      Text="0"
                      DockPanel.Dock="Left"
-                     HorizontalAlignment="Stretch" />
+                     HorizontalAlignment="Stretch" 
+                     KeyUp="numericBoxSize_KeyUp"
+                     TextChanged="numericBoxSize_TextChanged"/>
         </DockPanel>
         <Label Grid.Row="4"
                Content="Тип данных:" />
         <ComboBox x:Name="comboBoxType"
+                  SelectionChanged="comboBoxType_SelectionChanged"
             Grid.Row="5">
         </ComboBox>
         <TextBox x:Name="textBox"
                  Grid.Row="6"
-                 FontFamily="Courier New" />
+                 FontFamily="Courier New" 
+                 TextWrapping="Wrap"
+                 />
     </Grid>
 </Window>

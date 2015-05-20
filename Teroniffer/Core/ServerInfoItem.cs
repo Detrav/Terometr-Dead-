@@ -1,5 +1,5 @@
 ﻿
-namespace Detrav.Terometr.TeraApi.Data
+namespace Teroniffer.Core
 {
     public class ServerInfoItem
     {

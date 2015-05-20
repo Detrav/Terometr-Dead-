@@ -3,6 +3,7 @@ using Microsoft.Win32;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using System.Xml.Serialization;
 using Teroniffer.Core;
 using Teroniffer.Windows;
 
@@ -228,11 +230,52 @@ namespace Teroniffer.UserElements
 
         private void buttonFilterImport_Click(object sender, RoutedEventArgs e)
         {
+            FilterStructure f;
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Text file (*.xml)|*.xml";
+            if (ofd.ShowDialog() == true)
+            {
+                using (StreamReader r = new StreamReader(ofd.OpenFile()))
+                {
+                    XmlSerializer xsr = new XmlSerializer(typeof(FilterStructure));
+                    f = xsr.Deserialize(r) as FilterStructure;
+                }
 
+                comboBoxType.SelectedIndex = f.indexRecvSend;
+                listBoxWhite.Items.Clear();
+                if (f.whiteList != null)
+                    foreach (var el in f.whiteList)
+                        listBoxWhite.Items.Add(TeraPacketCreator.getOpCode((ushort)el));
+                listBoxBlack.Items.Clear();
+                if (f.blackList != null)
+                    foreach (var el in f.blackList)
+                        listBoxBlack.Items.Add(TeraPacketCreator.getOpCode((ushort)el));
+            }
         }
 
         private void buttonFilterExport_Click(object sender, RoutedEventArgs e)
         {
+            FilterStructure f = new FilterStructure()
+            {
+                indexRecvSend = comboBoxType.SelectedIndex,
+                whiteList = new object[listBoxWhite.Items.Count],
+                blackList = new object[listBoxBlack.Items.Count]
+            };
+            for (int i = 0; i < f.whiteList.Length; i++)
+                f.whiteList[i] = listBoxWhite.Items[i];
+            for (int i = 0; i < f.blackList.Length; i++)
+                f.blackList[i] = listBoxBlack.Items[i];
+
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "Text file (*.xml)|*.xml";
+            if(sfd.ShowDialog()==true)
+            {
+                using (StreamWriter w = new StreamWriter(sfd.OpenFile()))
+                {
+                    XmlSerializer xsr = new XmlSerializer(f.GetType());
+                    xsr.Serialize(w, f);
+                }
+            }
 
         }
 

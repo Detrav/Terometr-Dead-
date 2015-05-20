@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Core\FilterStructure.cs" />
     <Compile Include="Windows\ViewPacketWindow.xaml.cs">
       <DependentUpon>ViewPacketWindow.xaml</DependentUpon>
     </Compile>
