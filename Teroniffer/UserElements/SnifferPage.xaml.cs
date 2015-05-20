@@ -18,10 +18,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using System.Xml.Serialization;
-using Teroniffer.Core;
-using Teroniffer.Windows;
+using Detrav.Teroniffer.Core;
+using Detrav.Teroniffer.Windows;
 
-namespace Teroniffer.UserElements
+namespace Detrav.Teroniffer.UserElements
 {
     /// <summary>
     /// Логика взаимодействия для SnifferPage.xaml

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace Teroniffer
+namespace Detrav.Teroniffer
 {
     /// <summary>
     /// Логика взаимодействия для App.xaml

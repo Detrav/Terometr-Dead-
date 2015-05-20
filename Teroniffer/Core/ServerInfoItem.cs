@@ -1,5 +1,5 @@
 ﻿
-namespace Teroniffer.Core
+namespace Detrav.Teroniffer.Core
 {
     public class ServerInfoItem
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Teroniffer.Core
+namespace Detrav.Teroniffer.Core
 {
     class DataPacket
     {

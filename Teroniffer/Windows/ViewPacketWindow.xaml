@@ -1,4 +1,4 @@
-﻿<Window x:Class="Teroniffer.Windows.ViewPacketWindow"
+﻿<Window x:Class="Detrav.Teroniffer.Windows.ViewPacketWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Просмотр пакета"

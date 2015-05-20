@@ -15,10 +15,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Teroniffer.Core;
-using Teroniffer.UserElements;
+using Detrav.Teroniffer.Core;
+using Detrav.Teroniffer.UserElements;
 
-namespace Teroniffer.Windows
+namespace Detrav.Teroniffer.Windows
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

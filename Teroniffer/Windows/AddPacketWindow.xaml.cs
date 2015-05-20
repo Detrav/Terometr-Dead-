@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace Teroniffer.Windows
+namespace Detrav.Teroniffer.Windows
 {
     /// <summary>
     /// Логика взаимодействия для AddPacketWindow.xaml
