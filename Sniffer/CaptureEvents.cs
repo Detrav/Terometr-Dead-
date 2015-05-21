@@ -28,14 +28,14 @@ namespace Detrav.Sniffer
     }
 
 
-    public class PacketEventArgs
+    public class PacketEventArgs : EventArgs
     {
         public PacketEventArgs(Connection c, TeraPacket p) { connection = c; packet = p; }
         public Connection connection { get; private set; }
         public TeraPacket packet { get; private set; }
     }
 
-    public class ConnectionEventArgs
+    public class ConnectionEventArgs : EventArgs
     {
         public ConnectionEventArgs(Connection c) { connection = c; }
         public Connection connection { get; private set; } // readonly
