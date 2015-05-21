@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Detrav.TeraApi
 {
-    public partial class TeraEvents
+    public delegate void OnLogin(object sender, EventArgs e);
+    public interface ITera
     {
+        event OnLogin onLogin;
     }
 }

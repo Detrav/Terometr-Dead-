@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Detrav.TeraApi
 {
-    public partial class Tera
+    public interface IPlugin
     {
+        public void register(ITera parent);
+        public void show();
+        public void unRegister();
     }
 }
