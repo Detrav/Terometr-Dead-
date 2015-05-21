@@ -47,15 +47,25 @@ namespace Detrav.Sniffer.Tera
 
         public static TeraPacketParser create(TeraPacket packet)
         {
-            Type p;
-            if (Instance.opCodes2805.TryGetValue(packet.opCode,out p))
-             return (TeraPacketParser)Activator.CreateInstance(p, packet);
-            return new TeraPacketParser(packet);
+            switch (Instance.version)
+            {
+                case OpCodeVersion.P2805:
+                    Type p;
+                    if (Instance.opCodes2805.TryGetValue(packet.opCode, out p))
+                        return (TeraPacketParser)Activator.CreateInstance(p, packet);
+                    return new TeraPacketParser(packet);
+            }
+            return null;
         }
 
         public static void setVersion(OpCodeVersion ver)
         {
             Instance.version = ver;
+        }
+
+        public static OpCodeVersion getVersion()
+        {
+            return Instance.version;
         }
 
         public static object getOpCode(ushort c)
