@@ -113,8 +113,20 @@ namespace Detrav.Terometr.Windows
             timer.Interval = TimeSpan.FromMilliseconds(101);
             timer.Tick += timer_Tick;
             teraApi.onStartSnifferSync += teraApi_onStartSnifferSync;
+            teraApi.onEndConnectionSync += teraApi_onEndConnectionSync;
+            teraApi.onNewConnectionSync += teraApi_onNewConnectionSync;
             teraApi.start(initWindow.selectedIndexDevice);
             timer.Start();
+        }
+
+        void teraApi_onNewConnectionSync(object sender, Sniffer.ConnectionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        void teraApi_onEndConnectionSync(object sender, Sniffer.ConnectionEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         void teraApi_onStartSnifferSync(object sender, EventArgs e)
