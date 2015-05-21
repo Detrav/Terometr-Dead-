@@ -66,8 +66,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Core\PluginManager.cs" />
     <Compile Include="Core\ServerInfoItem.cs" />
     <Compile Include="Core\Tera.cs" />
+    <Compile Include="Core\TeraConnection.cs" />
     <Compile Include="Windows\InitWindow.xaml.cs">
       <DependentUpon>InitWindow.xaml</DependentUpon>
     </Compile>
