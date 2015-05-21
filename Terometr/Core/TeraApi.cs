@@ -7,16 +7,20 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr.Core
 {
-    class TeraApi
+    partial class TeraApi
     {
-        public bool ready { get; set; }
-        public TeraApi(Capture capture,int d)
+        Capture capture;
+        public TeraApi(Capture cap)
         {
-            ready = false;
+            this.capture = cap;
             capture.onNewConnection += capture_onNewConnection;
             capture.onEndConnection += capture_onEndConnection;
             capture.onStartedSniffer += capture_onStartedSniffer;
             capture.onParsePacket += capture_onParsePacket;
+        }
+
+        public void start(int d)
+        {
             capture.start(d);
         }
 
@@ -27,17 +31,24 @@ namespace Detrav.Terometr.Core
 
         void capture_onStartedSniffer(object sender, EventArgs e)
         {
-            ready = true;
+            startSniffer = true;
         }
 
         void capture_onEndConnection(object sender, ConnectionEventArgs e)
         {
-            throw new NotImplementedException();
+            lock(newConnections)
+            {
+                newConnections.Enqueue(e);
+            }
+            
         }
 
         void capture_onNewConnection(object sender, ConnectionEventArgs e)
         {
-            throw new NotImplementedException();
+            lock(endConnections)
+            {
+                endConnections.Enqueue(e);
+            }
         }
     }
 }

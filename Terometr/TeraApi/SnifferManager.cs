@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Detrav.Terometr.TeraApi.Data;
+using Detrav.Terometr.Core.Data;
 
 namespace Detrav.Terometr.TeraApi
 {

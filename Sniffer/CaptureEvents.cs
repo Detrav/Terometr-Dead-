@@ -24,6 +24,7 @@ namespace Detrav.Sniffer
         //При получении тера пакета
         public delegate void OnParsePacket(object sender, PacketEventArgs e);
         public event OnParsePacket onParsePacket;
+        //
     }
 
 

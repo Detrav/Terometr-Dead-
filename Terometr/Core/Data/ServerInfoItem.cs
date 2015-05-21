@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Detrav.Terometr.TeraApi.Data
+namespace Detrav.Terometr.Core.Data
 {
     public class ServerInfoItem
     {

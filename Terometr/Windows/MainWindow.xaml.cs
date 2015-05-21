@@ -91,6 +91,23 @@ namespace Detrav.Terometr.Windows
             MessageBox.Show("Not released yet");
         }
 
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Height = Properties.Settings.Default.windowHeight;
+            this.Top = Properties.Settings.Default.windowTop;
+            this.Left = Properties.Settings.Default.windowLeft;
+            this.Width = Properties.Settings.Default.windowWidth;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Properties.Settings.Default.windowHeight = this.Height;
+            Properties.Settings.Default.windowTop = this.Top;
+            Properties.Settings.Default.windowLeft = this.Left;
+            Properties.Settings.Default.windowWidth = this.Width;
+            Properties.Settings.Default.Save();
+        }
+
         
     }
 }

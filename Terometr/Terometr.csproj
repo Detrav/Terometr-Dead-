@@ -95,9 +95,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Core\TeraApi.cs" />
+    <Compile Include="Core\TeraApiEvents.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="TeraApi\Data\DpsInfo.cs" />
-    <Compile Include="TeraApi\Data\ServerInfoItem.cs" />
+    <Compile Include="Core\Data\ServerInfoItem.cs" />
     <Compile Include="TeraApi\SnifferManager.cs" />
     <Compile Include="TeraApi\Data\PlayerInfo.cs" />
     <Compile Include="TeraApi\Repository.cs" />
