@@ -26,12 +26,12 @@ namespace Detrav.Terometr.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int adapterIndex {
+        public int initWindowDeviceIndex {
             get {
-                return ((int)(this["adapterIndex"]));
+                return ((int)(this["initWindowDeviceIndex"]));
             }
             set {
-                this["adapterIndex"] = value;
+                this["initWindowDeviceIndex"] = value;
             }
         }
         
@@ -85,37 +85,13 @@ namespace Detrav.Terometr.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("91.225.237.5")]
-        public string serverIp {
-            get {
-                return ((string)(this["serverIp"]));
-            }
-            set {
-                this["serverIp"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("3.153")]
-        public double battleTimeout {
-            get {
-                return ((double)(this["battleTimeout"]));
-            }
-            set {
-                this["battleTimeout"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int dpsBehaviorType {
+        public int initWindowServerIndex {
             get {
-                return ((int)(this["dpsBehaviorType"]));
+                return ((int)(this["initWindowServerIndex"]));
             }
             set {
-                this["dpsBehaviorType"] = value;
+                this["initWindowServerIndex"] = value;
             }
         }
     }

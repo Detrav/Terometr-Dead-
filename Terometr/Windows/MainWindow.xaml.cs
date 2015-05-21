@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Detrav.Terometr.Core.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace Detrav.Terometr.Windows
 {
@@ -19,6 +21,8 @@ namespace Detrav.Terometr.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        Core.TeraApi teraApi;
+        DispatcherTimer timer;
         public MainWindow()
         {
             InitializeComponent();
@@ -97,10 +101,38 @@ namespace Detrav.Terometr.Windows
             this.Top = Properties.Settings.Default.windowTop;
             this.Left = Properties.Settings.Default.windowLeft;
             this.Width = Properties.Settings.Default.windowWidth;
+            ServerInfoItem[] servers = ServerInfoItem.servers();
+            var capture = new Detrav.Sniffer.Capture();
+            //Запускаем окно настроек соединения
+            InitWindow initWindow = new InitWindow(capture.devices, ServerInfoItem.getServersName(servers));
+            if (initWindow.ShowDialog() != true) { Close(); return; }
+            capture.serverIps = new string[1] { servers[initWindow.selectedIndexServer].serverIp };
+            teraApi = new Core.TeraApi(capture);
+            //Таймер и синхронизированные события:
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(101);
+            timer.Tick += timer_Tick;
+            teraApi.onStartSnifferSync += teraApi_onStartSnifferSync;
+            teraApi.start(initWindow.selectedIndexDevice);
+            timer.Start();
+        }
+
+        void teraApi_onStartSnifferSync(object sender, EventArgs e)
+        {
+            labelInfo.Content = "Драйвер готов, ожидаем подключений...";
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            timer.Stop();
+            teraApi.doEvents();
+            timer.Start();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            try { teraApi.stop(); }
+            catch { }
             Properties.Settings.Default.windowHeight = this.Height;
             Properties.Settings.Default.windowTop = this.Top;
             Properties.Settings.Default.windowLeft = this.Left;

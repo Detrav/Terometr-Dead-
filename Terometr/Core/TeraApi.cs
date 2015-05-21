@@ -24,6 +24,11 @@ namespace Detrav.Terometr.Core
             capture.start(d);
         }
 
+        public void stop()
+        {
+            capture.Dispose();
+        }
+
         void capture_onParsePacket(object sender, PacketEventArgs e)
         {
             throw new NotImplementedException();

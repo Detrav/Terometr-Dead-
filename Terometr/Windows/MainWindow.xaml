@@ -76,7 +76,8 @@
             <TabItem Style="{StaticResource TabItemStyle}"
                      Header="Главное меню">
                 <StackPanel Style="{StaticResource ResourceKey=ContentPanelStyle}">
-                    <Label Foreground="{StaticResource TitleTextColor}"
+                    <Label x:Name="labelInfo"
+                        Foreground="{StaticResource TitleTextColor}"
                            Content="Ждём драйвер..." />
                     <Label Foreground="{StaticResource TitleTextColor}"
                            Content="Модули:" />
