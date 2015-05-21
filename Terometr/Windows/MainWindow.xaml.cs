@@ -164,7 +164,7 @@ namespace Detrav.Terometr.Windows
 
         private void reMakeTabs()
         {
-            if(checkBoxDpsMeter)
+            //if(checkBoxDpsMeter)
         }
     }
 }
