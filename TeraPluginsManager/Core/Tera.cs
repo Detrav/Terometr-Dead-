@@ -61,17 +61,16 @@ namespace Detrav.TeraPluginsManager.Core
         }
         void capture_onEndConnection(object sender, ConnectionEventArgs e)
         {
-            lock(newConnections)
+            lock (endConnections)
             {
-                newConnections.Enqueue(e);
+                endConnections.Enqueue(e);
             }
-            
         }
         void capture_onNewConnection(object sender, ConnectionEventArgs e)
         {
-            lock(endConnections)
+            lock (newConnections)
             {
-                endConnections.Enqueue(e);
+                newConnections.Enqueue(e);
             }
         }
         public void doEvents()

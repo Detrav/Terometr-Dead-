@@ -1,4 +1,7 @@
-﻿using Detrav.TeraApi;
+﻿using Detrav.Sniffer;
+using Detrav.Sniffer.Tera;
+using Detrav.TeraApi;
+using Detrav.TeraApi.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +18,9 @@ namespace Detrav.TeraPluginsManager.Core
             plugins = new IPlugin[types.Length];
             for (int i = 0; i < types.Length; i++)
             {
-                plugins[i] = Activator.CreateInstance(t) as IPlugin;
+                plugins[i] = Activator.CreateInstance(types[i]) as IPlugin;
             }
+            version = TeraPacketCreator.getVersion();
         }
 
         public event OnLogin onLogin;
@@ -25,19 +29,39 @@ namespace Detrav.TeraPluginsManager.Core
 
         public void doEvent()
         {
-            throw new NotImplementedException();
+            if (onTick != null)
+                onTick(this, EventArgs.Empty);
         }
 
-        public void unRegister()
+        public void unLoad()
         {
             foreach (var p in plugins)
-                p.unRegister();
+                p.unLoad();
         }
 
-        public void register()
+        public void load()
         {
             foreach (var p in plugins)
-                p.register(this);
+                p.load(this);
+        }
+
+        OpCodeVersion version;
+
+        public void parsePacket(object sender, EventArgs e)
+        {
+            PacketEventArgs ev = (PacketEventArgs)e;
+            switch(version)
+            {
+                case OpCodeVersion.P2805:
+                    switch((OpCode2805)ev.packet.opCode)
+                    {
+                        case OpCode2805.S_LOGIN:
+                            TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                            if (onLogin != null) onLogin(this, new LoginEventArgs(p["name"].value as string, (ulong)p["player id"].value, (ushort)p["level"].value));
+                            break;
+                    }
+                    break;
+            }
         }
     }
 }
