@@ -7,8 +7,11 @@ using System.Threading.Tasks;
 namespace Detrav.TeraApi
 {
     public delegate void OnLogin(object sender, EventArgs e);
+    public delegate void OnTick(object sender, EventArgs e);
     public interface ITera
     {
         event OnLogin onLogin;
+        event OnTick onTick;
+        public void doEvent();
     }
 }
