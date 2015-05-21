@@ -8,8 +8,8 @@ namespace Detrav.TeraApi
 {
     public interface IPlugin
     {
-        void register(ITeraConnection parent);
+        void load(ITeraConnection parent);
         void show();
-        void unRegister();
+        void unLoad();
     }
 }
