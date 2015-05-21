@@ -45,5 +45,6 @@ namespace Detrav.TeraApi.Themes
         {
             sender.ForWindowFromTemplate(w => SystemCommands.CloseWindow(w));
         }
+
     }
 }

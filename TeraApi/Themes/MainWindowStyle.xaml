@@ -109,12 +109,16 @@
                                            Padding="0"
                                            DockPanel.Dock="Left"
                                            Content="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" />
-                                    <Button Style="{StaticResource TitleButtonStyle}"
+                                    <Button HorizontalAlignment="Right"
+                                        DockPanel.Dock="Right"
+                                            MinWidth="16"
+                                            MinHeight="16"
+                                        Style="{StaticResource TitleButtonStyle}"
                                             ToolTip="Левая кнопка свернуть | Правая кнопка закрыть"
                                             Click="buttonClose_Click"
                                             ContextMenuOpening="Button_ContextMenuOpening">
-                                        <Image x:Name="imageCloseButton"
-                                               Margin="0" />
+                                        <Image Source="pack://application:,,,/TeraApi;component/Resources/hide.png"
+                                               Margin="0"/>
                                     </Button>
                                 </DockPanel>
                                 <ContentPresenter Grid.Row="1" />

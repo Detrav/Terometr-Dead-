@@ -12,6 +12,6 @@ namespace Detrav.TeraApi
     {
         event OnLogin onLogin;
         event OnTick onTick;
-        public void doEvent();
+        void doEvent();
     }
 }
