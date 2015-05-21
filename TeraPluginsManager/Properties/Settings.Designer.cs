@@ -22,5 +22,29 @@ namespace Detrav.TeraPluginsManager.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int initWindowDeviceIndex {
+            get {
+                return ((int)(this["initWindowDeviceIndex"]));
+            }
+            set {
+                this["initWindowDeviceIndex"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int initWindowServerIndex {
+            get {
+                return ((int)(this["initWindowServerIndex"]));
+            }
+            set {
+                this["initWindowServerIndex"] = value;
+            }
+        }
     }
 }

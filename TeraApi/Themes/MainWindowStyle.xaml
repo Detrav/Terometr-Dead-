@@ -63,7 +63,7 @@
         </Setter>
     </Style>
     <Style x:Key="MainWindowStyle"
-        TargetType="Window">
+           TargetType="Window">
         <Setter Property="WindowStyle"
                 Value="None" />
         <Setter Property="AllowsTransparency"
@@ -102,7 +102,8 @@
                                     <RowDefinition Height="16" />
                                     <RowDefinition />
                                 </Grid.RowDefinitions>
-                                <DockPanel Grid.Row="0">
+                                <DockPanel Background="{StaticResource TitleColor}"
+                                    Grid.Row="0">
                                     <Label Foreground="{StaticResource ResourceKey=TextColor}"
                                            FontFamily="Comic Sans MS"
                                            Margin="0"
@@ -110,15 +111,20 @@
                                            DockPanel.Dock="Left"
                                            Content="{Binding Title,RelativeSource={RelativeSource FindAncestor,AncestorType=Window}}" />
                                     <Button HorizontalAlignment="Right"
-                                        DockPanel.Dock="Right"
-                                            MinWidth="16"
-                                            MinHeight="16"
-                                        Style="{StaticResource TitleButtonStyle}"
+                                            DockPanel.Dock="Right"
+                                            Style="{StaticResource TitleButtonStyle}"
                                             ToolTip="Левая кнопка свернуть | Правая кнопка закрыть"
                                             Click="buttonClose_Click"
                                             ContextMenuOpening="Button_ContextMenuOpening">
                                         <Image Source="pack://application:,,,/TeraApi;component/Resources/hide.png"
-                                               Margin="0"/>
+                                               Margin="0" />
+                                    </Button>
+                                    <Button HorizontalAlignment="Right"
+                                            DockPanel.Dock="Right"
+                                            Style="{StaticResource TitleButtonStyle}"
+                                            ToolTip="Нашли баг?">
+                                    <Image Source="pack://application:,,,/TeraApi;component/Resources/info.png"
+                                               Margin="0" />
                                     </Button>
                                 </DockPanel>
                                 <ContentPresenter Grid.Row="1" />
