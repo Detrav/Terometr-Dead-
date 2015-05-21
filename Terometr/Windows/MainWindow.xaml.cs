@@ -1,4 +1,6 @@
-﻿using Detrav.Terometr.Core.Data;
+﻿using Detrav.Sniffer;
+using Detrav.Terometr.Core.Data;
+using Detrav.Terometr.UserElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,7 @@ namespace Detrav.Terometr.Windows
     {
         Core.TeraApi teraApi;
         DispatcherTimer timer;
+        Dictionary<Connection,List<IUserElement>> connections = new Dictionary<Connection,List<IUserElement>>();
         public MainWindow()
         {
             InitializeComponent();
@@ -121,12 +124,14 @@ namespace Detrav.Terometr.Windows
 
         void teraApi_onNewConnectionSync(object sender, Sniffer.ConnectionEventArgs e)
         {
-            throw new NotImplementedException();
+            connections.Add(e.connection,new List<IUserElement>());
+            reMakeTabs();
         }
 
         void teraApi_onEndConnectionSync(object sender, Sniffer.ConnectionEventArgs e)
         {
-            throw new NotImplementedException();
+            connections.Remove(e.connection);
+            reMakeTabs();
         }
 
         void teraApi_onStartSnifferSync(object sender, EventArgs e)
@@ -152,6 +157,14 @@ namespace Detrav.Terometr.Windows
             Properties.Settings.Default.Save();
         }
 
-        
+        private void CheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            reMakeTabs();
+        }
+
+        private void reMakeTabs()
+        {
+            if(checkBoxDpsMeter)
+        }
     }
 }

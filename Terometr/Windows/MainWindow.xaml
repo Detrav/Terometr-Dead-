@@ -82,7 +82,9 @@
                     <Label Foreground="{StaticResource TitleTextColor}"
                            Content="Модули:" />
                     <ListBox Style="{StaticResource ListBoxButtonsStyle}">
-                        <CheckBox IsChecked="True"
+                        <CheckBox x:Name="checkBoxDpsMeter"
+                            Checked="CheckBox_Checked" Unchecked="CheckBox_Checked"
+                            IsChecked="True"
                             Style="{StaticResource ResourceKey=CheckBoxStyle}">DPS метер</CheckBox>
                     </ListBox>
                 </StackPanel>
