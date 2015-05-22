@@ -12,6 +12,8 @@ namespace Detrav.TeraApi
     public delegate void OnSpawnPlayer(object sender, PlayerEventArgs e);
     public delegate void OnDeSpawnPlayer(object sender, PlayerEventArgs e);
     public delegate void OnDamage(object sender, OnDamageEventArgs e);
+    public delegate void OnBattleStart(object sender, PlayerEventArgs e);
+    public delegate void OnBattleEnd(object sender, PlayerEventArgs e);
 
     public interface ITeraConnection
     {
@@ -20,6 +22,8 @@ namespace Detrav.TeraApi
         event OnDeSpawnPlayer onDeSpawnPlayer;
         event OnTick onTick;
         event OnDamage onDamage;
+        event OnBattleEnd onBattleEnd;
+        event OnBattleStart onBattleStart;
 
         void doEvent();
         void unLoad();

@@ -11,5 +11,6 @@ namespace Detrav.TeraApi.Data
         public ulong id;
         public string name;
         public ushort level;
+        public bool inBattle;
     }
 }
