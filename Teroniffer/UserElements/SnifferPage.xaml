@@ -56,6 +56,9 @@
                                     Margin="5 0"
                                     Click="buttonNext_Click"
                                     Content="След" />
+                            <CheckBox x:Name="checkBoxForTimer"
+                                      Content="Таймер?"
+                                      Checked="checkBoxForTimer_Checked" />
                         </StackPanel>
                         <DataGrid x:Name="dataGrid"
                                   Grid.Row="2"

@@ -60,6 +60,12 @@ namespace Detrav.Teroniffer.UserElements
             }
 
             labelMemoryUsage.Content = String.Format("{0:0.##} {1}", m, sizes[order]);
+
+            if(checkBoxForTimer.IsChecked == true)
+            {
+                buttonRefresh_Click(sender, new RoutedEventArgs());
+            }
+
             timerStatusBar.Start();
 
         }
@@ -334,6 +340,12 @@ namespace Detrav.Teroniffer.UserElements
         {
             Clipboard.SetText(textBlockPacket.Text);
         }
+        
+        private void checkBoxForTimer_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         
     }
 }
