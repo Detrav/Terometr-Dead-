@@ -62,7 +62,7 @@ namespace Detrav.TeraPluginsManager.Core
             if(projectiles.TryGetValue(i,out pr))
             {
                 return new DamageEventArgs(pr,
-                    (ulong)p["damage"].value,
+                    (ulong)(uint)p["damage"].value,
                     (ushort)p["type"].value);
             }
             TeraPlayer pl;
