@@ -47,7 +47,7 @@ namespace Detrav.Terometr
 
         void parent_onDamage(object sender, TeraApi.Events.DamageEventArgs e)
         {
-            if (e.type == 2)
+            if (e.type == 1)
             {
                 if (e.player.inParty)
                 {
