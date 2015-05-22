@@ -27,7 +27,7 @@ namespace Detrav.Terometr
 
         public void changeTitle(string str)
         {
-            this.Title = String.Format("Terometr - {0} - Дпс метер", str);
+            this.Title = String.Format("Terometr - {0} - Дпс метр", str);
             this.UpdateLayout();
         }
 
