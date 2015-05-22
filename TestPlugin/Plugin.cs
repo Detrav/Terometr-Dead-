@@ -13,28 +13,54 @@ namespace TestPlugin
 
         public static void register()
         {
-            System.Windows.MessageBox.Show("registered");
+            System.Windows.MessageBox.Show("Registered!");
         }
-
+        MainWindow w;
         public void load(ITeraConnection parent)
         {
             System.Windows.MessageBox.Show("loaded");
             parent.onLogin += parent_onLogin;
+            parent.onSpawnPlayer += parent_onSpawnPlayer;
+            parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
+            parent.onDamage += parent_onDamage;
+            w = new MainWindow();
+            show();
+        }
+
+        void parent_onDamage(object sender, OnDamageEventArgs e)
+        {
+            w.addText(String.Format("Нанёс урон: {0,16} {1}", e.player.name, e.damage));
+        }
+
+        void parent_onDeSpawnPlayer(object sender, PlayerEventArgs e)
+        {
+            w.addText(String.Format("Ушёл : {0}", e.player.name));
+        }
+
+        void parent_onSpawnPlayer(object sender, PlayerEventArgs e)
+        {
+            w.addText(String.Format("Спавн: {0}", e.player.name));
         }
 
         void parent_onLogin(object sender, PlayerEventArgs e)
         {
-            System.Windows.MessageBox.Show(String.Format("new Player detected: {0} {1} {2}",e.player.level,e.player.name,e.player.id));
+            w.addText(String.Format("Это я: {0}", e.player.name));
         }
 
         public void show()
         {
-            throw new NotImplementedException();
+            w.Show();
         }
 
         public void unLoad()
         {
-            System.Windows.MessageBox.Show("unloaded");
+            w.Close();
+        }
+
+
+        public void hide()
+        {
+            w.WindowState = System.Windows.WindowState.Minimized;
         }
     }
 }
