@@ -21,7 +21,7 @@ namespace Detrav.Sniffer.Tera
 
             opCodes2805.Add((ushort)OpCode2805.S_SPAWN_PROJECTILE, typeof(P2805.S_SPAWN_PROJECTILE));
             opCodes2805.Add((ushort)OpCode2805.S_DESPAWN_USER, typeof(P2805.S_DESPAWN_USER));
-
+            //OpCode2805.S_CLEAR_ALL_HOLDED_ABNORMALITY empty, needed for clear client db?
             opCodes2805.Add((ushort)OpCode2805.S_USER_STATUS, typeof(P2805.S_USER_STATUS));
           /* 
            * На вскидку след пакеты нужны полюбому
