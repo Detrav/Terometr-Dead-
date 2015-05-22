@@ -21,6 +21,8 @@ namespace Detrav.Sniffer.Tera
 
             opCodes2805.Add((ushort)OpCode2805.S_SPAWN_PROJECTILE, typeof(P2805.S_SPAWN_PROJECTILE));
             opCodes2805.Add((ushort)OpCode2805.S_DESPAWN_USER, typeof(P2805.S_DESPAWN_USER));
+
+            opCodes2805.Add((ushort)OpCode2805.S_USER_STATUS, typeof(P2805.S_USER_STATUS));
           /* 
            * На вскидку след пакеты нужны полюбому
            * 21055 S_CREATURE_CHANGE_HP

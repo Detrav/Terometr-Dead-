@@ -61,6 +61,7 @@
     <Compile Include="Tera\P2805\S_LOGIN.cs" />
     <Compile Include="Tera\P2805\S_SPAWN_PROJECTILE.cs" />
     <Compile Include="Tera\P2805\S_SPAWN_USER.cs" />
+    <Compile Include="Tera\P2805\S_USER_STATUS.cs" />
     <Compile Include="Tera\TeraPacket.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Capture.cs" />
