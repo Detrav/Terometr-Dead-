@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Detrav.TeraApi.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,15 +9,11 @@ namespace Detrav.TeraApi.Events
 {
     public class LoginEventArgs : EventArgs
     {
-        public string name;
-        public ulong id;
-        public ushort level;
+        public TeraPlayer player;
 
-        public LoginEventArgs(string name, ulong id, ushort level)
+        public LoginEventArgs(TeraPlayer p)
         {
-            this.name = name;
-            this.id = id;
-            this.level = level;
+            player = p;
         }
     }
 }

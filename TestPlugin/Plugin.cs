@@ -23,7 +23,7 @@ namespace TestPlugin
 
         void parent_onLogin(object sender, Detrav.TeraApi.Events.LoginEventArgs e)
         {
-            System.Windows.MessageBox.Show(String.Format("new Player detected: {0} {1} {2}",e.level,e.name,e.id));
+            System.Windows.MessageBox.Show(String.Format("new Player detected: {0} {1} {2}",e.player.level,e.player.name,e.player.id));
         }
 
         public void show()

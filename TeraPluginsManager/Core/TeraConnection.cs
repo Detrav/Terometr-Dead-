@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Detrav.TeraPluginsManager.Core
 {
-    class TeraConnection : ITeraConnection
+    partial class TeraConnection : ITeraConnection
     {
         IPlugin[] plugins;
         public TeraConnection(Type[] types)
@@ -57,7 +57,7 @@ namespace Detrav.TeraPluginsManager.Core
                     {
                         case OpCode2805.S_LOGIN:
                             TeraPacketParser p = TeraPacketCreator.create(ev.packet);
-                            if (onLogin != null) onLogin(this, new LoginEventArgs(p["name"].value as string, (ulong)p["player id"].value, (ushort)p["level"].value));
+                            if (onLogin != null) onLogin(this, new LoginEventArgs(login(p)));
                             break;
                     }
                     break;
