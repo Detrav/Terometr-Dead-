@@ -10,6 +10,7 @@ namespace Detrav.TeraApi
     {
         void load(ITeraConnection parent);
         void show();
+        void hide();
         void unLoad();
     }
 }
