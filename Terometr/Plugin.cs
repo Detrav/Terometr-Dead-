@@ -36,8 +36,11 @@ namespace Detrav.Terometr
             double dpsSum = 0;
             foreach(var p in players)
             {
-                dpsSum += p.Value.dps;
-                list.Add(p.Value.dps,p.Value);
+                if (p.Value.damage > 0)
+                {
+                    dpsSum += p.Value.dps;
+                    list.Add(p.Value.dps, p.Value);
+                }
             }
             w.updateDpsList(list, dpsSum, selfId);
         }
