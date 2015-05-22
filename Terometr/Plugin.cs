@@ -43,17 +43,17 @@ namespace Detrav.Terometr
         void parent_onTick(object sender, EventArgs e)
         {
             SortedList<double,Player> list = new SortedList<double,Player>(new DuplicateKeyComparer<double>());
-            double dpsSum = 0;
+            double dpsMax = 0;
             foreach(var p in players)
             {
                 p.Value.tick();
                 if (p.Value.dps > 0)
                 {
-                    dpsSum += p.Value.dps;
+                    dpsMax = Math.Max(p.Value.dps,dpsMax);
                     list.Add(p.Value.dps, p.Value);
                 }
             }
-            w.updateDpsList(list, dpsSum, selfId);
+            w.updateDpsList(list, dpsMax, selfId);
         }
 
         void parent_onDamage(object sender, TeraApi.Events.DamageEventArgs e)
