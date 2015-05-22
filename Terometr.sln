@@ -9,8 +9,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sniffer", "Sniffer\Sniffer.
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpcodeDLL", "OpcodeDLL\OpcodeDLL.vcxproj", "{E7E18D39-C539-4717-A2C7-1F21C12A0233}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Terometr", "Terometr\Terometr.csproj", "{E4D94429-5720-480B-AA03-ED443895B624}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Teroniffer", "Teroniffer\Teroniffer.csproj", "{81AB56E6-FF08-4142-BA54-AEE2FF6267F6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeraPluginsManager", "TeraPluginsManager\TeraPluginsManager.csproj", "{E939143F-6A41-4A56-8216-A3A3779B88C7}"
@@ -74,20 +72,6 @@ Global
 		{E7E18D39-C539-4717-A2C7-1F21C12A0233}.Release|Win32.ActiveCfg = Release|Win32
 		{E7E18D39-C539-4717-A2C7-1F21C12A0233}.Release|Win32.Build.0 = Release|Win32
 		{E7E18D39-C539-4717-A2C7-1F21C12A0233}.Release|x64.ActiveCfg = Release|Win32
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|Win32.ActiveCfg = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|ARM.ActiveCfg = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|Win32.ActiveCfg = Release|Any CPU
-		{E4D94429-5720-480B-AA03-ED443895B624}.Release|x64.ActiveCfg = Release|Any CPU
 		{81AB56E6-FF08-4142-BA54-AEE2FF6267F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81AB56E6-FF08-4142-BA54-AEE2FF6267F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81AB56E6-FF08-4142-BA54-AEE2FF6267F6}.Debug|ARM.ActiveCfg = Debug|Any CPU
