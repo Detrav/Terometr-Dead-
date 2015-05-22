@@ -1,7 +1,6 @@
 ﻿<Window x:Class="Detrav.Terometr.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:myElement="clr-namespace:Detrav.Terometr"
         Height="300"
         Width="300"
         Style="{DynamicResource MainWindowStyle}"
@@ -22,11 +21,6 @@
         <TabControl Style="{DynamicResource tabControlStyle}" >
             <TabItem Header="ДПС">
                 <ListBox x:Name="listBoxDps">
-                    <myElement:PlayerBarElement />
-                    <myElement:PlayerBarElement />
-                    <myElement:PlayerBarElement />
-                    <myElement:PlayerBarElement />
-                    <myElement:PlayerBarElement />
                 </ListBox>
             </TabItem>
             <TabItem Header="ХПС">

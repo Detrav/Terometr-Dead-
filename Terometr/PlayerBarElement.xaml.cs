@@ -36,6 +36,7 @@ namespace Detrav.Terometr
         {
             if (me) progressBar.Foreground = green;
             else progressBar.Foreground = blue;
+            progressBar.Value = progressValue;
             labelLeft.Content = left;
             labelRight.Content = right;
         }

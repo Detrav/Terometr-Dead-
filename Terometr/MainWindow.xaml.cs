@@ -44,5 +44,23 @@ namespace Detrav.Terometr
             WindowState = System.Windows.WindowState.Normal;
             this.Hide();
         }
+
+        internal void updateDpsList(SortedList<double, Player> list, double dpsMax, ulong selfId)
+        {
+            while (listBoxDps.Items.Count < list.Count)
+                listBoxDps.Items.Add(new PlayerBarElement());
+            while (listBoxDps.Items.Count > list.Count)
+                listBoxDps.Items.RemoveAt(listBoxDps.Items.Count-1);
+            int i = 0;
+            foreach(var p in list)
+            {
+                (listBoxDps.Items[i] as PlayerBarElement).changeData(
+                    p.Value.dps / dpsMax,
+                    p.Value.name,
+                    p.Value.dps.ToString("0:0.00"),
+                    p.Value.id == selfId);
+                    i++;
+            }
+        }
     }
 }
