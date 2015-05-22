@@ -118,5 +118,14 @@ namespace Detrav.TeraPluginsManager.Core
             pl.inBattle = (byte)p["status"].value > 0;
             return pl;
         }
+
+        private void updatePartyMembers(TeraPacketParser p)
+        {
+            ushort count = (ushort)p["count"].value;
+            for(int i = 0; i<count;i++)
+            {
+
+            }
+        }
     }
 }
