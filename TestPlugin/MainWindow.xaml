@@ -4,8 +4,21 @@
         x:Class="TestPlugin.MainWindow"
         Title="MainWindow"
         Height="300"
-        Width="300">
-    <ListBox x:Name="listBox">
-        
+        Width="300"
+        Style="{DynamicResource MainWindowStyle}"
+        Closing="Window_Closing"
+        Topmost="True"
+        ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TeraApi;component/Themes/MainWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <ListBox x:Name="listBox"
+             Background="Transparent"
+             Foreground="White">
+        <System:String>test</System:String>
     </ListBox>
 </Window>

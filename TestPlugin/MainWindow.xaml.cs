@@ -30,5 +30,13 @@ namespace TestPlugin
         {
             listBox.Items.Add(str);
         }
+
+        public bool close = false;
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = !close;
+            this.Hide();
+        }
     }
 }

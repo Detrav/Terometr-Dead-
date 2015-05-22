@@ -47,6 +47,12 @@ namespace Detrav.TeraPluginsManager.Core
                 p.load(this);
         }
 
+        public void showAll()
+        {
+            foreach (var p in plugins)
+                p.show();
+        }
+
         OpCodeVersion version;
 
         public void parsePacket(object sender, EventArgs e)
@@ -102,5 +108,8 @@ namespace Detrav.TeraPluginsManager.Core
                     break;
             }
         }
+
+
+        
     }
 }

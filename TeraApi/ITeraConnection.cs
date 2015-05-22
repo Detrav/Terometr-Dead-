@@ -26,5 +26,7 @@ namespace Detrav.TeraApi
         void load();
 
         void parsePacket(object sender, EventArgs e);
+
+        void showAll();
     }
 }

@@ -57,7 +57,7 @@ namespace Detrav.TeraPluginsManager.Core
 
         private OnDamageEventArgs damage(TeraPacketParser p)
         {
-            ulong i = (ulong)p["attacket id"].value;
+            ulong i = (ulong)p["attacker id"].value;
             TeraProjectile pr;
             if(projectiles.TryGetValue(i,out pr))
             {
@@ -69,7 +69,7 @@ namespace Detrav.TeraPluginsManager.Core
             if(players.TryGetValue(i,out pl))
             {
                 return new OnDamageEventArgs(pl,
-                    (ulong)p["damage"].value,
+                    (ulong)(uint)p["damage"].value,
                     (ushort)p["type"].value);
             }
             return null;

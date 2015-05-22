@@ -50,17 +50,20 @@ namespace TestPlugin
         public void show()
         {
             w.Show();
+            //w.WindowState = System.Windows.WindowState.Normal;
         }
 
         public void unLoad()
         {
+            w.close = true;
             w.Close();
         }
 
 
         public void hide()
         {
-            w.WindowState = System.Windows.WindowState.Minimized;
+            w.Hide();
+            //w.WindowState = System.Windows.WindowState.Minimized;
         }
     }
 }

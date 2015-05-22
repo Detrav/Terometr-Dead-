@@ -87,10 +87,21 @@ namespace Detrav.TeraPluginsManager.Windows
 
         void tera_onNewConnectionSync(object sender, ConnectionEventArgs e)
         {
-            stackPanel.Children.Add(new Label() { Content = "ЕЕЕ новое соединение" });
+            Button b = new Button();
+            b.Content = e.connection;
+            b.Click += b_Click;
+            stackPanel.Children.Add(b);
             TeraConnection t = new TeraConnection(plaginManager.getTypes());
             teraConnections.Add(e.connection,t);
             t.load();
+        }
+
+        void b_Click(object sender, RoutedEventArgs e)
+        {
+            var c = (sender as Button).Content as Connection;
+            ITeraConnection val;
+            teraConnections.TryGetValue(c, out val);
+            val.showAll();
         }
 
         void tera_onStartSnifferSync(object sender, EventArgs e)
@@ -100,6 +111,8 @@ namespace Detrav.TeraPluginsManager.Windows
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            foreach (var t in teraConnections)
+                t.Value.unLoad();
             if (tera != null)
                 tera.stop();
         }
