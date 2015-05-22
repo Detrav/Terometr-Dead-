@@ -33,6 +33,7 @@ namespace Detrav.TeraPluginsManager.Windows
         DispatcherTimer timer;
         Dictionary<Connection, ITeraConnection> teraConnections = new Dictionary<Connection,ITeraConnection>();
         PluginManager plaginManager = new PluginManager();
+        Dictionary<Connection, Button> buttons = new Dictionary<Connection, Button>();
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
@@ -75,15 +76,21 @@ namespace Detrav.TeraPluginsManager.Windows
 
         void tera_onEndConnectionSync(object sender, ConnectionEventArgs e)
         {
-            
             ITeraConnection con;
             if(teraConnections.TryGetValue(e.connection, out con))
             {
                 con.unLoad();
                 teraConnections.Remove(e.connection);
             }
-
+            Button b;
+            if(buttons.TryGetValue(e.connection,out b))
+            {
+                stackPanel.Children.Remove(b);
+                buttons.Remove(e.connection);
+            }
         }
+
+        
 
         void tera_onNewConnectionSync(object sender, ConnectionEventArgs e)
         {
@@ -91,6 +98,7 @@ namespace Detrav.TeraPluginsManager.Windows
             b.Content = e.connection;
             b.Click += b_Click;
             stackPanel.Children.Add(b);
+            buttons.Add(e.connection, b);
             TeraConnection t = new TeraConnection(plaginManager.getTypes());
             teraConnections.Add(e.connection,t);
             t.load();
