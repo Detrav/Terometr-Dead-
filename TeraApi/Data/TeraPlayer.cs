@@ -12,6 +12,6 @@ namespace Detrav.TeraApi.Data
         public string name;
         public ushort level;
         public bool inBattle;
-        public inParty;
+        public bool inParty;
     }
 }
