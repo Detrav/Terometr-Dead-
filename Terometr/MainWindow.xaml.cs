@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Terometr
+namespace Detrav.Terometr
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
@@ -23,6 +23,12 @@ namespace Terometr
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        public void changeTitle(string str)
+        {
+            this.Title = String.Format("Terometr - {0} - Дпс метер", str);
+            this.UpdateLayout();
         }
 
         public bool close = false;
@@ -38,6 +44,5 @@ namespace Terometr
             WindowState = System.Windows.WindowState.Normal;
             this.Hide();
         }
-    }
     }
 }

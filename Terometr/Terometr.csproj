@@ -7,7 +7,7 @@
     <ProjectGuid>{4143FD86-BE66-45A3-B797-2061C9292B61}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Terometr</RootNamespace>
+    <RootNamespace>Detrav.Terometr</RootNamespace>
     <AssemblyName>Terometr</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

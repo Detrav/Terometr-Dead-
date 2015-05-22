@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Terometr
+namespace Detrav.Terometr
 {
     class Plugin : IPlugin
     {
@@ -15,10 +15,18 @@ namespace Terometr
             //System.Windows.MessageBox.Show("Registered!");
         }
         MainWindow w;
+        ITeraConnection parent;
         public void load(ITeraConnection parent)
         {
+            this.parent = parent;
+            parent.onLogin += parent_onLogin;
             w = new MainWindow();
             show();
+        }
+
+        void parent_onLogin(object sender, Detrav.TeraApi.Events.PlayerEventArgs e)
+        {
+            w.changeTitle(e.player.name);
         }
 
         public void show()
