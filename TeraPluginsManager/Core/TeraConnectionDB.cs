@@ -20,9 +20,13 @@ namespace Detrav.TeraPluginsManager.Core
             string n = (string)p["name"].value;
             ulong i = (ulong)p["player id"].value;
             ushort l = (ushort)p["level"].value;
-            TeraPlayer player = new TeraPlayer() { name = n, id = i, level = l };
+            TeraPlayer player;
             if (players.TryGetValue(i, out player)) { player.id = i; player.name = n; player.level = l; }
-            else players.Add(i, player);
+            else
+            {
+                player = new TeraPlayer() { name = n, id = i, level = l };
+                players.Add(i, player);
+            }
             selfId = i;
             return player;
         }
