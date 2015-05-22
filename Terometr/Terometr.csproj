@@ -67,6 +67,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Player.cs" />
     <Compile Include="PlayerBarElement.xaml.cs">
       <DependentUpon>PlayerBarElement.xaml</DependentUpon>
     </Compile>
