@@ -13,12 +13,12 @@ namespace TestPlugin
 
         public static void register()
         {
-            System.Windows.MessageBox.Show("Registered!");
+            //System.Windows.MessageBox.Show("Registered!");
         }
         MainWindow w;
         public void load(ITeraConnection parent)
         {
-            System.Windows.MessageBox.Show("loaded");
+            //System.Windows.MessageBox.Show("loaded");
             parent.onLogin += parent_onLogin;
             parent.onSpawnPlayer += parent_onSpawnPlayer;
             parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
