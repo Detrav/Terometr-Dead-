@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Detrav.Terometr
 {
-    class Plugin : IPlugin
+    public class Plugin : IPlugin
     {
 
         public static void register()
@@ -26,8 +26,18 @@ namespace Detrav.Terometr
             parent.onBattleEnd += parent_onBattleEnd;
             parent.onDamage += parent_onDamage;
             parent.onTick += parent_onTick;
-            w = new MainWindow();
+            parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
+            w = new MainWindow(this);
             show();
+        }
+
+        void parent_onDeSpawnPlayer(object sender, TeraApi.Events.PlayerEventArgs e)
+        {
+            Player p;
+            if (players.TryGetValue(e.player.id, out p))
+            {
+                p.stopBattle();
+            }         
         }
 
         void parent_onTick(object sender, EventArgs e)
@@ -36,7 +46,8 @@ namespace Detrav.Terometr
             double dpsSum = 0;
             foreach(var p in players)
             {
-                if (p.Value.damage > 0)
+                p.Value.tick();
+                if (p.Value.dps > 0)
                 {
                     dpsSum += p.Value.dps;
                     list.Add(p.Value.dps, p.Value);
@@ -56,6 +67,7 @@ namespace Detrav.Terometr
                     {
                         p = new Player(e.player.id, e.player.name);
                         players.Add(p.id, p);
+                        p.startBattle();
                     }
                     p.dmg(e.damage);
                 }
@@ -108,6 +120,11 @@ namespace Detrav.Terometr
         {
             w.Hide();
             //w.WindowState = System.Windows.WindowState.Minimized;
+        }
+
+        public void clear()
+        {
+            players.Clear();
         }
     }
 

@@ -20,9 +20,11 @@ namespace Detrav.Terometr
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        Plugin parent;
+        public MainWindow(Plugin parent)
         {
             InitializeComponent();
+            this.parent = parent;
         }
 
         public void changeTitle(string str)
@@ -55,12 +57,26 @@ namespace Detrav.Terometr
             foreach(var p in list)
             {
                 (listBoxDps.Items[i] as PlayerBarElement).changeData(
-                    p.Value.dps / dpsMax,
+                    100.0*p.Value.dps / dpsMax,
                     p.Value.name,
-                    p.Value.dps.ToString("0:0.00"),
+                    String.Format("{0:0.00}",p.Value.dps),
                     p.Value.id == selfId);
                     i++;
             }
+            UpdateLayout();
+        }
+
+        int prevSelectIndex = 0;
+        private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (tabControl.SelectedIndex == tabControl.Items.Count - 1)
+            {
+                parent.clear();
+                tabControl.SelectedIndex = prevSelectIndex;
+                return;
+            }
+            prevSelectIndex = tabControl.SelectedIndex;
+            //if(tab)
         }
     }
 }

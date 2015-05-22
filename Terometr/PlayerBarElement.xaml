@@ -17,7 +17,7 @@
     <Grid>
         <ProgressBar x:Name="progressBar"
             Value="77"
-                     Foreground="#FF002057"
+                     Foreground="#FF1000AE"
                      Background="Transparent"
                      BorderBrush="Transparent" />
         <DockPanel>

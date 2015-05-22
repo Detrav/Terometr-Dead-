@@ -24,7 +24,7 @@ namespace Detrav.Terometr
         {
             InitializeComponent();
             green = (Brush)br.ConvertFrom("#FF10AE00");
-            blue = (Brush)br.ConvertFrom("#FF002057");
+            blue = (Brush)br.ConvertFrom("#FF1000AE");
         }
 
         BrushConverter br = new BrushConverter();

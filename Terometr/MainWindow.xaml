@@ -18,7 +18,9 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <TabControl Style="{DynamicResource tabControlStyle}" >
+        <TabControl x:Name="tabControl"
+            Style="{DynamicResource tabControlStyle}"
+                    SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="ДПС">
                 <ListBox x:Name="listBoxDps">
                 </ListBox>
