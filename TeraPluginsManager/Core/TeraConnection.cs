@@ -16,6 +16,7 @@ namespace Detrav.TeraPluginsManager.Core
         public event OnTick onTick;
         public event OnSpawnPlayer onSpawnPlayer;
         public event OnDeSpawnPlayer onDeSpawnPlayer;
+        public event OnDamage onDamage;
 
         IPlugin[] plugins;
         public TeraConnection(Type[] types)
@@ -51,10 +52,10 @@ namespace Detrav.TeraPluginsManager.Core
         public void parsePacket(object sender, EventArgs e)
         {
             PacketEventArgs ev = (PacketEventArgs)e;
-            switch(version)
+            switch (version)
             {
                 case OpCodeVersion.P2805:
-                    switch((OpCode2805)ev.packet.opCode)
+                    switch ((OpCode2805)ev.packet.opCode)
                     {
                         case OpCode2805.S_LOGIN:
                             {
@@ -75,6 +76,26 @@ namespace Detrav.TeraPluginsManager.Core
                                 TeraPacketParser p = TeraPacketCreator.create(ev.packet);
                                 var pl = deSpawnPlayer(p);
                                 if (onDeSpawnPlayer != null) onDeSpawnPlayer(this, new PlayerEventArgs(pl));
+                            }
+                            break;
+                        case OpCode2805.S_SPAWN_PROJECTILE:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                spawnProjectile(p);
+                            }
+                            break;
+                        case OpCode2805.S_DESPAWN_PROJECTILE:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                deSpawnProjectile(p);
+                            }
+                            break;
+                        case OpCode2805.S_EACH_SKILL_RESULT:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                var el = damage(p);
+                                if (el != null)
+                                    if (onDamage != null) onDamage(this, el);
                             }
                             break;
                     }
