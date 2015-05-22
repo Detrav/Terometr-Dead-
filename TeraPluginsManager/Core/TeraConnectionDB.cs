@@ -109,5 +109,14 @@ namespace Detrav.TeraPluginsManager.Core
             }
 
         }
+
+        private TeraPlayer userStatusChange(TeraPacketParser p)
+        {
+            ulong i = (ulong)p["id"].value;
+            TeraPlayer pl;
+            if (!players.TryGetValue(i, out pl)) return null;
+            pl.inBattle = (byte)p["status"].value > 0;
+            return pl;
+        }
     }
 }

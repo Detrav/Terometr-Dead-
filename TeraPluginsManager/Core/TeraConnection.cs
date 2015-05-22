@@ -12,12 +12,6 @@ namespace Detrav.TeraPluginsManager.Core
 {
     partial class TeraConnection : ITeraConnection
     {
-        public event OnLogin onLogin;
-        public event OnTick onTick;
-        public event OnSpawnPlayer onSpawnPlayer;
-        public event OnDeSpawnPlayer onDeSpawnPlayer;
-        public event OnDamage onDamage;
-
         IPlugin[] plugins;
         public TeraConnection(Type[] types)
         {
@@ -104,12 +98,40 @@ namespace Detrav.TeraPluginsManager.Core
                                     if (onDamage != null) onDamage(this, el);
                             }
                             break;
+                        case OpCode2805.S_USER_STATUS:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                var pl = userStatusChange(p);
+                                if (pl != null)
+                                {
+                                    if (pl.inBattle)
+                                    {
+                                        if (onBattleStart != null) onBattleStart(this, new PlayerEventArgs(pl));
+                                    }
+                                    else
+                                    {
+                                        if (onBattleEnd != null) onBattleEnd(this, new PlayerEventArgs(pl));
+                                    }
+                                }
+                            }
+                            break;
                     }
                     break;
             }
         }
 
-
         
+
+
+
+
+
+        public event OnLogin onLogin;
+        public event OnTick onTick;
+        public event OnSpawnPlayer onSpawnPlayer;
+        public event OnDeSpawnPlayer onDeSpawnPlayer;
+        public event OnDamage onDamage;
+        public event OnBattleEnd onBattleEnd;
+        public event OnBattleStart onBattleStart;        
     }
 }
