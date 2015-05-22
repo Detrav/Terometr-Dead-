@@ -127,5 +127,16 @@ namespace Detrav.TeraPluginsManager.Core
 
             }
         }
+
+        private void clearAllAbnormality()
+        {
+            TeraPlayer self;
+            if (players.TryGetValue(selfId, out self))
+            {
+                players.Clear();
+                players.Add(self.id,self);
+            }
+            projectiles.Clear();
+        }
     }
 }

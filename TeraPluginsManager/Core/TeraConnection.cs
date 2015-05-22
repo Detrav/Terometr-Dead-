@@ -115,6 +115,10 @@ namespace Detrav.TeraPluginsManager.Core
                                 }
                             }
                             break;
+                        case OpCode2805.S_CLEAR_ALL_HOLDED_ABNORMALITY:
+                            clearAllAbnormality();
+                            if (onClearAbnormality != null) onClearAbnormality(this, EventArgs.Empty);
+                            break;
                     }
                     break;
             }
@@ -132,6 +136,9 @@ namespace Detrav.TeraPluginsManager.Core
         public event OnDeSpawnPlayer onDeSpawnPlayer;
         public event OnDamage onDamage;
         public event OnBattleEnd onBattleEnd;
-        public event OnBattleStart onBattleStart;        
+        public event OnBattleStart onBattleStart;
+
+
+        public event OnClearAbnormality onClearAbnormality;
     }
 }

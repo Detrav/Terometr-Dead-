@@ -14,6 +14,7 @@ namespace Detrav.TeraApi
     public delegate void OnDamage(object sender, DamageEventArgs e);
     public delegate void OnBattleStart(object sender, PlayerEventArgs e);
     public delegate void OnBattleEnd(object sender, PlayerEventArgs e);
+    public delegate void OnClearAbnormality(object sender, EventArgs e);
 
     public interface ITeraConnection
     {
@@ -24,6 +25,7 @@ namespace Detrav.TeraApi
         event OnDamage onDamage;
         event OnBattleEnd onBattleEnd;
         event OnBattleStart onBattleStart;
+        event OnClearAbnormality onClearAbnormality;
 
         void doEvent();
         void unLoad();
