@@ -6,11 +6,11 @@ using System.Text;
 
 namespace Detrav.TeraApi.Events
 {
-    public class SpawnPlayerEventArgs: EventArgs
+    public class PlayerEventArgs: EventArgs
     {
         public TeraPlayer player;
 
-        public SpawnPlayerEventArgs(TeraPlayer p)
+        public PlayerEventArgs(TeraPlayer p)
         {
             player = p;
         }

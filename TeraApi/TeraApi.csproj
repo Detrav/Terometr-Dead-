@@ -49,7 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\TeraPlayer.cs" />
-    <Compile Include="Events\LoginEventArgs.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -65,7 +64,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ITeraConnection.cs" />
-    <Compile Include="Events\SpawnPlayerEventArgs.cs" />
+    <Compile Include="Events\PlayerEventArgs.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
     </Compile>

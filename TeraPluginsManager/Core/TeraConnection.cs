@@ -15,6 +15,7 @@ namespace Detrav.TeraPluginsManager.Core
         public event OnLogin onLogin;
         public event OnTick onTick;
         public event OnSpawnPlayer onSpawnPlayer;
+        public event OnDeSpawnPlayer onDeSpawnPlayer;
 
         IPlugin[] plugins;
         public TeraConnection(Type[] types)
@@ -59,14 +60,21 @@ namespace Detrav.TeraPluginsManager.Core
                             {
                                 TeraPacketParser p = TeraPacketCreator.create(ev.packet);
                                 var pl = login(p);
-                                if (onLogin != null) onLogin(this, new LoginEventArgs(pl));
+                                if (onLogin != null) onLogin(this, new PlayerEventArgs(pl));
                             }
                             break;
                         case OpCode2805.S_SPAWN_USER:
                             {
                                 TeraPacketParser p = TeraPacketCreator.create(ev.packet);
                                 var pl = spawnPlayer(p);
-                                if (onSpawnPlayer != null) onSpawnPlayer(this, new SpawnPlayerEventArgs(pl));
+                                if (onSpawnPlayer != null) onSpawnPlayer(this, new PlayerEventArgs(pl));
+                            }
+                            break;
+                        case OpCode2805.S_DESPAWN_USER:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                var pl = deSpawnPlayer(p);
+                                if (onDeSpawnPlayer != null) onDeSpawnPlayer(this, new PlayerEventArgs(pl));
                             }
                             break;
                     }
