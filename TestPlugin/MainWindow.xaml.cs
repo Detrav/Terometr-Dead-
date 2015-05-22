@@ -38,5 +38,11 @@ namespace TestPlugin
             e.Cancel = !close;
             this.Hide();
         }
+
+        private void Window_StateChanged(object sender, EventArgs e)
+        {
+            WindowState = System.Windows.WindowState.Normal;
+            this.Hide();
+        }
     }
 }

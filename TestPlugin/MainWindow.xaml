@@ -7,6 +7,7 @@
         Width="300"
         Style="{DynamicResource MainWindowStyle}"
         Closing="Window_Closing"
+        StateChanged="Window_StateChanged"
         Topmost="True"
         ShowInTaskbar="False">
     <Window.Resources>

@@ -23,23 +23,37 @@ namespace TestPlugin
             parent.onSpawnPlayer += parent_onSpawnPlayer;
             parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
             parent.onDamage += parent_onDamage;
+            parent.onBattleStart += parent_onBattleStart;
+            parent.onBattleEnd += parent_onBattleEnd;
             w = new MainWindow();
             show();
         }
 
+        void parent_onBattleEnd(object sender, PlayerEventArgs e)
+        {
+            w.addText(String.Format("Кончил бой: {0}", e.player.name));
+        }
+
+        void parent_onBattleStart(object sender, PlayerEventArgs e)
+        {
+            w.addText(String.Format("Начал бой : {0}", e.player.name));
+        }
+
+        
+
         void parent_onDamage(object sender, DamageEventArgs e)
         {
-            w.addText(String.Format("Нанёс урон: {0,16} {1}", e.player.name, e.damage));
+            //w.addText(String.Format("Нанёс урон: {0,16} {1}", e.player.name, e.damage));
         }
 
         void parent_onDeSpawnPlayer(object sender, PlayerEventArgs e)
         {
-            w.addText(String.Format("Ушёл : {0}", e.player.name));
+            //w.addText(String.Format("Ушёл : {0}", e.player.name));
         }
 
         void parent_onSpawnPlayer(object sender, PlayerEventArgs e)
         {
-            w.addText(String.Format("Спавн: {0}", e.player.name));
+            //w.addText(String.Format("Спавн: {0}", e.player.name));
         }
 
         void parent_onLogin(object sender, PlayerEventArgs e)
