@@ -24,5 +24,16 @@ namespace Detrav.TeraPluginsManager.Core
             selfId = i;
             return player;
         }
+        
+        TeraPlayer spawnPlayer(TeraPacketParser p)
+        {
+            string n = (string)p["name"].value;
+            ulong i = (ulong)p["id"].value;
+            ushort l = 0;
+            TeraPlayer player = new TeraPlayer() { name = n, id = i, level = l };
+            if (players.TryGetValue(i, out player)) { player.id = i; player.name = n; player.level = l; }
+            else players.Add(i, player);
+            return player;
+        }
     }
 }

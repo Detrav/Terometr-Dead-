@@ -65,6 +65,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ITeraConnection.cs" />
+    <Compile Include="Events\SpawnPlayerEventArgs.cs" />
     <Compile Include="Themes\MainWindowStyle.xaml.cs">
       <DependentUpon>MainWindowStyle.xaml</DependentUpon>
     </Compile>

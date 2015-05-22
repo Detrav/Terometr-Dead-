@@ -12,6 +12,10 @@ namespace Detrav.TeraPluginsManager.Core
 {
     partial class TeraConnection : ITeraConnection
     {
+        public event OnLogin onLogin;
+        public event OnTick onTick;
+        public event OnSpawnPlayer onSpawnPlayer;
+
         IPlugin[] plugins;
         public TeraConnection(Type[] types)
         {
@@ -22,10 +26,6 @@ namespace Detrav.TeraPluginsManager.Core
             }
             version = TeraPacketCreator.getVersion();
         }
-
-        public event OnLogin onLogin;
-
-        public event OnTick onTick;
 
         public void doEvent()
         {
@@ -56,8 +56,18 @@ namespace Detrav.TeraPluginsManager.Core
                     switch((OpCode2805)ev.packet.opCode)
                     {
                         case OpCode2805.S_LOGIN:
-                            TeraPacketParser p = TeraPacketCreator.create(ev.packet);
-                            if (onLogin != null) onLogin(this, new LoginEventArgs(login(p)));
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                var pl = login(p);
+                                if (onLogin != null) onLogin(this, new LoginEventArgs(pl));
+                            }
+                            break;
+                        case OpCode2805.S_SPAWN_USER:
+                            {
+                                TeraPacketParser p = TeraPacketCreator.create(ev.packet);
+                                var pl = spawnPlayer(p);
+                                if (onSpawnPlayer != null) onSpawnPlayer(this, new SpawnPlayerEventArgs(pl));
+                            }
                             break;
                     }
                     break;
