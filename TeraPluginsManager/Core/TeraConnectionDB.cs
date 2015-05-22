@@ -55,20 +55,20 @@ namespace Detrav.TeraPluginsManager.Core
             return pl;
         }
 
-        private OnDamageEventArgs damage(TeraPacketParser p)
+        private DamageEventArgs damage(TeraPacketParser p)
         {
             ulong i = (ulong)p["attacker id"].value;
             TeraProjectile pr;
             if(projectiles.TryGetValue(i,out pr))
             {
-                return new OnDamageEventArgs(pr,
+                return new DamageEventArgs(pr,
                     (ulong)p["damage"].value,
                     (ushort)p["type"].value);
             }
             TeraPlayer pl;
             if(players.TryGetValue(i,out pl))
             {
-                return new OnDamageEventArgs(pl,
+                return new DamageEventArgs(pl,
                     (ulong)(uint)p["damage"].value,
                     (ushort)p["type"].value);
             }

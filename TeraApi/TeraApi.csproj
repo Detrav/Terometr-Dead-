@@ -50,7 +50,7 @@
   <ItemGroup>
     <Compile Include="Data\TeraPlayer.cs" />
     <Compile Include="Data\TeraProjectile.cs" />
-    <Compile Include="Events\OnDamageEventArgs.cs" />
+    <Compile Include="Events\DamageEventArgs.cs" />
     <Compile Include="IPlugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

@@ -27,7 +27,7 @@ namespace TestPlugin
             show();
         }
 
-        void parent_onDamage(object sender, OnDamageEventArgs e)
+        void parent_onDamage(object sender, DamageEventArgs e)
         {
             w.addText(String.Format("Нанёс урон: {0,16} {1}", e.player.name, e.damage));
         }

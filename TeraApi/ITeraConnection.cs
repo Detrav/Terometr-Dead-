@@ -11,7 +11,7 @@ namespace Detrav.TeraApi
     public delegate void OnTick(object sender, EventArgs e);
     public delegate void OnSpawnPlayer(object sender, PlayerEventArgs e);
     public delegate void OnDeSpawnPlayer(object sender, PlayerEventArgs e);
-    public delegate void OnDamage(object sender, OnDamageEventArgs e);
+    public delegate void OnDamage(object sender, DamageEventArgs e);
     public delegate void OnBattleStart(object sender, PlayerEventArgs e);
     public delegate void OnBattleEnd(object sender, PlayerEventArgs e);
 
