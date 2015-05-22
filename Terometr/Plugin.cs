@@ -27,8 +27,15 @@ namespace Detrav.Terometr
             parent.onDamage += parent_onDamage;
             parent.onTick += parent_onTick;
             parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
+            parent.onClearAbnormality += parent_onClearAbnormality;
             w = new MainWindow(this);
             show();
+        }
+
+        void parent_onClearAbnormality(object sender, EventArgs e)
+        {
+            foreach (var pair in players)
+                pair.Value.stopBattle();
         }
 
         void parent_onDeSpawnPlayer(object sender, TeraApi.Events.PlayerEventArgs e)
