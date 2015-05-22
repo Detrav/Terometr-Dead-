@@ -1,0 +1,22 @@
+﻿<Window x:Class="Terometr.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow"
+        Height="300"
+        Width="300"
+        Style="{DynamicResource MainWindowStyle}"
+        Closing="Window_Closing"
+        StateChanged="Window_StateChanged"
+        Topmost="True"
+        ShowInTaskbar="False">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TeraApi;component/Themes/MainWindowStyle.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        
+    </Grid>
+</Window>
