@@ -22,29 +22,10 @@ namespace Detrav.Terometr
         {
             this.parent = parent;
             parent.onLogin += parent_onLogin;
-            parent.onBattleStart += parent_onBattleStart;
-            parent.onBattleEnd += parent_onBattleEnd;
             parent.onDamage += parent_onDamage;
             parent.onTick += parent_onTick;
-            parent.onDeSpawnPlayer += parent_onDeSpawnPlayer;
-            parent.onClearAbnormality += parent_onClearAbnormality;
             w = new MainWindow(this);
             show();
-        }
-
-        void parent_onClearAbnormality(object sender, EventArgs e)
-        {
-            foreach (var pair in players)
-                pair.Value.stopBattle();
-        }
-
-        void parent_onDeSpawnPlayer(object sender, TeraApi.Events.PlayerEventArgs e)
-        {
-            Player p;
-            if (players.TryGetValue(e.player.id, out p))
-            {
-                p.stopBattle();
-            }         
         }
 
         void parent_onTick(object sender, EventArgs e)
@@ -74,33 +55,9 @@ namespace Detrav.Terometr
                     {
                         p = new Player(e.player.id, e.player.name);
                         players.Add(p.id, p);
-                        p.startBattle();
                     }
                     p.dmg(e.damage);
                 }
-            }
-        }
-
-        void parent_onBattleEnd(object sender, TeraApi.Events.PlayerEventArgs e)
-        {
-            Player p;
-            if (players.TryGetValue(e.player.id, out p))
-            {
-                p.stopBattle();
-            }            
-        }
-
-        void parent_onBattleStart(object sender, TeraApi.Events.PlayerEventArgs e)
-        {
-            if (e.player.inParty)
-            {
-                Player p;
-                if (!players.TryGetValue(e.player.id, out p))
-                {
-                    p = new Player(e.player.id, e.player.name);
-                    players.Add(p.id, p);
-                }
-                p.startBattle();
             }
         }
 

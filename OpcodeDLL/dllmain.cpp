@@ -7,8 +7,10 @@
 using namespace std;
 
 //OpCodeAdress TERA CLIENT 30.09 // Ru off 2805
-string OpCodeVersion = "2805";
-DWORD GetOpCodeNameAddress = 0x012A1230;//0191AE60; //for Find I_TELEPORT
+string OpCodeVersion = "2904";
+//string OpCodeVersion = "2805";
+DWORD GetOpCodeNameAddress = 0x018D5960;
+//DWORD GetOpCodeNameAddress = 0x012A1230;//0191AE60; //for Find I_TELEPORT
 
 
 string GetOpCodeName(DWORD Opcode)

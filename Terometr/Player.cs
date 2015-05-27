@@ -11,49 +11,34 @@ namespace Detrav.Terometr
         public ulong id;
         public string name;
         public double damage;
-        public bool inBattle;
+        //public bool inBattle;
         public double dps { get { return damage / span.TotalSeconds; } }
         public TimeSpan span { get { return stop - start; } }
         public DateTime start = DateTime.MinValue;
         public DateTime stop = DateTime.MinValue;
+        public DateTime last = DateTime.MinValue;
+        public TimeSpan timeout = TimeSpan.FromMilliseconds(3.14);
 
         public Player(ulong id, string name)
         {
             this.id = id;
             this.name = name;
-            inBattle = false;
-        }
-
-        public void startBattle()
-        {
-            if (!inBattle)
-            {
-                start += DateTime.Now - stop;
-                inBattle = true;
-            }
-        }
-
-        public void stopBattle()
-        {
-            if (inBattle)
-            {
-                stop = DateTime.Now;
-                inBattle = false;
-            }
         }
 
         public void dmg(double damage)
         {
-
+            if (DateTime.Now - last > timeout)
+            {
+                start += DateTime.Now - last;
+            }
             this.damage += damage;
+            last = DateTime.Now;
         }
 
         internal void tick()
         {
-            if (inBattle)
-            {
+            if (DateTime.Now - last < timeout)
                 stop = DateTime.Now;
-            }
         }
     }
 }
